@@ -1,6 +1,8 @@
+using App.Domain.Core.Entities;
+using App.Infrastructures.Database.SqlServer.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MarketPlace.Areas.Identity.Data;
+
 namespace MarketPlace
 {
     public class Program
@@ -10,7 +12,7 @@ namespace MarketPlace
             var builder = WebApplication.CreateBuilder(args);
             var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
 
-            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+            builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
             {
@@ -26,7 +28,7 @@ namespace MarketPlace
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredLength = 4;
                 options.Password.RequiredUniqueChars = 1;
-            }).AddEntityFrameworkStores<ApplicationDbContext>();
+            }).AddEntityFrameworkStores<AppDbContext>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

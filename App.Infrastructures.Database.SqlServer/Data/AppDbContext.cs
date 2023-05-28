@@ -15,6 +15,7 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityR
         : base(options)
     {
     }
+    public virtual DbSet<ApplicationUser> ApplicationUser { get; set; }
 
     public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
 
@@ -72,6 +73,8 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityR
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder.Entity<AspNetRole>(entity =>
         {
             entity.HasIndex(e => e.NormalizedName, "RoleNameIndex")
