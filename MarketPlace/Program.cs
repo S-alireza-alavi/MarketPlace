@@ -1,6 +1,10 @@
 //using App.Domain.Core.Entities;
 //using App.Infrastructures.Database.SqlServer.Data;
+using App.Domain.AppService.Admins.Queries;
+using App.Domain.Core.AppServices.Admins.Queries;
+using App.Domain.Core.DataAccess;
 using App.Domain.Core.Entities;
+using App.Infrastructures.Data.Repositories;
 using MarketPlace.Database;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +20,7 @@ namespace MarketPlace
 
             builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
-            builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
                 options.SignIn.RequireConfirmedEmail = false;
@@ -33,6 +37,9 @@ namespace MarketPlace
             }).AddEntityFrameworkStores<AppDbContext>();
 
             // Add services to the container.
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IUsersAppService, UsersAppService>();
+
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
 
@@ -57,6 +64,12 @@ namespace MarketPlace
             app.UseRouting();
 
             app.UseAuthorization();
+
+
+            app.MapAreaControllerRoute(
+              name: "areas",
+              areaName: "Admin",
+              pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
 
             app.MapControllerRoute(
                 name: "default",
