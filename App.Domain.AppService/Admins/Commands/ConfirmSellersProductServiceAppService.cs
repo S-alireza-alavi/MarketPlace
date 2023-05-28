@@ -1,9 +1,4 @@
 ﻿using App.Domain.Core.AppServices.Admins.Commands;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using App.Domain.Core.DataAccess;
 
 namespace App.Domain.AppService.Admins.Commands

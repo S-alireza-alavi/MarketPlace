@@ -1,6 +1,6 @@
 ﻿using App.Domain.Core.AppServices.Sellers.Commands;
 using App.Domain.Core.DtoModels.Commisions;
-using App.Domain.Core.Entities;
+using MarketPlace.Entities;
 
 namespace App.Domain.AppService.Sellers.Commands
 {

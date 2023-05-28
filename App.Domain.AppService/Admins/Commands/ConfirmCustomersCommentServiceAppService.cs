@@ -1,12 +1,5 @@
 ﻿using App.Domain.Core.AppServices.Admins.Commands;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using App.Domain.Core.DataAccess;
-using App.Domain.Core.DtoModels.StoreComments;
-using App.Domain.Core.DtoModels.Stores;
 
 namespace App.Domain.AppService.Admins.Commands
 {
@@ -29,8 +22,8 @@ namespace App.Domain.AppService.Admins.Commands
 
             if (productComment != null)
             {
-               productComment.IsConfirmedByAdmin = true;
-               isDone = true;
+                productComment.IsConfirmedByAdmin = true;
+                isDone = true;
             }
             else
             {

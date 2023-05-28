@@ -1,4 +1,6 @@
-﻿namespace App.Domain.Core.Entities;
+﻿using App.Domain.Core.Entities;
+
+namespace MarketPlace.Entities;
 
 public partial class Store
 {
@@ -18,11 +20,11 @@ public partial class Store
 
     public virtual ICollection<Auction> Auctions { get; set; } = new List<Auction>();
 
+    public virtual StoreAddress IdNavigation { get; set; } = null!;
+
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 
-    public virtual AspNetUser Seller { get; set; } = null!;
-
-    public virtual StoreAddress? StoreAddress { get; set; }
+    public virtual ApplicationUser Seller { get; set; } = null!;
 
     public virtual ICollection<StoreComment> StoreComments { get; set; } = new List<StoreComment>();
 }

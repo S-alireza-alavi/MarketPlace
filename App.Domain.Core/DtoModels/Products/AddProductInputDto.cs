@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace App.Domain.Core.DtoModels.Products
+﻿namespace App.Domain.Core.DtoModels.Products
 {
     public class AddProductInputDto
     {

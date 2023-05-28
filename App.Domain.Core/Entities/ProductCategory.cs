@@ -1,4 +1,6 @@
-﻿namespace App.Domain.Core.Entities;
+﻿using App.Domain.Core.Entities;
+
+namespace MarketPlace.Entities;
 
 public partial class ProductCategory
 {
@@ -12,7 +14,7 @@ public partial class ProductCategory
 
     public bool IsDeleted { get; set; }
 
-    public virtual ICollection<ProductCategoryPhoto> ProductCategoryPhotos { get; set; } = new List<ProductCategoryPhoto>();
+    public virtual ProductCategoryPhoto IdNavigation { get; set; } = null!;
 
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }

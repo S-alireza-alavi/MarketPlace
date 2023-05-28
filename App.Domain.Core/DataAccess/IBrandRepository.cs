@@ -1,5 +1,4 @@
-﻿using App.Domain.Core.DtoModels.Bids;
-using App.Domain.Core.DtoModels.Brands;
+﻿using App.Domain.Core.DtoModels.Brands;
 
 namespace App.Domain.Core.DataAccess
 {

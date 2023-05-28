@@ -1,12 +1,12 @@
-﻿namespace App.Domain.Core.Entities;
+﻿namespace MarketPlace.Entities;
 
 public partial class StoreAddress
 {
     public int Id { get; set; }
 
-    public string FullAddress { get; set; } = null!;
+    public string? FullAddress { get; set; }
 
-    public bool IsDeleted { get; set; }
+    public string? IsDeleted { get; set; }
 
-    public virtual Store IdNavigation { get; set; } = null!;
+    public virtual Store? Store { get; set; }
 }
