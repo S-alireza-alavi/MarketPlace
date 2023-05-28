@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using App.Domain.Core.DtoModels.AppUser;
+﻿using App.Domain.Core.DtoModels.AppUser;
 using Microsoft.AspNetCore.Identity;
 
 namespace App.Domain.Core.AppServices

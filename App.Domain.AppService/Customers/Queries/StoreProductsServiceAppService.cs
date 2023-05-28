@@ -1,7 +1,7 @@
 ﻿using App.Domain.Core.AppServices.Customers.Queries;
 using App.Domain.Core.DtoModels.Products;
-using App.Domain.Core.Entities;
-using App.Infrastructures.Database.SqlServer.Data;
+using MarketPlace.Database;
+using MarketPlace.Entities;
 
 namespace App.Domain.AppService.Customers.Queries;
 

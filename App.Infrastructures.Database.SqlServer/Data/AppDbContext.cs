@@ -1,9 +1,10 @@
 ﻿using App.Domain.Core.Entities;
+using MarketPlace.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace App.Infrastructures.Database.SqlServer.Data;
+namespace MarketPlace.Database;
 
 public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<int>, int>
 {
@@ -15,19 +16,8 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityR
         : base(options)
     {
     }
-    public virtual DbSet<ApplicationUser> ApplicationUser { get; set; }
 
-    public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
-
-    public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; }
-
-    public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
-
-    public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
-
-    public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
-
-    public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
+    public virtual DbSet<ApplicationUser> Users { get; set; }
 
     public virtual DbSet<Auction> Auctions { get; set; }
 
@@ -75,71 +65,6 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityR
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<AspNetRole>(entity =>
-        {
-            entity.HasIndex(e => e.NormalizedName, "RoleNameIndex")
-                .IsUnique()
-                .HasFilter("([NormalizedName] IS NOT NULL)");
-
-            entity.Property(e => e.Name).HasMaxLength(256);
-            entity.Property(e => e.NormalizedName).HasMaxLength(256);
-        });
-
-        modelBuilder.Entity<AspNetRoleClaim>(entity =>
-        {
-            entity.HasIndex(e => e.RoleId, "IX_AspNetRoleClaims_RoleId");
-
-            entity.HasOne(d => d.Role).WithMany(p => p.AspNetRoleClaims).HasForeignKey(d => d.RoleId);
-        });
-
-        modelBuilder.Entity<AspNetUser>(entity =>
-        {
-            entity.HasIndex(e => e.NormalizedEmail, "EmailIndex");
-
-            entity.HasIndex(e => e.NormalizedUserName, "UserNameIndex")
-                .IsUnique()
-                .HasFilter("([NormalizedUserName] IS NOT NULL)");
-
-            entity.Property(e => e.Email).HasMaxLength(256);
-            entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
-            entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
-            entity.Property(e => e.UserName).HasMaxLength(256);
-
-            entity.HasMany(d => d.Roles).WithMany(p => p.Users)
-                .UsingEntity<Dictionary<string, object>>(
-                    "AspNetUserRole",
-                    r => r.HasOne<AspNetRole>().WithMany().HasForeignKey("RoleId"),
-                    l => l.HasOne<AspNetUser>().WithMany().HasForeignKey("UserId"),
-                    j =>
-                    {
-                        j.HasKey("UserId", "RoleId");
-                        j.ToTable("AspNetUserRoles");
-                        j.HasIndex(new[] { "RoleId" }, "IX_AspNetUserRoles_RoleId");
-                    });
-        });
-
-        modelBuilder.Entity<AspNetUserClaim>(entity =>
-        {
-            entity.HasIndex(e => e.UserId, "IX_AspNetUserClaims_UserId");
-
-            entity.HasOne(d => d.User).WithMany(p => p.AspNetUserClaims).HasForeignKey(d => d.UserId);
-        });
-
-        modelBuilder.Entity<AspNetUserLogin>(entity =>
-        {
-            entity.HasKey(e => new { e.LoginProvider, e.ProviderKey });
-
-            entity.HasIndex(e => e.UserId, "IX_AspNetUserLogins_UserId");
-
-            entity.HasOne(d => d.User).WithMany(p => p.AspNetUserLogins).HasForeignKey(d => d.UserId);
-        });
-
-        modelBuilder.Entity<AspNetUserToken>(entity =>
-        {
-            entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
-
-            entity.HasOne(d => d.User).WithMany(p => p.AspNetUserTokens).HasForeignKey(d => d.UserId);
-        });
 
         modelBuilder.Entity<Auction>(entity =>
         {
@@ -189,21 +114,9 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityR
             entity.Property(e => e.Name).HasMaxLength(150);
         });
 
-        modelBuilder.Entity<Commission>(entity =>
-        {
-            entity.Property(e => e.Id).ValueGeneratedNever();
-
-            entity.HasOne(d => d.IdNavigation).WithOne(p => p.Commission)
-                .HasForeignKey<Commission>(d => d.Id)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Commissions_Orders1");
-        });
-
         modelBuilder.Entity<CustomerAddress>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK_Addresses");
-
-            entity.HasIndex(e => e.CustomerId, "IX_CustomerAddresses_CustomerId");
 
             entity.Property(e => e.FullAddress).HasMaxLength(300);
 
@@ -228,12 +141,17 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityR
         {
             entity.HasIndex(e => e.CustomerId, "IX_Orders_CustomerId");
 
-            entity.HasIndex(e => e.SellerId, "IX_Orders_SellerId");
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
             entity.HasOne(d => d.Customer).WithMany(p => p.OrderCustomers)
                 .HasForeignKey(d => d.CustomerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Orders_AspNetUsers1");
+
+            entity.HasOne(d => d.IdNavigation).WithOne(p => p.Order)
+                .HasForeignKey<Order>(d => d.Id)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Orders_Commissions");
 
             entity.HasOne(d => d.Seller).WithMany(p => p.OrderSellers)
                 .HasForeignKey(d => d.SellerId)
@@ -289,18 +207,19 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityR
         {
             entity.HasKey(e => e.Id).HasName("PK_Categories");
 
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Name).HasMaxLength(150);
+
+            entity.HasOne(d => d.IdNavigation).WithOne(p => p.ProductCategory)
+                .HasForeignKey<ProductCategory>(d => d.Id)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ProductCategories_ProductCategoryPhotos");
         });
 
         modelBuilder.Entity<ProductCategoryPhoto>(entity =>
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Name).HasMaxLength(50);
-
-            entity.HasOne(d => d.ProductCategory).WithMany(p => p.ProductCategoryPhotos)
-                .HasForeignKey(d => d.ProductCategoryId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ProductCategoryPhotos_ProductCategories");
         });
 
         modelBuilder.Entity<ProductComment>(entity =>
@@ -359,8 +278,14 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityR
 
             entity.HasIndex(e => e.SellerId, "IX_Stores_SellerId");
 
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Description).HasMaxLength(500);
             entity.Property(e => e.Name).HasMaxLength(150);
+
+            entity.HasOne(d => d.IdNavigation).WithOne(p => p.Store)
+                .HasForeignKey<Store>(d => d.Id)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Stores_StoreAddresses");
 
             entity.HasOne(d => d.Seller).WithMany(p => p.Stores)
                 .HasForeignKey(d => d.SellerId)
@@ -372,11 +297,6 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityR
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.FullAddress).HasMaxLength(300);
-
-            entity.HasOne(d => d.IdNavigation).WithOne(p => p.StoreAddress)
-                .HasForeignKey<StoreAddress>(d => d.Id)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_StoreAddresses_Stores");
         });
 
         modelBuilder.Entity<StoreComment>(entity =>

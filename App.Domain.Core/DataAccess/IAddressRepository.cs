@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using App.Domain.Core.DtoModels.Addresses;
+﻿using App.Domain.Core.DtoModels.Addresses;
 
 namespace App.Domain.Core.DataAccess
 {

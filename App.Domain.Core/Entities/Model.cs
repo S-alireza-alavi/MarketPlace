@@ -1,4 +1,4 @@
-﻿namespace App.Domain.Core.Entities;
+﻿namespace MarketPlace.Entities;
 
 public partial class Model
 {

@@ -1,7 +1,7 @@
 ﻿using App.Domain.Core.DataAccess;
 using App.Domain.Core.DtoModels.Bids;
-using App.Domain.Core.Entities;
-using App.Infrastructures.Database.SqlServer.Data;
+using MarketPlace.Database;
+using MarketPlace.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.Infrastructures.Data.Repositories

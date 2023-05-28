@@ -1,8 +1,8 @@
 ﻿using App.Domain.Core.DataAccess;
 using App.Domain.Core.DtoModels.Auctions;
-using App.Domain.Core.Entities;
+using MarketPlace.Database;
+using MarketPlace.Entities;
 using Microsoft.EntityFrameworkCore;
-using App.Infrastructures.Database.SqlServer.Data;
 
 namespace App.Infrastructures.Data.Repositories
 {

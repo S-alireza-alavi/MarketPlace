@@ -1,4 +1,6 @@
-﻿namespace App.Domain.Core.Entities;
+﻿using App.Domain.Core.Entities;
+
+namespace MarketPlace.Entities;
 
 public partial class ProductComment
 {
@@ -26,5 +28,5 @@ public partial class ProductComment
 
     public virtual Product Product { get; set; } = null!;
 
-    public virtual AspNetUser User { get; set; } = null!;
+    public virtual ApplicationUser User { get; set; } = null!;
 }

@@ -1,4 +1,4 @@
-﻿using App.Domain.Core.Entities;
+﻿using MarketPlace.Entities;
 
 namespace App.Domain.Core.DtoModels.Products
 {

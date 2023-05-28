@@ -1,4 +1,6 @@
-﻿namespace App.Domain.Core.Entities;
+﻿using App.Domain.Core.Entities;
+
+namespace MarketPlace.Entities;
 
 public partial class Auction
 {
@@ -24,7 +26,7 @@ public partial class Auction
 
     public virtual Product Product { get; set; } = null!;
 
-    public virtual AspNetUser Seller { get; set; } = null!;
+    public virtual ApplicationUser Seller { get; set; } = null!;
 
     public virtual Store Store { get; set; } = null!;
 }

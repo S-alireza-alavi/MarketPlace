@@ -1,8 +1,8 @@
 ﻿using App.Domain.Core.AppServices.Customers.Queries;
 using App.Domain.Core.DataAccess;
 using App.Domain.Core.DtoModels.Stores;
-using App.Domain.Core.Entities;
-using App.Infrastructures.Database.SqlServer.Data;
+using MarketPlace.Database;
+using MarketPlace.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.Domain.AppService.Customers.Queries;

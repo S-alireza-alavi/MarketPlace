@@ -1,4 +1,6 @@
-﻿namespace App.Domain.Core.Entities;
+﻿using App.Domain.Core.Entities;
+
+namespace MarketPlace.Entities;
 
 public partial class Order
 {
@@ -16,11 +18,11 @@ public partial class Order
 
     public bool IsDeleted { get; set; }
 
-    public virtual Commission? Commission { get; set; }
+    public virtual ApplicationUser Customer { get; set; } = null!;
 
-    public virtual AspNetUser Customer { get; set; } = null!;
+    public virtual Commission IdNavigation { get; set; } = null!;
 
     public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
-    public virtual AspNetUser Seller { get; set; } = null!;
+    public virtual ApplicationUser Seller { get; set; } = null!;
 }

@@ -1,5 +1,5 @@
 ﻿using App.Domain.Core.DtoModels.Stores;
-using App.Domain.Core.Entities;
+using MarketPlace.Entities;
 
 namespace App.Domain.Core.AppServices.Customers.Queries;
 

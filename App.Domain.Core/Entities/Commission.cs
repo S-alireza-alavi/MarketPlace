@@ -1,4 +1,4 @@
-﻿namespace App.Domain.Core.Entities;
+﻿namespace MarketPlace.Entities;
 
 public partial class Commission
 {
@@ -8,5 +8,5 @@ public partial class Commission
 
     public bool IsDeleted { get; set; }
 
-    public virtual Order IdNavigation { get; set; } = null!;
+    public virtual Order? Order { get; set; }
 }

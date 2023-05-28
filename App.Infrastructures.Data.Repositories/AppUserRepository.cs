@@ -1,7 +1,7 @@
 ﻿using App.Domain.Core.DataAccess;
 using App.Domain.Core.DtoModels.AppUser;
 using App.Domain.Core.Entities;
-using App.Infrastructures.Database.SqlServer.Data;
+using MarketPlace.Database;
 using Microsoft.AspNetCore.Identity;
 
 namespace App.Infrastructures.Data.Repositories
@@ -53,9 +53,9 @@ namespace App.Infrastructures.Data.Repositories
 
         public async Task<SignInResult> Login(AppUserInputDto appUser, CancellationToken cancellationToken)
         {
-           var result = await _signInManager.PasswordSignInAsync(appUser.Email, appUser.Password, true, false);
+            var result = await _signInManager.PasswordSignInAsync(appUser.Email, appUser.Password, true, false);
 
-           return result;
+            return result;
         }
     }
 }
