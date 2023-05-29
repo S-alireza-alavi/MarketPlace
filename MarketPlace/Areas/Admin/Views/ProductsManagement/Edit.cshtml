@@ -1,51 +1,128 @@
 ﻿@model ProductOutputDto
 
-<form asp-area="Admin" asp-controller="ProductsManagement" asp-action="Edit" method="post">
-    <div class="mb-3">
-        <label asp-for="Id" class="form-label"></label>
-        <input asp-for="Id" readonly class="form-control" />
-        <span asp-validation-for="Id"></span>
+<form asp-controller="ProductsManagement" asp-action="Edit" method="post">
+    <div class="border p-3">
+        <div class="form-group row">
+            <h2 class="text-info p-3">ویرایش محصول</h2>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <div class="form-group row p-3">
+                    <div class="col-4">
+                        <label asp-for="Name"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row p-3">
+                    <div class="col-4">
+                        <label asp-for="CategoryId"></label>
+                    </div>
+                    <div class="col-8">
+                        <select asp-for="CategoryId" class="form-control" asp-items="@ViewBag.Categories">
+                            <option disabled selected>-- Select Category --</option>
+                        </select>
+                        <span asp-validation-for="CategoryId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row p-3">
+                    <div class="col-4">
+                        <label asp-for="BrandId"></label>
+                    </div>
+                    <div class="col-8">
+                        <select asp-for="BrandId" class="form-control" asp-items="@ViewBag.Brands">
+                            <option disabled selected>-- Select Brand --</option>
+                        </select>
+                        <span asp-validation-for="BrandId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row p-3">
+                    <div class="col-4">
+                        <label asp-for="StoreId"></label>
+                    </div>
+                    <div class="col-8">
+                        <select asp-for="StoreId" class="form-control" asp-items="@ViewBag.Stores">
+                            <option disabled selected>-- Select Store --</option>
+                        </select>
+                        <span asp-validation-for="StoreId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row p-3">
+                    <div class="col-4">
+                        <label asp-for="Weight"></label>
+                    </div>
+                    <div class="col-8">
+                        <input type="number" asp-for="Weight" class="form-control" />
+                        <span asp-validation-for="Weight" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row p-3">
+                    <div class="col-4">
+                        <label asp-for="Description"></label>
+                    </div>
+                    <div class="col-8">
+                        <textarea asp-for="Description" class="form-control summernote"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row p-3">
+                    <div class="col-4">
+                        <label asp-for="Count"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Count" class="form-control" />
+                        <span asp-validation-for="Count" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row p-3">
+                    <div class="col-4">
+                        <label asp-for="ModelId"></label>
+                    </div>
+                    <div class="col-8">
+                        <select asp-for="ModelId" class="form-control" asp-items="@ViewBag.Models">
+                            <option disabled selected>-- Select Model --</option>
+                        </select>
+                        <span asp-validation-for="ModelId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row p-3">
+                    <div class="col-4">
+                        <label asp-for="Price"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Price" class="form-control" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group my-2">
+                    <input asp-for=IsActive type="radio" id="true" name="IsActive" value="True" />
+                    <label for="true">فعال</label>
+                    <input asp-for=IsActive type="radio" id="false" name="IsActive" value="False" />
+                    <label for="false">غیر فعال</label>
+                    <span asp-validation-for="IsActive" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="d-inline-flex justify-content-around">
+                        <button type="submit" class="btn btn-primary mx-1">ویرایش</button>
+                        <div>
+                            <a asp-controller="Product" asp-action="Index" class="btn btn-success">بازگشت</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="mb-3">
-        <label asp-for="Name" class="form-label"></label>
-        <input asp-for="Name" readonly class="form-control" />
-        <span asp-validation-for="Name"></span>
-    </div>
-    <div class="mb-3">
-        <label asp-for="Category.Name" class="form-label"></label>
-        <input asp-for="Category.Name" readonly class="form-control" />
-        <span asp-validation-for="Category.Name"></span>
-    </div>
-    <div class="mb-3">
-        <label asp-for="Brand.Name" class="form-label"></label>
-        <input asp-for="Brand.Name" readonly class="form-control" />
-        <span asp-validation-for="Brand.Name"></span>
-    </div>
-    <div class="mb-3">
-        <label asp-for="Store.Name" class="form-label"></label>
-        <input asp-for="Store.Name" readonly class="form-control" />
-        <span asp-validation-for="Store.Name"></span>
-    </div>
-    <div class="mb-3">
-        <label asp-for="Description" class="form-label"></label>
-        <input asp-for="Description" readonly class="form-control" />
-        <span asp-validation-for="Description"></span>
-    </div>
-    <div class="mb-3">
-        <label asp-for="Count" class="form-label"></label>
-        <input asp-for="Count" readonly class="form-control" />
-        <span asp-validation-for="Count"></span>
-    </div>
-    <div class="mb-3">
-        <label asp-for="Price" class="form-label"></label>
-        <input asp-for="Price" readonly class="form-control" />
-        <span asp-validation-for="Price"></span>
-    </div>
-    <div class="mb-3">
-        <label asp-for="IsActive" class="form-label"></label>
-        <input asp-for="IsActive" readonly class="form-control" />
-        <span asp-validation-for="IsActive"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">ویرایش</button>
 </form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+
+        $(function () {
+            $(".select-chosen").chosen({ rtl: true });
+        });
+
+    </script>
+}

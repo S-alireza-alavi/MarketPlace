@@ -54,6 +54,7 @@ namespace App.Infrastructures.Data.Repositories
         {
             var products = await _context.Products.Select(p => new ProductOutputDto
             {
+                Id = p.Id,
                 Name = p.Name,
                 CategoryId = p.CategoryId,
                 BrandId = p.BrandId,

@@ -52,6 +52,9 @@ namespace MarketPlace
             builder.Services.AddScoped<IBrandsService, BrandsService>();
             builder.Services.AddScoped<IModelRepository, ModelRepository>();
             builder.Services.AddScoped<IModelService,ModelService>();
+            builder.Services.AddScoped<IStoreAppService, StoreAppService>();
+            builder.Services.AddScoped<ICommissionRepository, CommissionRepository>();
+            builder.Services.AddScoped<ICommissionsServiceAppService, CommissionsServiceAppService>();
 
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
