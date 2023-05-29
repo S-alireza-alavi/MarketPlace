@@ -65,7 +65,9 @@ namespace MarketPlace.Controllers
                 var user = new ApplicationUser
                 {
                     UserName = model.Email,
-                    Email = model.Email
+                    Email = model.Email,
+                    EmailConfirmed = true,
+                    PhoneNumberConfirmed = true
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
