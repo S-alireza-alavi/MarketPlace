@@ -1,8 +1,19 @@
-﻿<li class="nav-item dropdown show">
-    <a class="dropdown-toggle nav-link text-dark" href="#" data-toggle="dropdown">ادمین</a>
-    <div class="dropdown-menu">
-        <a class="dropdown-item" asp-area="Admin" asp-controller="UsersManagement" asp-action="Index">مدیریت کاربران</a>
-        <a class="dropdown-item" href="#">مدیریت غرفه‌ها</a>
-        <a class="dropdown-item" href="#">مدیریت کالاها</a>
-    </div>
-</li>
+﻿@using App.Domain.Core.Entities;
+@using Microsoft.AspNetCore.Identity;
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@if (SignInManager.IsSignedIn(User) && await UserManager.IsInRoleAsync(UserManager.GetUserAsync(User).Result, "Admin"))
+{
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            ادمین
+        </a>
+        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+            <li><a class="dropdown-item text-black" asp-area="Admin" asp-controller="UsersManagement" asp-action="Index">مدیریت کاربران</a></li>
+            <li><a class="dropdown-item text-black" asp-area="Admin" asp-controller="StoresManagement" asp-action="Index">مدیریت غرفه‌ها</a></li>
+            <li><a class="dropdown-item text-black" asp-area="Admin" asp-controller="ProductsManagement" asp-action="Index">مدیریت محصولات</a></li>
+        </ul>
+    </li>
+}
