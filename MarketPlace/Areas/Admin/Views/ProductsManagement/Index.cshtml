@@ -9,6 +9,8 @@
 </form>
 <br />
 
+<a asp-area="Admin" asp-controller="ProductsManagement" asp-action="Create" class="btn btn-success">افزودن</a>
+
 <table class="table table-hover table-striped table-bordered">
     <thead>
         <tr>
@@ -34,9 +36,9 @@
             <tr>
                 <td>@product.Id</td>
                 <td>@product.Name</td>
-                <td>@product.Category.Name</td>
-                <td>@product.Brand.Name</td>
-                <td>@product.Store.Name</td>
+                <td>@product.CategoryId</td>
+                <td>@product.BrandId</td>
+                <td>@product.StoreId</td>
                 <td>@product.Weight</td>
                 <td>@product.Description</td>
                 <td>@product.Count</td>

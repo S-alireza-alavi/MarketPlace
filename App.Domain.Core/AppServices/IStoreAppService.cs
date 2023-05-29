@@ -1,15 +1,12 @@
 ﻿using App.Domain.Core.DtoModels.Stores;
 
-namespace App.Domain.Core.DataAccess
+namespace App.Domain.Core.AppServices
 {
-    public interface IStoreRepository
+    public interface IStoreAppService
     {
         Task<List<StoreOutputDto>> GetAllStores();
-        Task<List<StoreOutputDto>> GetAllStores(string? search);
         Task<StoreOutputDto> GetStoreBy(int id);
-        Task CreateStore(AddStoreInputDto store);
         Task UpdateStore(EditStoreInputDto store);
         Task DeleteStore(int id);
-        Task<int> StoresCount();
     }
 }

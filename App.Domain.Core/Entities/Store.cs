@@ -20,7 +20,7 @@ public partial class Store
 
     public virtual ICollection<Auction> Auctions { get; set; } = new List<Auction>();
 
-    public virtual StoreAddress IdNavigation { get; set; } = null!;
+    public virtual ICollection<StoreAddress> StoreAddresses { get; set; } = new List<StoreAddress>();
 
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 

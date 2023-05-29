@@ -1,4 +1,6 @@
 ﻿using App.Domain.Core.Entities;
+using MarketPlace.Database;
+using MarketPlace.Entities;
 using MarketPlace.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,20 +13,29 @@ namespace MarketPlace.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole<int>> _roleManager;
+        private readonly AppDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<int>> roleManager)
+        public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<int>> roleManager, AppDbContext context)
         {
             _logger = logger;
             _userManager = userManager;
             _roleManager = roleManager;
+            _context = context;
         }
 
         public async Task<IActionResult> SeedData()
         {
-            await _userManager.CreateAsync(new ApplicationUser
-            {
-                
-            });
+            //var secondSeller = new ApplicationUser()
+            //{
+            //    Email = "secondSeller@gmail.com",
+            //    UserName = "SecondSeller",
+            //    EmailConfirmed = true,
+            //    PhoneNumber = "09121221212",
+            //    PhoneNumberConfirmed = true
+            //};
+
+            //await _userManager.CreateAsync(secondSeller, "123@");
+            //await _userManager.AddToRoleAsync(secondSeller, "Seller");
 
             return Ok();
         }

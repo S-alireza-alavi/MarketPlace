@@ -17,7 +17,7 @@ namespace App.Domain.AppService.Customers.Queries
         {
             try
             {
-                var productCategories = await _productCategoryRepository.GetAllProductCategories(cancellationToken);
+                var productCategories = await _productCategoryRepository.GetAllProductCategories();
 
                 return productCategories;
             }

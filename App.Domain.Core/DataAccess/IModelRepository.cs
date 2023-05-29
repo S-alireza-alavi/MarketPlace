@@ -4,9 +4,9 @@ namespace App.Domain.Core.DataAccess;
 
 public interface IModelRepository
 {
-    Task<List<ModelOutputDto>> GetAllModels(CancellationToken cancellationToken);
-    Task<ModelOutputDto>? GetModelBy(int id, CancellationToken cancellationToken);
-    Task CreateModel(AddModelInputDto model, CancellationToken cancellationToken);
-    Task UpdateModel(EditModelInputDto model, CancellationToken cancellationToken);
-    Task DeleteModel(int id, CancellationToken cancellationToken);
+    Task<List<ModelOutputDto>> GetAllModels();
+    Task<ModelOutputDto> GetModelBy(int id);
+    Task CreateModel(AddModelInputDto model);
+    Task UpdateModel(EditModelInputDto model);
+    Task DeleteModel(int id);
 }

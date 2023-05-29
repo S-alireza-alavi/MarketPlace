@@ -55,6 +55,20 @@ namespace App.Infrastructures.Data.Repositories
             return count;
         }
 
+        public Task<List<StoreOutputDto>> GetAllStores()
+        {
+            var stores = _context.Stores.Select(s => new StoreOutputDto
+            {
+                Id = s.Id,
+                Name = s.Name,
+                Description = s.Description,
+                AddressId = s.AddressId,
+                CreatedAt = s.CreatedAt
+            }).ToListAsync();
+
+            return stores;
+        }
+
         public async Task<List<StoreOutputDto>> GetAllStores(string? search)
         {
             var stores = await _context.Stores.Select(s => new StoreOutputDto
