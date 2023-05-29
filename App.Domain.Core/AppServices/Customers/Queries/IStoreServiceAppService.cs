@@ -5,7 +5,7 @@ namespace App.Domain.Core.AppServices.Customers.Queries;
 
 public interface IStoreServiceAppService
 {
-    Task<List<StoreOutputDto>> GetAllStores(CancellationToken cancellationToken);
+    Task<List<StoreOutputDto>> GetAllStores(string? search, CancellationToken cancellationToken);
     Task<StoreOutputDto> GetStore(int id, CancellationToken cancellationToken);
     Task<List<Store>> GetCategoryStores(int categoryId, CancellationToken cancellationToken);
 

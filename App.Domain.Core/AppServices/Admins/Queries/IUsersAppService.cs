@@ -12,7 +12,7 @@ namespace App.Domain.Core.AppServices.Admins.Queries
     {
         Task<List<UsersOutputDto>> GetAllUsers(int id, string? search, CancellationToken cancellationToken);
         Task<UsersOutputDto> GetUser(int id);
-        Task Update(UsersOutputDto user, string oldPassword, string newPassword, CancellationToken cancellationToken);
+        Task Update(EditUserInputDto user, string oldPassword, string newPassword, CancellationToken cancellationToken);
         Task Delete(int id, CancellationToken cancellationToken);
         Task<List<RoleOutputDto>> GetAllRoles(CancellationToken cancellationToken);
     }

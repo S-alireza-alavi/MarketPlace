@@ -1,4 +1,5 @@
-﻿using MarketPlace.Entities;
+﻿using App.Domain.Core.Entities;
+using MarketPlace.Entities;
 
 namespace App.Domain.Core.DtoModels.Stores
 {
@@ -17,5 +18,7 @@ namespace App.Domain.Core.DtoModels.Stores
         public DateTime? CreatedAt { get; set; }
 
         public StoreAddress Address { get; set; } = null!;
+
+        public virtual ApplicationUser Seller { get; set; } = null!;
     }
 }

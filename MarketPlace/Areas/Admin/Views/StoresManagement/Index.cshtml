@@ -1,9 +1,9 @@
-﻿@model List<UsersOutputDto>
+﻿@model List<StoreOutputDto>
 <br />
 <br />
 
-<form class="d-none d-md-flex ms-4" asp-area="Admin" asp-controller="UsersManagement" asp-action="Index">
-    <input value="@ViewBag.Search" class="form-control border-0" type="search" placeholder="جستجوی کاربر" name="search" />
+<form class="d-none d-md-flex ms-4" asp-area="Admin" asp-controller="StoresManagement" asp-action="Index">
+    <input value="@ViewBag.Search" class="form-control border-0" type="search" placeholder="جستجوی غرفه" name="search" />
     <input class="btn btn-primary" type="submit" value="جستجو" />
 </form>
 <br />
@@ -12,14 +12,15 @@
     <thead>
         <tr>
             <th>شناسه</th>
-            <th>نام کاربری</th>
-            <th>ایمیل</th>
-            <th>نقش‌ها</th>
-            <th>عملیات</th>
+            <th>نام غرفه</th>
+            <th>توضیحات</th>
+            <th>تاریخ شروع فعالیت</th>
+            <th>آدرس</th>
+            <th>فروشنده</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var user in Model)
+        @foreach (var store in Model)
         {
             Random random = new();
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -27,15 +28,12 @@
             .Select(s => s[random.Next(s.Length)]).ToArray());
 
             <tr>
-                <td>@user.Id</td>
-                <td>@user.UserName</td>
-                <td>@user.Email</td>
-                <td>
-                    @foreach (var role in user.Roles)
-                    {
-                        <p>@role</p>
-                    }
-                </td>
+                <td>@store.Id</td>
+                <td>@store.Name</td>
+                <td>@store.Description</td>
+                <td>@store.CreatedAt</td>
+                <td>@store.Address.FullAddress</td>
+                <td>@store.Seller.UserName</td>
                 <td>
                     <button style="cursor:pointer" type="button" class="btn btn-danger btn-round text-light" data-toggle="modal" data-target="#@randomId">
                         حذف
@@ -44,22 +42,22 @@
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">حذف کاربر <span class="badge badge-success mr-2">@user.UserName</span></h5>
+                                    <h5 class="modal-title" id="exampleModalLongTitle">حذف غرفه <span class="badge badge-success mr-2">@store.Name</span></h5>
                                 </div>
                                 <div class="modal-body">
-                                    شما در حال حذف کاربر <strong class="text-primary">@user.UserName</strong> هستید، از حذف این کاربر اطمینان دارید؟
+                                    شما در حال حذف غرفه <strong class="text-primary">@store.Name</strong> هستید، از حذف این غرفه اطمینان دارید؟
                                 </div>
                                 <div class="modal-footer">
                                     <button style="cursor:pointer" type="button" class="btn btn-success btn-round text-light ml-2 mr-2 pr-3 pl-3" data-dismiss="modal">انصراف</button>
-                                    <form asp-area="Admin" asp-controller="UsersManagement" asp-action="Delete" method="post">
-                                        <input style="display:none" name="userId" value="@user.Id" />
+                                    <form asp-area="Admin" asp-controller="StoresManagement" asp-action="Delete" method="post">
+                                        <input style="display:none" name="userId" value="@store.Id" />
                                         <button style="cursor:pointer" type="submit" class="btn btn-danger btn-round text-light">حذف کن</button>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <a asp-area="Admin" asp-controller="UsersManagement" asp-action="Edit" asp-route-id="@user.Id" class="btn btn-warning">ویرایش</a>
+                    <a asp-area="Admin" asp-controller="StoresManagement" asp-action="Edit" asp-route-id="@store.Id" class="btn btn-warning">ویرایش</a>
                 </td>
             </tr>
         }
