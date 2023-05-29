@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -79,6 +80,31 @@ namespace App.Infrastructures.Data.Repositories
             return userDto;
         }
 
+        public async Task UpdateUser(EditUserInputDto user, string oldPassword, string newPassword)
+        {
+            var userToUpdate = await _userManager.FindByIdAsync(user.Id.ToString());
+
+            if (!string.IsNullOrWhiteSpace(newPassword))
+            {
+                var result = await _userManager.CheckPasswordAsync(userToUpdate, oldPassword);
+
+                if (result)
+                {
+                    await _userManager.ChangePasswordAsync(userToUpdate, oldPassword, newPassword);
+                }
+
+                userToUpdate.Email = user.Email;
+                userToUpdate.UserName = user.UserName;
+                userToUpdate.PhoneNumber = user.PhoneNumber;
+                userToUpdate.CustomerAddresses = user.CustomerAddresses.ToList();
+
+                var roles = await _userManager.GetRolesAsync(userToUpdate);
+                await _userManager.RemoveFromRolesAsync(userToUpdate, roles);
+                await _userManager.AddToRolesAsync(userToUpdate, user.Roles);
+                await _userManager.UpdateAsync(userToUpdate);
+            }
+        }
+
         public async Task DeleteUser(int id, CancellationToken cancellationToken)
         {
             try
@@ -104,6 +130,5 @@ namespace App.Infrastructures.Data.Repositories
 
             return roleDtos;
         }
-
     }
 }

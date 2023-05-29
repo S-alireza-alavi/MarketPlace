@@ -1,0 +1,51 @@
+﻿@model ProductOutputDto
+
+<form asp-area="Admin" asp-controller="ProductsManagement" asp-action="Edit" method="post">
+    <div class="mb-3">
+        <label asp-for="Id" class="form-label"></label>
+        <input asp-for="Id" readonly class="form-control" />
+        <span asp-validation-for="Id"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" readonly class="form-control" />
+        <span asp-validation-for="Name"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Category.Name" class="form-label"></label>
+        <input asp-for="Category.Name" readonly class="form-control" />
+        <span asp-validation-for="Category.Name"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Brand.Name" class="form-label"></label>
+        <input asp-for="Brand.Name" readonly class="form-control" />
+        <span asp-validation-for="Brand.Name"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Store.Name" class="form-label"></label>
+        <input asp-for="Store.Name" readonly class="form-control" />
+        <span asp-validation-for="Store.Name"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <input asp-for="Description" readonly class="form-control" />
+        <span asp-validation-for="Description"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Count" class="form-label"></label>
+        <input asp-for="Count" readonly class="form-control" />
+        <span asp-validation-for="Count"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Price" class="form-label"></label>
+        <input asp-for="Price" readonly class="form-control" />
+        <span asp-validation-for="Price"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="IsActive" class="form-label"></label>
+        <input asp-for="IsActive" readonly class="form-control" />
+        <span asp-validation-for="IsActive"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">ویرایش</button>
+</form>

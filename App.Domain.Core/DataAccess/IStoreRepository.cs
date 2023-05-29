@@ -4,11 +4,11 @@ namespace App.Domain.Core.DataAccess
 {
     public interface IStoreRepository
     {
-        Task<List<StoreOutputDto>> GetAllStores(CancellationToken cancellationToken);
-        Task<StoreOutputDto>? GetStoreBy(int id, CancellationToken cancellationToken);
-        Task CreateStore(AddStoreInputDto store, CancellationToken cancellationToken);
-        Task UpdateStore(EditStoreInputDto store, CancellationToken cancellationToken);
-        Task DeleteStore(int id, CancellationToken cancellationToken);
-        Task<int> StoresCount(CancellationToken cancellationToken);
+        Task<List<StoreOutputDto>> GetAllStores(string? search);
+        Task<StoreOutputDto> GetStoreBy(int id);
+        Task CreateStore(AddStoreInputDto store);
+        Task UpdateStore(EditStoreInputDto store);
+        Task DeleteStore(int id);
+        Task<int> StoresCount();
     }
 }

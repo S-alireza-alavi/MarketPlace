@@ -12,6 +12,7 @@ namespace App.Domain.Core.DataAccess
     {
         Task<List<UsersOutputDto>> GetAllUsers(int id, string? search, CancellationToken cancellationToken);
         Task<UsersOutputDto> GetUserBy(int id);
+        Task UpdateUser(EditUserInputDto user, string oldPassword, string newPassword);
         Task DeleteUser(int id, CancellationToken cancellationToken);
         Task<List<RoleOutputDto>> GetAllRoles(CancellationToken cancellationToken);
     }

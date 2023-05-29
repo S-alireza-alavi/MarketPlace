@@ -1,6 +1,7 @@
 //using App.Domain.Core.Entities;
 //using App.Infrastructures.Database.SqlServer.Data;
 using App.Domain.AppService.Admins.Queries;
+using App.Domain.AppService.Customers.Queries;
 using App.Domain.Core.AppServices.Admins.Queries;
 using App.Domain.Core.DataAccess;
 using App.Domain.Core.Entities;
@@ -39,6 +40,8 @@ namespace MarketPlace
             // Add services to the container.
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUsersAppService, UsersAppService>();
+            builder.Services.AddScoped<IStoreRepository, StoreRepository>();
+            builder.Services.AddScoped<IStoresServiceAppService, StoresServiceAppService>();
 
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();

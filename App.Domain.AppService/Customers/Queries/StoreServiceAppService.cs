@@ -18,11 +18,11 @@ public class StoreServiceAppService : IStoreServiceAppService
         _context = context;
     }
 
-    public async Task<List<StoreOutputDto>> GetAllStores(CancellationToken cancellationToken)
+    public async Task<List<StoreOutputDto>> GetAllStores(string? search, CancellationToken cancellationToken)
     {
         try
         {
-            var stores = await _storeRepository.GetAllStores(cancellationToken);
+            var stores = await _storeRepository.GetAllStores(search);
 
             return stores;
         }
@@ -36,7 +36,7 @@ public class StoreServiceAppService : IStoreServiceAppService
     {
         try
         {
-            var store = await _storeRepository.GetStoreBy(id, cancellationToken);
+            var store = await _storeRepository.GetStoreBy(id);
 
             return store;
         }

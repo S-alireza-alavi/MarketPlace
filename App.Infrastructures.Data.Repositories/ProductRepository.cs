@@ -50,9 +50,9 @@ namespace App.Infrastructures.Data.Repositories
             return count;
         }
 
-        public async Task<List<ProductOutputDto>> GetAllProducts(CancellationToken cancellationToken)
+        public async Task<List<ProductOutputDto>> GetAllProducts(string? search, CancellationToken cancellationToken)
         {
-            var product = await _context.Products.Select(p => new ProductOutputDto
+            var products = await _context.Products.Select(p => new ProductOutputDto
             {
                 Name = p.Name,
                 CategoryId = p.CategoryId,
@@ -66,27 +66,37 @@ namespace App.Infrastructures.Data.Repositories
                 IsActive = p.IsActive
             }).ToListAsync(cancellationToken);
 
-            return product;
+            if (string.IsNullOrEmpty(search))
+            {
+                return products;
+            }
+            else
+            {
+                products = products.Where(p => p.Name.Contains(search)).ToList();
+
+                return products;
+            }
         }
 
-        public async Task<ProductOutputDto>? GetProductBy(int id, CancellationToken cancellationToken)
+        public async Task<ProductOutputDto> GetProductBy(int id, CancellationToken cancellationToken)
         {
-            var product = await _context.Products.Where(p => p.Id == id).Select(p =>
-                new ProductOutputDto
-                {
-                    Name = p.Name,
-                    CategoryId = p.CategoryId,
-                    BrandId = p.BrandId,
-                    StoreId = p.StoreId,
-                    Weight = p.Weight,
-                    Description = p.Description,
-                    Count = p.Count,
-                    ModelId = p.ModelId,
-                    Price = p.Price,
-                    IsActive = p.IsActive
-                }).FirstAsync(cancellationToken);
+            var product = await _context.Products.FindAsync(id);
 
-            return product;
+            ProductOutputDto productDto = new()
+            {
+                Name = product.Name,
+                CategoryId = product.CategoryId,
+                BrandId = product.BrandId,
+                StoreId = product.StoreId,
+                Weight = product.Weight,
+                Description = product.Description,
+                Count = product.Count,
+                ModelId = product.ModelId,
+                Price = product.Price,
+                IsActive = product.IsActive
+            };
+
+            return productDto;
         }
 
         public async Task UpdateProduct(EditProductInputDto product, CancellationToken cancellationToken)

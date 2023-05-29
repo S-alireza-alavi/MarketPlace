@@ -31,9 +31,9 @@ namespace App.Domain.AppService.Admins.Queries
             return user;
         }
 
-        public Task Update(UsersOutputDto user, string oldPassword, string newPassword, CancellationToken cancellationToken)
+        public async Task Update(EditUserInputDto user, string oldPassword, string newPassword, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await _userRepository.UpdateUser(user, oldPassword, newPassword);
         }
 
         public async Task Delete(int id, CancellationToken cancellationToken)

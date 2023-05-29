@@ -26,6 +26,10 @@ namespace App.Domain.Core.DtoModels.Products
 
         public bool IsActive { get; set; }
 
-        public virtual ProductCategory ProductCategory { get; set; } = null!;
+        public virtual Brand Brand { get; set; } = null!;
+
+        public virtual ProductCategory Category { get; set; } = null!;
+
+        public virtual Store Store { get; set; } = null!;
     }
 }

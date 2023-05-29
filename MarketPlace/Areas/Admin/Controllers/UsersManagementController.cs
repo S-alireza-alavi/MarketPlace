@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.AppServices.Admins.Queries;
+using App.Domain.Core.DtoModels.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,6 +10,7 @@ namespace MarketPlace.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class UsersManagementController : Controller
     {
+        //todo: جدا کردن query و commandهای سرویس‌
         private readonly IUsersAppService _usersAppService;
 
         public UsersManagementController(IUsersAppService usersAppService)
@@ -36,6 +38,19 @@ namespace MarketPlace.Areas.Admin.Controllers
             }).ToList();
 
             return View(user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditUserInputDto user, string? oldPassword, string? newPassword, CancellationToken cancellationToken)
+        {
+            if (ModelState.IsValid)
+            {
+                return View(user);
+            }
+
+            await _usersAppService.Update(user, oldPassword, newPassword, cancellationToken);
+
+            return RedirectToAction("Index");
         }
 
         [HttpPost]

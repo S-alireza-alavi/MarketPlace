@@ -1,0 +1,36 @@
+﻿@model StoreOutputDto
+
+<form asp-area="Admin" asp-controller="StoresManagement" asp-action="Edit" method="post">
+    <div class="mb-3">
+        <label asp-for="Id" class="form-label"></label>
+        <input asp-for="Id" readonly class="form-control" />
+        <span asp-validation-for="Id"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" readonly class="form-control" />
+        <span asp-validation-for="Name"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <input asp-for="Description" readonly class="form-control" />
+        <span asp-validation-for="Description"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="CreatedAt" class="form-label"></label>
+        <input asp-for="CreatedAt" readonly class="form-control" />
+        <span asp-validation-for="CreatedAt"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Address.FullAddress" class="form-label"></label>
+        <input asp-for="Address.FullAddress" readonly class="form-control" />
+        <span asp-validation-for="Address.FullAddress"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Seller.UserName" class="form-label"></label>
+        <input asp-for="Seller.UserName" readonly class="form-control" />
+        <span asp-validation-for="Seller.UserName"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">ویرایش</button>
+</form>

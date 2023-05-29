@@ -15,17 +15,17 @@ namespace App.Domain.AppService.Admins.Commands
 
         public async Task DeleteStore(int storeId, CancellationToken cancellationToken)
         {
-            var store = await _storeRepository.GetStoreBy(storeId, cancellationToken);
+            var store = await _storeRepository.GetStoreBy(storeId);
 
             if (store != null)
             {
-                await _storeRepository.DeleteStore(store.Id, cancellationToken);
+                await _storeRepository.DeleteStore(store.Id);
             }
         }
 
         public async Task<StoreOutputDto> EditStore(EditStoreInputDto store, CancellationToken cancellationToken)
         {
-            var storeToUpdate = await _storeRepository.GetStoreBy(store.Id, cancellationToken);
+            var storeToUpdate = await _storeRepository.GetStoreBy(store.Id);
 
             if (storeToUpdate != null)
             {
@@ -41,7 +41,7 @@ namespace App.Domain.AppService.Admins.Commands
         {
             try
             {
-                var store = await _storeRepository.GetStoreBy(storeId, cancellationToken);
+                var store = await _storeRepository.GetStoreBy(storeId);
 
                 return store;
             }
