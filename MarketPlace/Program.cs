@@ -1,7 +1,9 @@
 //using App.Domain.Core.Entities;
 //using App.Infrastructures.Database.SqlServer.Data;
+using App.Domain.AppService;
 using App.Domain.AppService.Admins.Queries;
 using App.Domain.AppService.Customers.Queries;
+using App.Domain.Core.AppServices;
 using App.Domain.Core.AppServices.Admins.Queries;
 using App.Domain.Core.DataAccess;
 using App.Domain.Core.Entities;
@@ -44,6 +46,12 @@ namespace MarketPlace
             builder.Services.AddScoped<IStoresServiceAppService, StoresServiceAppService>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<IProductsServiceAppService,ProductsServiceAppService>();
+            builder.Services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
+            builder.Services.AddScoped<IProductCategoryService,ProductCategoryService>();
+            builder.Services.AddScoped<IBrandRepository, BrandRepository>();
+            builder.Services.AddScoped<IBrandsService, BrandsService>();
+            builder.Services.AddScoped<IModelRepository, ModelRepository>();
+            builder.Services.AddScoped<IModelService,ModelService>();
 
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();

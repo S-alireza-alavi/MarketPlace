@@ -15,7 +15,7 @@ namespace App.Infrastructures.Data.Repositories
             _context = context;
         }
 
-        public async Task CreateProductCategory(AddProductCategoryInputDto productCategory, CancellationToken cancellationToken)
+        public async Task CreateProductCategory(AddProductCategoryInputDto productCategory)
         {
             await _context.ProductCategories.AddAsync(new ProductCategory
             {
@@ -24,19 +24,19 @@ namespace App.Infrastructures.Data.Repositories
                 IsActive = true
             });
 
-            await _context.SaveChangesAsync(cancellationToken);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteProductCategory(int id, CancellationToken cancellationToken)
+        public async Task DeleteProductCategory(int id)
         {
             ProductCategory? productCategory = await _context.ProductCategories.FindAsync(id);
 
             productCategory.IsDeleted = true;
 
-            await _context.SaveChangesAsync(cancellationToken);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<List<ProductCategoryOutputDto>> GetAllProductCategories(CancellationToken cancellationToken)
+        public async Task<List<ProductCategoryOutputDto>> GetAllProductCategories()
         {
             var tagCategories = await _context.ProductCategories.Select(pc => new ProductCategoryOutputDto
             {
@@ -45,12 +45,12 @@ namespace App.Infrastructures.Data.Repositories
                 ParentCategoryId = pc.ParentCategoryId,
                 IsActive = pc.IsActive
 
-            }).ToListAsync(cancellationToken);
+            }).ToListAsync();
 
             return tagCategories;
         }
 
-        public async Task<ProductCategoryOutputDto>? GetProductCategoryBy(int id, CancellationToken cancellationToken)
+        public async Task<ProductCategoryOutputDto> GetProductCategoryBy(int id)
         {
             var productCategory = await _context.ProductCategories.Where(pc => pc.Id == id).Select(pc =>
                 new ProductCategoryOutputDto
@@ -59,21 +59,21 @@ namespace App.Infrastructures.Data.Repositories
                     Name = pc.Name,
                     ParentCategoryId = pc.ParentCategoryId,
                     IsActive = pc.IsActive
-                }).FirstAsync(cancellationToken);
+                }).FirstAsync();
 
             return productCategory;
         }
 
-        public async Task UpdateProductCategory(EditProductCategoryInputDto productCategory, CancellationToken cancellationToken)
+        public async Task UpdateProductCategory(EditProductCategoryInputDto productCategory)
         {
             var productCategoryToUpdate = await _context.ProductCategories.Where(pc => pc.Id == productCategory.Id)
-                .FirstOrDefaultAsync(cancellationToken);
+                .FirstOrDefaultAsync();
 
             productCategoryToUpdate.Name = productCategory.Name;
             productCategoryToUpdate.ParentCategoryId = productCategory.ParentCategoryId;
             productCategoryToUpdate.IsActive = productCategory.IsActive;
 
-            await _context.SaveChangesAsync(cancellationToken);
+            await _context.SaveChangesAsync();
         }
     }
 }

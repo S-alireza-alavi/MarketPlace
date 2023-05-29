@@ -209,16 +209,14 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityR
 
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Name).HasMaxLength(150);
-
-            entity.HasOne(d => d.IdNavigation).WithOne(p => p.ProductCategory)
-                .HasForeignKey<ProductCategory>(d => d.Id)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ProductCategories_ProductCategoryPhotos");
         });
 
         modelBuilder.Entity<ProductCategoryPhoto>(entity =>
         {
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.HasOne(d => d.ProductCategory).WithMany(p => p.ProductCategoryPhotos)
+            .HasForeignKey(d => d.ProductCategoryId).
+            OnDelete(DeleteBehavior.ClientSetNull)
+            .HasConstraintName("FK_ProductCategoryPhotos_ProductCategories");
             entity.Property(e => e.Name).HasMaxLength(50);
         });
 
@@ -282,20 +280,31 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityR
             entity.Property(e => e.Description).HasMaxLength(500);
             entity.Property(e => e.Name).HasMaxLength(150);
 
-            entity.HasOne(d => d.IdNavigation).WithOne(p => p.Store)
-                .HasForeignKey<Store>(d => d.Id)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Stores_StoreAddresses");
-
             entity.HasOne(d => d.Seller).WithMany(p => p.Stores)
                 .HasForeignKey(d => d.SellerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Stores_AspNetUsers");
         });
 
+        modelBuilder.Entity<CustomerAddress>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_Addresses");
+
+            entity.Property(e => e.FullAddress).HasMaxLength(300);
+
+            entity.HasOne(d => d.Customer).WithMany(p => p.CustomerAddresses)
+                .HasForeignKey(d => d.CustomerId)
+                .HasConstraintName("FK_CustomerAddresses_AspNetUsers");
+        });
+
         modelBuilder.Entity<StoreAddress>(entity =>
         {
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.HasKey(e => e.Id);
+
+            entity.HasOne(d => d.Store).WithMany(p => p.StoreAddresses)
+            .HasForeignKey(d => d.StoreId)
+            .HasConstraintName("FK_StoreAddresses_Stores1");
+
             entity.Property(e => e.FullAddress).HasMaxLength(300);
         });
 

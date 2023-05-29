@@ -15,7 +15,7 @@ public class ModelRepository : IModelRepository
         _context = context;
     }
 
-    public async Task<List<ModelOutputDto>> GetAllModels(CancellationToken cancellationToken)
+    public async Task<List<ModelOutputDto>> GetAllModels()
     {
         var models = await _context.Models.Select(m => new ModelOutputDto
         {
@@ -23,12 +23,12 @@ public class ModelRepository : IModelRepository
             Name = m.Name,
             ParentModelId = m.ParentModelId,
             BrandId = m.BrandId
-        }).ToListAsync(cancellationToken);
+        }).ToListAsync();
 
         return models;
     }
 
-    public async Task<ModelOutputDto>? GetModelBy(int id, CancellationToken cancellationToken)
+    public async Task<ModelOutputDto> GetModelBy(int id)
     {
         var model = await _context.Models.Where(m => m.Id == id).Select(m =>
             new ModelOutputDto
@@ -37,12 +37,12 @@ public class ModelRepository : IModelRepository
                 Name = m.Name,
                 ParentModelId = m.ParentModelId,
                 BrandId = m.BrandId
-            }).FirstAsync(cancellationToken);
+            }).FirstAsync();
 
         return model;
     }
 
-    public async Task CreateModel(AddModelInputDto model, CancellationToken cancellationToken)
+    public async Task CreateModel(AddModelInputDto model)
     {
         await _context.Models.AddAsync(new Model
         {
@@ -51,27 +51,27 @@ public class ModelRepository : IModelRepository
             BrandId = model.BrandId
         });
 
-        await _context.SaveChangesAsync(cancellationToken);
+        await _context.SaveChangesAsync();
     }
 
-    public async Task UpdateModel(EditModelInputDto model, CancellationToken cancellationToken)
+    public async Task UpdateModel(EditModelInputDto model)
     {
         var modelToUpdate = await _context.Models.Where(m => m.Id == model.Id)
-            .FirstOrDefaultAsync(cancellationToken);
+            .FirstOrDefaultAsync();
 
         modelToUpdate.Name = model.Name;
         modelToUpdate.ParentModelId = model.ParentModelId;
         modelToUpdate.BrandId = model.BrandId;
 
-        await _context.SaveChangesAsync(cancellationToken);
+        await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteModel(int id, CancellationToken cancellationToken)
+    public async Task DeleteModel(int id)
     {
         Model? model = await _context.Models.FindAsync(id);
 
         model.IsDeleted = true;
 
-        await _context.SaveChangesAsync(cancellationToken);
+        await _context.SaveChangesAsync();
     }
 }

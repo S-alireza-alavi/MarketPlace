@@ -14,7 +14,7 @@ public partial class ProductCategory
 
     public bool IsDeleted { get; set; }
 
-    public virtual ProductCategoryPhoto IdNavigation { get; set; } = null!;
+    public virtual ICollection<ProductCategoryPhoto> ProductCategoryPhotos { get; set; } = new List<ProductCategoryPhoto>();
 
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }

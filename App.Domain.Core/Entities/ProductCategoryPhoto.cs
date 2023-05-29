@@ -6,6 +6,8 @@ namespace App.Domain.Core.Entities
     {
         public int Id { get; set; }
 
+        public int ProductCategoryId { get; set; }
+
         public string Name { get; set; } = null!;
 
         public bool IsDeleted { get; set; }
