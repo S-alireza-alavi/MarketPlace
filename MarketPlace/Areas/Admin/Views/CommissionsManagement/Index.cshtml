@@ -1,0 +1,24 @@
+﻿@model List<CommissionOutputDto>
+
+<br />
+<br />
+
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>شناسه</th>
+            <th>شناسه سفارش</th>
+            <th>میزان کارمزد</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var commission in Model)
+        {
+            <tr>
+                <td>@commission.Id</td>
+                <td>@commission.OrderId</td>
+                <td>@commission.CommissionAmount</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -7,5 +7,7 @@
         public int OrderId { get; set; }
 
         public int CommissionAmount { get; set; }
+
+        public string? SellerUserName { get; set; }
     }
 }

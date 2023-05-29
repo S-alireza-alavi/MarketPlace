@@ -73,6 +73,7 @@ namespace App.Infrastructures.Data.Repositories
         {
             var stores = await _context.Stores.Select(s => new StoreOutputDto
             {
+                Id = s.Id,
                 Name = s.Name,
                 SellerId = s.SellerId,
                 Description = s.Description,
