@@ -9,8 +9,6 @@
     <link rel="stylesheet" href="~/MarketPlace.styles.css" asp-append-version="true" />
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="~/assets/images/icons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="~/assets/images/icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="~/assets/images/icons/favicon-16x16.png">
     <link rel="manifest" href="~/assets/images/icons/site.webmanifest">
     <link rel="mask-icon" href="~/assets/images/icons/safari-pinned-tab.svg" color="#666666">
     <link rel="shortcut icon" href="~/assets/images/icons/favicon.ico">
@@ -33,24 +31,24 @@
 
 <body>
     <header class="header header-intro-clearance header-26">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index">صفحه اصلی</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <partial name="_LoginPartial"></partial>
-                        </li>
-                        <li>
-                            <partial name="_AdminMenu"></partial>
-                        </li>
-                    </ul>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" asp-controller="Home" asp-action="Index">صفحه اصلی</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <partial name="_LoginPartial"></partial>
+                            </li>
+                            <li>
+                                <partial name="_AdminMenu"></partial>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
         <div class="header-middle">
             <div class="container">
                 <div class="header-left">

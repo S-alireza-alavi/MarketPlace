@@ -41,6 +41,7 @@ namespace MarketPlace
                 options.Password.RequiredUniqueChars = 1;
             }).AddEntityFrameworkStores<AppDbContext>();
 
+            //todo: remember to change the location of these IOC container injects
             // Add services to the container.
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUsersAppService, UsersAppService>();
