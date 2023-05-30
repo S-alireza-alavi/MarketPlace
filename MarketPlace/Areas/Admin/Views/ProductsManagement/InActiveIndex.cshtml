@@ -1,0 +1,43 @@
+﻿@model List<ProductOutputDto>
+
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>شناسه</th>
+            <th>نام محصول</th>
+            <th>شناسه دسته‌بندی</th>
+            <th>برند</th>
+            <th>شناسه غرفه</th>
+            <th>وزن</th>
+            <th>توضیحات</th>
+            <th>تعداد</th>
+            <th>شناسه مدل</th>
+            <th>قیمت</th>
+            <th>وضعیت</th>
+            <th>عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var inActiveProduct in Model)
+        {
+            <tr>
+                <td>@inActiveProduct.Id</td>
+                <td>@inActiveProduct.Name</td>
+                <td>@inActiveProduct.CategoryId</td>
+                <td>@inActiveProduct.BrandId</td>
+                <td>@inActiveProduct.StoreId</td>
+                <td>@inActiveProduct.Weight</td>
+                <td>@inActiveProduct.Description</td>
+                <td>@inActiveProduct.Count</td>
+                <td>@inActiveProduct.ModelId</td>
+                <td>@inActiveProduct.Price</td>
+                <td>@inActiveProduct.IsActive</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a asp-controller="ProductsManagement" asp-action="ActivateProduct" asp-route-productId="@inActiveProduct.Id" class="btn btn-success">تایید</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

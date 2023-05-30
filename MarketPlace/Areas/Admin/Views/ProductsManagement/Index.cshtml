@@ -4,12 +4,14 @@
 <br />
 
 <form class="d-none d-md-flex ms-4" asp-area="Admin" asp-controller="ProductsManagement" asp-action="Index">
-    <input value="@ViewBag.Search" class="form-control border-0" type="search" placeholder="جستجوی محصول" name="search" />
+    <input value="@ViewBag.Search" class="form-control" type="search" placeholder="جستجوی محصول" name="search" />
     <input class="btn btn-primary" type="submit" value="جستجو" />
 </form>
 <br />
 
 <a asp-area="Admin" asp-controller="ProductsManagement" asp-action="Create" class="btn btn-success">افزودن</a>
+<a asp-area="Admin" asp-controller="ProductsManagement" asp-action="InActiveIndex" class="btn btn-secondary">لیست محصولات در انتظار تایید</a>
+
 
 <table class="table table-hover table-striped table-bordered">
     <thead>
@@ -21,6 +23,7 @@
             <th>غرفه مربوط</th>
             <th>توضیحات</th>
             <th>تعداد</th>
+            <th>شناسه مدل</th>
             <th>قیمت</th>
             <th>وضعیت</th>
         </tr>
@@ -37,12 +40,13 @@
                 <td>@product.Weight</td>
                 <td>@product.Description</td>
                 <td>@product.Count</td>
+                <td>@product.ModelId</td>
                 <td>@product.Price</td>
                 <td>@product.IsActive</td>
                 <td>
                     <div class="btn-group" role="group">
                         <a asp-controller="ProductsManagement" asp-action="Edit" asp-route-id="@product.Id" class="btn btn-warning">ویرایش</a>
-                        <a asp-controller="ProductsManagement" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger">حذف</a>
+                        <a asp-controller="ProductsManagement" asp-action="Delete" asp-route-productId="@product.Id" class="btn btn-danger">حذف</a>
                     </div>
                 </td>
             </tr>

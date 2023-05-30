@@ -26,6 +26,8 @@ namespace App.Domain.Core.DtoModels.Products
 
         public bool IsActive { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public virtual Brand Brand { get; set; } = null!;
 
         public virtual ProductCategory Category { get; set; } = null!;

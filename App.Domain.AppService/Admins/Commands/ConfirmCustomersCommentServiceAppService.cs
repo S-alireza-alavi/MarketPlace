@@ -1,15 +1,22 @@
 ﻿using App.Domain.Core.AppServices.Admins.Commands;
 using App.Domain.Core.DataAccess;
+using App.Domain.Core.DtoModels.ProductComments;
+using App.Domain.Core.DtoModels.StoreComments;
+using MarketPlace.Database;
+using MarketPlace.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace App.Domain.AppService.Admins.Commands
 {
     public class ConfirmCustomersCommentServiceAppService : IConfirmCustomersCommentServiceAppService
     {
+        private readonly AppDbContext _context;
         private readonly IProductCommentRepository _productCommentRepository;
         private readonly IStoreCommentRepository _storeCommentRepository;
 
-        public ConfirmCustomersCommentServiceAppService(IProductCommentRepository productCommentRepository, IStoreCommentRepository storeCommentRepository)
+        public ConfirmCustomersCommentServiceAppService(AppDbContext context, IProductCommentRepository productCommentRepository, IStoreCommentRepository storeCommentRepository)
         {
+            _context = context;
             _productCommentRepository = productCommentRepository;
             _storeCommentRepository = storeCommentRepository;
         }
@@ -22,7 +29,20 @@ namespace App.Domain.AppService.Admins.Commands
 
             if (productComment != null)
             {
-                productComment.IsConfirmedByAdmin = true;
+                await _productCommentRepository.UpdateProductComment(new EditProductCommentInputDto
+                {
+                    Id = productComment.Id,
+                    Title = productComment.Title,
+                    CommentBody = productComment.CommentBody,
+                    UserId = productComment.UserId,
+                    ProductId = productComment.ProductId,
+                    IsConfirmedByAdmin = true,
+                    ParentCommentId = productComment.ParentCommentId,
+                    Rate = productComment.Rate,
+                    LikeCount = productComment.LikeCount,
+                    DislikeCount = productComment.DislikeCount
+                }, cancellationToken);
+
                 isDone = true;
             }
             else
@@ -41,7 +61,20 @@ namespace App.Domain.AppService.Admins.Commands
 
             if (storeComment != null)
             {
-                storeComment.IsConfirmedByAdmin = true;
+                await _storeCommentRepository.UpdateStoreComment(new EditStoreCommentInputDto
+                {
+                    Id = storeComment.Id,
+                    Title = storeComment.Title,
+                    CommentBody = storeComment.CommentBody,
+                    UserId = storeComment.UserId,
+                    StoreId = storeComment.StoreId,
+                    IsConfirmedByAdmin = true,
+                    ParentCommentId = storeComment.ParentCommentId,
+                    Rate = storeComment.Rate,
+                    LikeCount = storeComment.LikeCount,
+                    DislikeCount = storeComment.DislikeCount
+                }, cancellationToken);
+
                 isDone = true;
             }
             else
@@ -50,6 +83,18 @@ namespace App.Domain.AppService.Admins.Commands
             }
 
             return isDone;
+        }
+
+        public async Task<List<ProductCommentOutputDto>> GetAllUnConfirmedProductComments(CancellationToken cancellationToken)
+        {
+            var unconfirmedProductComments = await _productCommentRepository.GetAllUnConfirmedProductComments(cancellationToken);
+            return unconfirmedProductComments;
+        }
+
+        public async Task<List<StoreCommentOutputDto>> GetAllUnConfirmedStoreComments(CancellationToken cancellationToken)
+        {
+            var unconfirmedStoreComments = await _storeCommentRepository.GetAllUnConfirmedStoreComments(cancellationToken);
+            return unconfirmedStoreComments;
         }
     }
 }

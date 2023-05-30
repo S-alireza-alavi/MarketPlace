@@ -16,11 +16,13 @@ namespace App.Domain.AppService.Admins.Queries
 
         public async Task<List<CommissionOutputDto>> GetCommissions(CancellationToken cancellationToken)
         {
+            //todo: نباید به context دسترسی داشته باشه، اصلاح شه
             var commissions = await _context.Commissions.Include(c => c.Order).ThenInclude(o => o.Seller).ToListAsync(cancellationToken);
 
             var outputDto = commissions.Select(c => new CommissionOutputDto
             {
                 Id = c.Id,
+                OrderId = c.Order.Id,
                 CommissionAmount = c.CommissionAmount,
                 SellerUserName = c.Order.Seller.UserName
             }).ToList();

@@ -71,16 +71,17 @@ namespace App.Infrastructures.Data.Repositories
 
         public async Task<List<StoreOutputDto>> GetAllStores(string? search)
         {
-            var stores = await _context.Stores.Select(s => new StoreOutputDto
+            var stores = await _context.Stores.Include(s => s.Seller).Include(s => s.StoreAddresses).Where(s => s.IsDeleted == false).ToListAsync();
+
+            var outputDto = stores.Select(s => new StoreOutputDto
             {
                 Id = s.Id,
                 Name = s.Name,
-                SellerId = s.SellerId,
+                SellerUserName = s.Seller.UserName,
                 Description = s.Description,
                 AddressId = s.AddressId,
                 CreatedAt = s.CreatedAt
-
-            }).ToListAsync();
+            }).ToList();
 
             //foreach (var item in stores)
             //{
@@ -89,13 +90,13 @@ namespace App.Infrastructures.Data.Repositories
 
             if (string.IsNullOrEmpty(search))
             {
-                return stores;
+                return outputDto;
             }
             else
             {
                 stores = stores.Where(s => s.Name.Contains(search) || s.Seller.UserName.Contains(search)).ToList();
 
-                return stores;
+                return outputDto;
             }
         }
 
@@ -105,6 +106,7 @@ namespace App.Infrastructures.Data.Repositories
 
             StoreOutputDto storeDto = new()
             {
+                Id = id,
                 Name = store.Name,
                 SellerId = store.SellerId,
                 Description = store.Description,

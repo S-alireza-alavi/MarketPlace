@@ -1,6 +1,8 @@
 ﻿using App.Domain.Core.AppServices;
+using App.Domain.Core.AppServices.Admins.Commands;
 using App.Domain.Core.AppServices.Admins.Queries;
 using App.Domain.Core.DtoModels.Products;
+using Azure.Identity;
 using MarketPlace.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,14 +20,16 @@ namespace MarketPlace.Areas.Admin.Controllers
         private readonly IBrandsService _brandsService;
         private readonly IStoreAppService _storeAppService;
         private readonly IModelService _modelService;
+        private readonly IConfirmSellersProductServiceAppService _confirmSellersProductServiceAppService;
 
-        public ProductsManagementController(IProductsServiceAppService productsServiceAppService, IProductCategoryService productCategoryService, IBrandsService brandsService, IModelService modelService, IStoreAppService storeAppService)
+        public ProductsManagementController(IProductsServiceAppService productsServiceAppService, IProductCategoryService productCategoryService, IBrandsService brandsService, IModelService modelService, IStoreAppService storeAppService, IConfirmSellersProductServiceAppService confirmSellersProductServiceAppService)
         {
             _productsServiceAppService = productsServiceAppService;
             _productCategoryService = productCategoryService;
             _brandsService = brandsService;
             _modelService = modelService;
             _storeAppService = storeAppService;
+            _confirmSellersProductServiceAppService = confirmSellersProductServiceAppService;
         }
 
         public async Task<IActionResult> Index(string? search, CancellationToken cancellationToken)
@@ -160,10 +164,10 @@ namespace MarketPlace.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditProductInputDto product, CancellationToken cancellationToken)
         {
-            if (ModelState.IsValid)
-            {
-                return View(product);
-            }
+            //if (ModelState.IsValid)
+            //{
+            //    return View(product);
+            //}
 
             var dto = new EditProductInputDto
             {
@@ -190,5 +194,27 @@ namespace MarketPlace.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> InActiveIndex(CancellationToken cancellationToken)
+        {
+            var inActiveproducts = await _confirmSellersProductServiceAppService.GetAllInActiveProducts(cancellationToken);
+            return View(inActiveproducts);
+        }
+
+        //todo: fix this
+        [HttpGet]
+        public async Task<IActionResult> ActivateProduct(int productId, CancellationToken cancellationToken)
+        {
+            await _confirmSellersProductServiceAppService.ConfirmSellersProductAsync(productId, cancellationToken);
+            return RedirectToAction("Index");
+        }
+
+        //[HttpPost]
+        //public async Task<IActionResult> ActivateProduct(CancellationToken cancellationToken)
+        //{
+        //    await _confirmSellersProductServiceAppService.ConfirmSellersProductAsync(productId, cancellationToken);
+        //    return RedirectToAction("InActiveIndex");
+        //}
     }
 }
