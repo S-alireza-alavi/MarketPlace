@@ -1,8 +1,11 @@
 ﻿using App.Domain.Core.AppServices.Admins.Queries;
 using App.Domain.Core.DtoModels.Users;
+using App.Domain.Core.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace MarketPlace.Areas.Admin.Controllers
 {
@@ -12,10 +15,14 @@ namespace MarketPlace.Areas.Admin.Controllers
     {
         //todo: جدا کردن query و commandهای سرویس‌
         private readonly IUsersAppService _usersAppService;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole<int>> _roleManager;
 
-        public UsersManagementController(IUsersAppService usersAppService)
+        public UsersManagementController(IUsersAppService usersAppService, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<int>> roleManager)
         {
             _usersAppService = usersAppService;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         public async Task<IActionResult> Index(int id, string? search, CancellationToken cancellationToken)
@@ -26,6 +33,7 @@ namespace MarketPlace.Areas.Admin.Controllers
             return View(users);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
         {
             var roles = await _usersAppService.GetAllRoles(cancellationToken);
@@ -41,22 +49,27 @@ namespace MarketPlace.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(EditUserInputDto user, string? oldPassword, string? newPassword, CancellationToken cancellationToken)
+        public async Task<IActionResult> Edit(EditUserInputDto user, CancellationToken cancellationToken)
         {
-            if (ModelState.IsValid)
-            {
-                return View(user);
-            }
+            var userToUpdate = await _userManager.Users.FirstAsync(x => x.Id == user.Id);
 
-            await _usersAppService.Update(user, oldPassword, newPassword, cancellationToken);
+            if (userToUpdate != null)
+            {
+                userToUpdate.Email = user.Email;
+                userToUpdate.UserName = user.UserName;
+                userToUpdate.PhoneNumber = user.PhoneNumber;
+
+                await _userManager.UpdateAsync(userToUpdate);
+            }
 
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
         public async Task<IActionResult> Delete(int userId, CancellationToken cancellationToken)
         {
-            await _usersAppService.Delete(userId, cancellationToken);
+            var user = await _userManager.Users.FirstAsync(x => x.Id == userId);
+            await _userManager.DeleteAsync(user);
+
             return RedirectToAction("Index");
         }
     }

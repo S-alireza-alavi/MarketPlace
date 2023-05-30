@@ -1,0 +1,40 @@
+﻿@model List<ProductCommentOutputDto>
+
+<br />
+<br />
+
+<h4>لیست در انتظار تایید کامنت‌های محصولات</h4>
+
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>شناسه</th>
+            <th>عنوان نظر</th>
+            <th>متن نظر</th>
+            <th>شناسه کاربر</th>
+            <th>شناسه محصول</th>
+            <th>شناسه کامنت اصلی</th>
+            <th>امتیاز</th>
+            <th>تعداد لایک</th>
+            <th>تعداد دیسلایک</th>
+            <th>عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var comment in Model)
+        {
+            <tr>
+                <td>@comment.Id</td>
+                <td>@comment.Title</td>
+                <td>@comment.CommentBody</td>
+                <td>@comment.UserId</td>
+                <td>@comment.ProductId</td>
+                <td>@comment.ParentCommentId</td>
+                <td>@comment.Rate</td>
+                <td>@comment.LikeCount</td>
+                <td>@comment.DislikeCount</td>
+                <td><a asp-controller="ProductsCommentsManagement" asp-action="ConfirmComment" asp-route-commentId="@comment.Id" class="btn btn-success">تایید</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

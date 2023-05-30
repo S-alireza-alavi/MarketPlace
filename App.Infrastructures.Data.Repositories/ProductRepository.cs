@@ -64,8 +64,9 @@ namespace App.Infrastructures.Data.Repositories
                 Count = p.Count,
                 ModelId = p.ModelId,
                 Price = p.Price,
-                IsActive = p.IsActive
-            }).ToListAsync(cancellationToken);
+                IsActive = p.IsActive,
+                IsDeleted = p.IsDeleted
+            }).Where(p => p.IsActive == true && p.IsDeleted == false).ToListAsync(cancellationToken);
 
             if (string.IsNullOrEmpty(search))
             {
@@ -79,12 +80,35 @@ namespace App.Infrastructures.Data.Repositories
             }
         }
 
+        public async Task<List<ProductOutputDto>> GetAllInActiveProducts(CancellationToken cancellationToken)
+        {
+            var products = await _context.Products.Where(p => p.IsActive == false).ToListAsync(cancellationToken);
+
+            var inActiveProducts = products.Select(p => new ProductOutputDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                CategoryId = p.CategoryId,
+                BrandId = p.BrandId,
+                StoreId = p.StoreId,
+                Weight = p.Weight,
+                Description = p.Description,
+                Count = p.Count,
+                ModelId = p.ModelId,
+                Price = p.Price,
+                IsActive = p.IsActive
+            }).ToList();
+
+            return inActiveProducts;
+        }
+
         public async Task<ProductOutputDto> GetProductBy(int id, CancellationToken cancellationToken)
         {
             var product = await _context.Products.FindAsync(id);
 
             ProductOutputDto productDto = new()
             {
+                Id = product.Id,
                 Name = product.Name,
                 CategoryId = product.CategoryId,
                 BrandId = product.BrandId,

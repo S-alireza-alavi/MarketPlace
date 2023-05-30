@@ -1,5 +1,6 @@
 ﻿using App.Domain.Core.AppServices.Admins.Commands;
 using App.Domain.Core.DataAccess;
+using App.Domain.Core.DtoModels.Products;
 
 namespace App.Domain.AppService.Admins.Commands
 {
@@ -20,7 +21,20 @@ namespace App.Domain.AppService.Admins.Commands
 
             if (product != null)
             {
-                product.IsActive = true;
+                await _productRepository.UpdateProduct(new EditProductInputDto
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    CategoryId = product.CategoryId,
+                    BrandId = product.BrandId,
+                    StoreId = product.StoreId,
+                    Weight = product.Weight,
+                    Description = product.Description,
+                    Count = product.Count,
+                    ModelId = product.Id,
+                    Price = product.Price,
+                    IsActive = product.IsActive = true
+                }, cancellationToken);
 
                 isDone = true;
             }
@@ -30,6 +44,12 @@ namespace App.Domain.AppService.Admins.Commands
             }
 
             return isDone;
+        }
+
+        public Task<List<ProductOutputDto>> GetAllInActiveProducts(CancellationToken cancellationToken)
+        {
+            var inActiveProducts = _productRepository.GetAllInActiveProducts(cancellationToken);
+            return inActiveProducts;
         }
     }
 }

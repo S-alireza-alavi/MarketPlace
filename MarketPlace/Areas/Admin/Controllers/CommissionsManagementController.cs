@@ -16,9 +16,9 @@ namespace MarketPlace.Areas.Admin.Controllers
             _commissionsServiceAppService = commissionsServiceAppService;
         }
 
-        public IActionResult Index(CancellationToken cancellationToken)
+        public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            var commissions = _commissionsServiceAppService.GetCommissions(cancellationToken);
+            var commissions = await _commissionsServiceAppService.GetCommissions(cancellationToken);
             return View(commissions);
         }
     }

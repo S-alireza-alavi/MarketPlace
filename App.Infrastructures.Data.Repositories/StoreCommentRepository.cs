@@ -62,7 +62,7 @@ namespace App.Infrastructures.Data.Repositories
             return storeComments;
         }
 
-        public async Task<StoreCommentOutputDto>? GetStoreCommentBy(int id, CancellationToken cancellationToken)
+        public async Task<StoreCommentOutputDto> GetStoreCommentBy(int id, CancellationToken cancellationToken)
         {
             var storeComment = await _context.StoreComments.Where(sc => sc.Id == id).Select(sc =>
                 new StoreCommentOutputDto
@@ -80,6 +80,27 @@ namespace App.Infrastructures.Data.Repositories
                 }).FirstAsync(cancellationToken);
 
             return storeComment;
+        }
+
+        public async Task<List<StoreCommentOutputDto>> GetAllUnConfirmedStoreComments(CancellationToken cancellationToken)
+        {
+            var storeComments = await _context.StoreComments.Where(p => p.IsConfirmedByAdmin == false).ToListAsync(cancellationToken);
+
+            var unconfirmedStoreComments = storeComments.Select(sc => new StoreCommentOutputDto
+            {
+                Id = sc.Id,
+                Title = sc.Title,
+                CommentBody = sc.CommentBody,
+                UserId = sc.UserId,
+                StoreId = sc.StoreId,
+                IsConfirmedByAdmin = sc.IsConfirmedByAdmin,
+                ParentCommentId = sc.ParentCommentId,
+                Rate = sc.Rate,
+                LikeCount = sc.LikeCount,
+                DislikeCount = sc.DislikeCount
+            }).ToList();
+
+            return unconfirmedStoreComments;
         }
 
         public async Task UpdateStoreComment(EditStoreCommentInputDto storeComment, CancellationToken cancellationToken)

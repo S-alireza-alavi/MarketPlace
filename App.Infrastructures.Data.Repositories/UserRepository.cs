@@ -30,7 +30,8 @@ namespace App.Infrastructures.Data.Repositories
             {
                 Id = u.Id,
                 Email = u.Email,
-                UserName = u.UserName
+                UserName = u.UserName,
+                PhoneNumber = u.PhoneNumber
             }).ToListAsync(cancellationToken);
 
             foreach (var item in users)
@@ -71,7 +72,8 @@ namespace App.Infrastructures.Data.Repositories
             {
                 Id = user.Id,
                 Email = user.Email,
-                UserName = user.UserName
+                UserName = user.UserName,
+                PhoneNumber = user.PhoneNumber
             };
 
             var roles = await _userManager.GetRolesAsync(user);

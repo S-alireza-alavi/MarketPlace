@@ -62,7 +62,7 @@ namespace App.Infrastructures.Data.Repositories
             return productComments;
         }
 
-        public async Task<ProductCommentOutputDto>? GetProductCommentBy(int id, CancellationToken cancellationToken)
+        public async Task<ProductCommentOutputDto> GetProductCommentBy(int id, CancellationToken cancellationToken)
         {
             var productComment = await _context.ProductComments.Where(pc => pc.Id == id).Select(pc =>
                 new ProductCommentOutputDto
@@ -80,6 +80,27 @@ namespace App.Infrastructures.Data.Repositories
                 }).FirstAsync(cancellationToken);
 
             return productComment;
+        }
+
+        public async Task<List<ProductCommentOutputDto>> GetAllUnConfirmedProductComments(CancellationToken cancellationToken)
+        {
+            var productComments = await _context.ProductComments.Where(p => p.IsConfirmedByAdmin == false).ToListAsync(cancellationToken);
+
+            var unconfirmedProductComments = productComments.Select(pc => new ProductCommentOutputDto
+            {
+                Id = pc.Id,
+                Title = pc.Title,
+                CommentBody = pc.CommentBody,
+                UserId = pc.UserId,
+                ProductId = pc.ProductId,
+                IsConfirmedByAdmin = pc.IsConfirmedByAdmin,
+                ParentCommentId = pc.ParentCommentId,
+                Rate = pc.Rate,
+                LikeCount = pc.LikeCount,
+                DislikeCount = pc.DislikeCount
+            }).ToList();
+
+            return unconfirmedProductComments;
         }
 
         public async Task UpdateProductComment(EditProductCommentInputDto productComment, CancellationToken cancellationToken)

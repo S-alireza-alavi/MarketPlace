@@ -1,4 +1,9 @@
 ﻿@model UsersOutputDto
+@{
+    ViewData["Title"] = "ویرایش اطلاعات کاربر";
+}
+
+<h4>ویرایش اطلاعات @Model.UserName</h4>
 
 <form asp-area="Admin" asp-controller="UsersManagement" asp-action="Edit" method="post">
     <div class="mb-3">
@@ -8,17 +13,17 @@
     </div>
     <div class="mb-3">
         <label asp-for="Email" class="form-label"></label>
-        <input asp-for="Email" readonly class="form-control" />
+        <input asp-for="Email" class="form-control" />
         <span asp-validation-for="Email"></span>
     </div>
     <div class="mb-3">
         <label asp-for="UserName" class="form-label"></label>
-        <input asp-for="UserName" readonly class="form-control" />
+        <input asp-for="UserName" class="form-control" />
         <span asp-validation-for="UserName"></span>
     </div>
     <div class="mb-3">
         <label asp-for="PhoneNumber" class="form-label"></label>
-        <input asp-for="PhoneNumber" readonly class="form-control" />
+        <input asp-for="PhoneNumber" class="form-control" />
         <span asp-validation-for="PhoneNumber"></span>
     </div>
     <div class="mb-3">
@@ -32,7 +37,7 @@
         </select>
     </div>
 
-    <div class="mb-3">
+    @*<div class="mb-3">
         <label class="form-label">پسوورد قدیم</label>
         <input name="oldPassword" type="password" class="form-control" />
     </div>
@@ -40,7 +45,7 @@
     <div class="mb-3">
         <label class="form-label">پسوورد جدید</label>
         <input name="newPassword" type="password" class="form-control" />
-    </div>
+    </div>*@
 
     <button type="submit" class="btn btn-primary">ویرایش</button>
 </form>
