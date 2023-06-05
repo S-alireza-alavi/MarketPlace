@@ -66,10 +66,22 @@ namespace MarketPlace.Controllers
                 {
                     UserName = model.Email,
                     Email = model.Email,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    PhoneNumber = model.PhoneNumber,
+                    PhoneNumberConfirmed = true
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
+
+                if (!model.IsSeller)
+                {
+                    await _userManager.AddToRoleAsync(user, "Customer");
+                }
+
+                else if (model.IsSeller)
+                {
+                    await _userManager.AddToRoleAsync(user, "Seller");
+                }
 
                 if (result.Succeeded)
                 {

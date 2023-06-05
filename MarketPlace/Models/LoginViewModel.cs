@@ -7,12 +7,12 @@ namespace MarketPlace.Models
         [Required]
         [EmailAddress]
         [Display(Name = "ایمیل")]
-        public string Email { get; set; }
+        public string Email { get; set; } = null!;
 
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "کلمه عبور")]
-        public string Password { get; set; }
+        public string Password { get; set; } = null!;
 
         [Display(Name = "مرا به خاطر بسپار")]
         public bool RememberMe { get; set; }
