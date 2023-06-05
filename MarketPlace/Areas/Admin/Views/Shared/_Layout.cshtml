@@ -1,42 +1,101 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@using App.Domain.Core.Entities;
+@using Microsoft.AspNetCore.Identity;
+
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - پنل ادمین</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Marketplace.styles.css" asp-append-version="true" />
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MarketPlace</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial"></partial>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <title>@ViewData["Title"] پنل ادمین </title>
+    <link rel="stylesheet" href="~/dist/bootstrap/css/bootstrap.min.css" />
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/dist/css/style.css">
+    <link rel="stylesheet" href="~/dist/css/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/dist/css/et-line-font/et-line-font.css">
+    <link rel="stylesheet" href="~/dist/css/themify-icons/themify-icons.css">
+    <!-- Chartist CSS -->
+    <link rel="stylesheet" href="~/dist/plugins/chartist-js/chartist.min.css">
+    <link rel="stylesheet" href="~/dist/plugins/chartist-js/chartist-plugin-tooltip.css">
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - MarketPlace - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    @*<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Marketplace.styles.css" asp-append-version="true" />*@
+</head>
+
+@inject UserManager<ApplicationUser> UserManager
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper boxed-wrapper">
+        <header class="main-header">
+            <nav class="navbar blue-bg navbar-static-top">
+                <!-- Sidebar toggle button-->
+                <ul class="nav navbar-nav pull-left">
+                    <li><a class="sidebar-toggle" data-toggle="push-menu" href=""></a> </li>
+                </ul>
+                <div class="pull-right search-box">
+                    <form action="#" method="get" class="search-form">
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i> </button>
+                            </span><input name="search" class="form-control" placeholder="جستجو..." type="text">
+                        </div>
+                    </form>
+                    <!-- search form -->
+                </div>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- User Account: style can be found in dropdown.less -->
+                        <li class="dropdown user user-menu p-ph-res">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="hidden-xs">@UserManager.GetUserName(User)</span> </a>
+                            <ul class="dropdown-menu">
+                                <li><a asp-area="" asp-controller="Account" asp-action="Logout"><i class="fa fa-power-off"></i> Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        
+        <partial name="_AdminSidebar"></partial>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header sty-one">
+                <h1>داشبورد</h1>
+            </div>
+
+            <!-- Main content -->
+            <div class="content">
+                <span>
+                    @RenderBody()
+                </span>
+            </div>
         </div>
-    </footer>
+    </div>
+    <!-- ./wrapper -->
+    <!-- jQuery 3 -->
+    <script src="~/dist/js/jquery.min.js"></script>
+
+    <!-- v4.0.0-alpha.6 -->
+    <script src="~/dist/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- template -->
+    <script src="~/dist/js/niche.js"></script>
+
+    <!-- Chartjs JavaScript -->
+    <script src="~/dist/plugins/chartjs/chart.min.js"></script>
+    <script src="~/dist/plugins/chartjs/chart-int.js"></script>
+
+    <!-- Chartist JavaScript -->
+    <script src="~/dist/plugins/chartist-js/chartist.min.js"></script>
+    <script src="~/dist/plugins/chartist-js/chartist-plugin-tooltip.js"></script>
+    <script src="~/dist/plugins/functions/chartist-init.js"></script>
+
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>

@@ -1,0 +1,23 @@
+﻿<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <div class="sidebar">
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="header">PERSONAL</li>
+            <li class="active treeview">
+                <a href="#"> <i class="fa fa-dashboard"></i> <span>داشبورد</span> <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i> </span> </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a asp-area="Admin" asp-controller="UsersManagement" asp-action="Index">مدیریت کاربران</a></li>
+                    <li><a asp-area="Admin" asp-controller="StoresManagement" asp-action="Index">مدریت غرفه‌ها</a></li>
+                    <li><a asp-area="Admin" asp-controller="ProductsManagement" asp-action="Index">مدیریت محصولات</a></li>
+                    <li><a asp-area="Admin" asp-controller="ProductsCommentsManagement" asp-action="Index">مدیریت نظرات محصولات</a></li>
+                    <li><a asp-area="Admin" asp-controller="StoresCommentsManagement" asp-action="Index">مدیریت نظرات غرفه‌ها</a></li>
+                    <li><a asp-area="Admin" asp-controller="CommissionsManagement" asp-action="Index">لیست کارمزدها</a></li>
+                </ul>
+            </li>
+
+        </ul>
+    </div>
+    <!-- /.sidebar -->
+</aside>

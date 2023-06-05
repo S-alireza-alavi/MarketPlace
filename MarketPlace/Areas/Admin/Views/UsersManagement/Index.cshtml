@@ -1,11 +1,20 @@
 ﻿@model List<UsersOutputDto>
+
+<h3 style="float:right;">لیست اعضا</h3>
+<div style="float:left;">
+    <a class="btn btn-success" asp-controller="UsersManagement" asp-action="Create">
+        افزودن کاربر جدید
+    </a>
+</div>
 <br />
 <br />
 
-<form class="d-none d-md-flex ms-4" asp-area="Admin" asp-controller="UsersManagement" asp-action="Index">
-    <input value="@ViewBag.Search" class="form-control" type="search" placeholder="جستجوی کاربر" name="search" />
-    <input class="btn btn-primary" type="submit" value="جستجو" />
-</form>
+<div>
+    <form class="d-none d-md-flex ms-4" asp-area="Admin" asp-controller="UsersManagement" asp-action="Index">
+        <input value="@ViewBag.Search" class="form-control m-1" type="search" placeholder="جستجوی کاربر" name="search" />
+        <input class="btn btn-primary m-1" type="submit" value="جستجو" />
+    </form>
+</div>
 <br />
 
 <table class="table table-hover table-striped table-bordered">
@@ -40,7 +49,34 @@
                 </td>
                 <td>
                     <a asp-area="Admin" asp-controller="UsersManagement" asp-action="Edit" asp-route-id="@user.Id" class="btn btn-warning">ویرایش</a>
-                    <a asp-area="Admin" asp-controller="UsersManagement" asp-action="Delete" asp-route-userId="@user.Id" class="btn btn-danger">حذف</a>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#@randomId">
+                        حذف
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="@randomId" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">
+                                        حذف کاربر<span class="badge badge-success mr-2">
+                                            @user.UserName
+                                        </span>
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+                                </div>
+                                <div class="modal-body">
+                                    شما در حال حذف کاربر <strong class="text-primary">@user.UserName</strong> هستید، از حذف این کاربر اطمینان دارید؟
+                                </div>
+                                <div class="modal-footer">
+                                    <button style="cursor:pointer" type="button" class="btn btn-primary" data-bs-dismiss="modal">انصراف</button>
+                                    <form asp-area="Admin" asp-controller="UsersManagement" asp-action="Delete" method="post">
+                                        <input style="display:none" name="userId" value="@user.Id" />
+                                        <button style="cursor:pointer" type="submit" class="btn btn-danger m-2">حذف</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </td>
             </tr>
         }
