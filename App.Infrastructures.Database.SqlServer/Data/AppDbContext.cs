@@ -245,7 +245,7 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityR
         {
             entity.HasIndex(e => e.ProductId, "IX_ProductPhotos_ProductId");
 
-            entity.Property(e => e.Name).HasMaxLength(50);
+            entity.Property(e => e.FileName).HasMaxLength(50);
 
             entity.HasOne(d => d.Product).WithMany(p => p.ProductPhotos)
                 .HasForeignKey(d => d.ProductId)
