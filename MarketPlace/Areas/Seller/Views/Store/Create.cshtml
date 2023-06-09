@@ -1,0 +1,32 @@
+﻿@model AddStoreWithStoreAddressViewModel
+
+@{
+    ViewData["Title"] = "ساخت غرفه جدید";
+}
+
+<h2>ساخت غرفه</h2>
+
+<form method="post" asp-area="Seller" asp-controller="Store" asp-action="Create">
+    <h4>اطلاعات غرفه</h4>
+
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="FullAddress"></label>
+        <textarea asp-for="FullAddress" class="form-control"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">ساخت غرفه</button>
+</form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

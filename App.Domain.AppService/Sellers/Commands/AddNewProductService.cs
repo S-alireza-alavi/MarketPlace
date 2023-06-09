@@ -4,7 +4,7 @@ using App.Domain.Core.DtoModels.Products;
 
 namespace App.Domain.AppService.Sellers.Commands
 {
-    public class AddNewProductServiceAppService : IAddNewProductServiceAppService
+    public class AddNewProductService : IAddNewProductService
     {
         public Task<ProductOutputDto> AddNewProduct(AddProductInputDto product, AddProductPhotoInputDto photo, CancellationToken cancellationToken)
         {

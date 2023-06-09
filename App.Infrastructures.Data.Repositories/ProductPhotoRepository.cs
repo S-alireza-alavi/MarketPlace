@@ -19,7 +19,8 @@ namespace App.Infrastructures.Data.Repositories
         {
             await _context.ProductPhotos.AddAsync(new ProductPhoto
             {
-                Name = productPhoto.Name,
+                FileName = productPhoto.FileName,
+                FilePath = productPhoto.FilePath,
                 ProductId = productPhoto.ProductId
             });
 
@@ -39,7 +40,8 @@ namespace App.Infrastructures.Data.Repositories
         {
             var productPhotos = await _context.ProductPhotos.Select(pp => new ProductPhotoOutputDto
             {
-                Name = pp.Name,
+                FileName = pp.FileName,
+                FilePath = pp.FilePath,
                 ProductId = pp.ProductId
             }).ToListAsync(cancellationToken);
 
@@ -51,7 +53,8 @@ namespace App.Infrastructures.Data.Repositories
             var productPhoto = await _context.ProductPhotos.Where(pp => pp.Id == id).Select(pp =>
                 new ProductPhotoOutputDto
                 {
-                    Name = pp.Name,
+                    FileName = pp.FileName,
+                    FilePath = pp.FilePath,
                     ProductId = pp.ProductId
                 }).FirstAsync(cancellationToken);
 
@@ -63,7 +66,8 @@ namespace App.Infrastructures.Data.Repositories
             var productPhotoToUpdate = await _context.ProductPhotos.Where(pp => pp.Id == productPhoto.Id)
                 .FirstOrDefaultAsync(cancellationToken);
 
-            productPhotoToUpdate.Name = productPhoto.Name;
+            productPhotoToUpdate.FileName = productPhoto.FileName;
+            productPhotoToUpdate.FilePath = productPhoto.FilePath;
             productPhotoToUpdate.ProductId = productPhoto.ProductId;
 
             await _context.SaveChangesAsync(cancellationToken);

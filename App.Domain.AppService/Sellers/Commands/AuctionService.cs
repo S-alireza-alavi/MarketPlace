@@ -4,7 +4,7 @@ using App.Domain.Core.DtoModels.Bids;
 
 namespace App.Domain.AppService.Sellers.Commands
 {
-    public class AuctionServiceAppService : IAuctionServiceAppService
+    public class AuctionService : IAuctionService
     {
         public Task<BidOutputDto> CalculateHighestBidAmount(int auctionId, CancellationToken cancellationToken)
         {

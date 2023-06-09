@@ -34,6 +34,15 @@ namespace MarketPlace.Controllers
 
                 if (result.Succeeded)
                 {
+                    var user = await _userManager.FindByEmailAsync(model.Email);
+                    var roles = await _userManager.GetRolesAsync(user);
+
+                    if (roles.Contains("Seller"))
+                    {
+                        // Redirect to the Seller panel
+                        return RedirectToAction("Index", "Home", new { area = "Seller" });
+                    }
+
                     return LocalRedirect("~/");
                 }
 

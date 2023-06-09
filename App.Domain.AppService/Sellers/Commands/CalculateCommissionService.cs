@@ -4,7 +4,7 @@ using MarketPlace.Entities;
 
 namespace App.Domain.AppService.Sellers.Commands
 {
-    public class CalculateCommissionServiceAppService : ICalculateCommissionServiceAppService
+    public class CalculateCommissionService : ICalculateCommissionService
     {
         public Task<CommissionOutputDto> CalculateCommission(Order order, CancellationToken cancellationToken)
         {

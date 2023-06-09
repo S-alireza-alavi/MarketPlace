@@ -1,0 +1,24 @@
+﻿@model ProfileViewModel
+
+<h2>ویرایش پروفایل</h2>
+
+<form method="post" asp-controller="Profile" asp-action="SaveProfile">
+    <input type="hidden" name="sellerId" value="@Model.SellerId"/>
+
+    <div class="form-group">
+        <label asp-for="UserName"></label>
+        <input asp-for="UserName" class="form-controll"/>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-controll" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PhoneNumber"></label>
+        <input asp-for="PhoneNumber" class="form-controll" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>

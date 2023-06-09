@@ -3,7 +3,7 @@ using MarketPlace.Entities;
 
 namespace App.Domain.Core.AppServices.Sellers.Commands
 {
-    public interface ICalculateCommissionServiceAppService
+    public interface ICalculateCommissionService
     {
         Task<bool> CheckIfSellerHasMedal(int sellerId, CancellationToken cancellationToken);
         Task<CommissionOutputDto> CalculateCommission(Order order, CancellationToken cancellationToken);

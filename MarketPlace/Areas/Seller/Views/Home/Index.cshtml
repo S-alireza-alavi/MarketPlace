@@ -1,0 +1,20 @@
+﻿@if (TempData["AlertMessage"] != null)
+{
+    <div class="alert alert-info">
+        @TempData["AlertMessage"]
+    </div>
+}
+
+<h3 style="float:right;">پنل فروشنده</h3>
+
+<div style="float:left;">
+    <a class="btn btn-success" asp-controller="Store" asp-action="Create">
+        ساخت غرفه
+    </a>
+    <a class="btn btn-warning" asp-controller="Profile" asp-action="EditProfile">
+        به‌روزرسانی پروفایل
+    </a>
+</div>
+
+<br />
+<br />

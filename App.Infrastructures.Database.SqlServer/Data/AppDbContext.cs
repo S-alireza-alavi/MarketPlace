@@ -272,8 +272,6 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityR
 
         modelBuilder.Entity<Store>(entity =>
         {
-            entity.HasIndex(e => e.AddressId, "IX_Stores_AddressId");
-
             entity.HasIndex(e => e.SellerId, "IX_Stores_SellerId");
 
             entity.Property(e => e.Id).ValueGeneratedOnAdd();

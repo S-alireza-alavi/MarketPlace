@@ -77,25 +77,43 @@ namespace MarketPlace.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(AddProductInputDto product, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create(AddProductInputDto input, List<IFormFile> photos, CancellationToken cancellationToken)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var item = new Product
+                    var product = new Product
                     {
-                        Name = product.Name,
-                        CategoryId = product.CategoryId,
-                        BrandId = product.BrandId,
-                        StoreId = product.StoreId,
-                        Weight = product.Weight,
-                        Description = product.Description,
-                        Count = product.Count,
-                        ModelId = product.ModelId,
-                        Price = product.Price,
-                        IsActive = product.IsActive
+                        Name = input.Name,
+                        CategoryId = input.CategoryId,
+                        BrandId = input.BrandId,
+                        StoreId = input.StoreId,
+                        Weight = input.Weight,
+                        Description = input.Description,
+                        Count = input.Count,
+                        ModelId = input.ModelId,
+                        Price = input.Price,
+                        ProductPhotos = new List<ProductPhoto>(),
+                        IsActive = input.IsActive
                     };
+
+                    foreach (var photo in photos)
+                    {
+                        var fileName = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName);
+                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "product-photos", fileName);
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await photo.CopyToAsync(stream);
+                        }
+
+                        product.ProductPhotos.Add(new ProductPhoto
+                        {
+                            FileName = fileName,
+                            FilePath = filePath
+                        });
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -106,7 +124,7 @@ namespace MarketPlace.Areas.Admin.Controllers
             }
             else
             {
-                return View(product);
+                return View(input);
             }
         }
 

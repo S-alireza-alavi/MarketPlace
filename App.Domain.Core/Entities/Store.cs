@@ -12,8 +12,6 @@ public partial class Store
 
     public string Description { get; set; } = null!;
 
-    public int AddressId { get; set; }
-
     public DateTime? CreatedAt { get; set; }
 
     public bool IsDeleted { get; set; }

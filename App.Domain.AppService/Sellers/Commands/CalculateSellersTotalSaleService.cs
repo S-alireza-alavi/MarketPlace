@@ -2,7 +2,7 @@
 
 namespace App.Domain.AppService.Sellers.Commands
 {
-    public class CalculateSellersTotalSaleServiceAppService : ICalculateSellersTotalSaleServiceAppService
+    public class CalculateSellersTotalSaleService : ICalculateSellersTotalSaleService
     {
         public Task<int> CalculateSellersTotalSale(int sellerId, CancellationToken cancellationToken)
         {
