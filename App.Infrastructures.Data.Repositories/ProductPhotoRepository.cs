@@ -17,13 +17,15 @@ namespace App.Infrastructures.Data.Repositories
 
         public async Task CreateProductPhoto(AddProductPhotoInputDto productPhoto, CancellationToken cancellationToken)
         {
-            await _context.ProductPhotos.AddAsync(new ProductPhoto
+            var photo = new ProductPhoto
             {
                 FileName = productPhoto.FileName,
                 FilePath = productPhoto.FilePath,
-                ProductId = productPhoto.ProductId
-            });
-
+                ProductId = productPhoto.ProductId,
+                IsDeleted = false
+            };
+            
+            await _context.ProductPhotos.AddAsync(photo);
             await _context.SaveChangesAsync(cancellationToken);
         }
 

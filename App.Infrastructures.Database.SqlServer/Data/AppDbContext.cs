@@ -217,7 +217,7 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityR
             .HasForeignKey(d => d.ProductCategoryId).
             OnDelete(DeleteBehavior.ClientSetNull)
             .HasConstraintName("FK_ProductCategoryPhotos_ProductCategories");
-            entity.Property(e => e.Name).HasMaxLength(50);
+            entity.Property(e => e.FileName).HasMaxLength(50);
         });
 
         modelBuilder.Entity<ProductComment>(entity =>

@@ -5,6 +5,6 @@ namespace App.Domain.Core.AppServices.Sellers.Commands
 {
     public interface IAddNewProductService
     {
-        Task<ProductOutputDto> AddNewProduct(AddProductInputDto product, AddProductPhotoInputDto photo, CancellationToken cancellationToken);
+        Task<int> AddNewProduct(AddProductInputDto product, CancellationToken cancellationToken);
     }
 }

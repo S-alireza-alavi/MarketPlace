@@ -15,23 +15,26 @@ namespace App.Infrastructures.Data.Repositories
             _context = context;
         }
 
-        public async Task CreateProduct(AddProductInputDto product, CancellationToken cancellationToken)
+        public async Task<int> CreateProduct(AddProductInputDto inputDto, CancellationToken cancellationToken)
         {
-            await _context.Products.AddAsync(new Product
+            var product = new Product
             {
-                Name = product.Name,
-                CategoryId = product.CategoryId,
-                BrandId = product.BrandId,
-                StoreId = product.StoreId,
-                Weight = product.Weight,
-                Description = product.Description,
-                Count = product.Count,
-                ModelId = product.ModelId,
-                Price = product.Price,
+                Name = inputDto.Name,
+                CategoryId = inputDto.CategoryId,
+                BrandId = inputDto.BrandId,
+                StoreId = inputDto.StoreId,
+                Weight = inputDto.Weight,
+                Description = inputDto.Description,
+                Count = inputDto.Count,
+                ModelId = inputDto.ModelId,
+                Price = inputDto.Price,
                 IsActive = true
-            });
+            };
 
+            await _context.Products.AddAsync(product);
             await _context.SaveChangesAsync(cancellationToken);
+
+            return product.Id;
         }
 
         public async Task DeleteProduct(int id, CancellationToken cancellationToken)

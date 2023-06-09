@@ -6,7 +6,7 @@ namespace App.Domain.Core.DataAccess
     {
         Task<List<AuctionOutputDto>> GetAllAuctions(CancellationToken cancellationToken);
         Task<AuctionOutputDto>? GetAuctionBy(int id, CancellationToken cancellationToken);
-        Task CreateAuction(AddAuctionInputDto auction, CancellationToken cancellationToken);
+        Task<int> CreateAuction(AddAuctionInputDto inputDto, CancellationToken cancellationToken);
         Task UpdateAuction(EditAuctionInputDto auction, CancellationToken cancellationToken);
         Task DeleteAuction(int id, CancellationToken cancellationToken);
     }
