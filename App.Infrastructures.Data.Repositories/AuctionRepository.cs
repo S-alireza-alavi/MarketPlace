@@ -15,20 +15,23 @@ namespace App.Infrastructures.Data.Repositories
             _context = context;
         }
 
-        public async Task CreateAuction(AddAuctionInputDto auction, CancellationToken cancellationToken)
+        public async Task<int> CreateAuction(AddAuctionInputDto inputDto, CancellationToken cancellationToken)
         {
-            await _context.Auctions.AddAsync(new Auction
+            var auction = new Auction
             {
-                StoreId = auction.StoreId,
-                SellerId = auction.SellerId,
-                StartTime = auction.StartTime,
-                EndTime = auction.EndTime,
-                MinimumPrice = auction.MinimumPrice,
-                IsRunning = auction.IsRunning,
-                ProductId = auction.ProductId
-            });
+                StoreId = inputDto.StoreId,
+                SellerId = inputDto.SellerId,
+                StartTime = inputDto.StartTime,
+                EndTime = inputDto.EndTime,
+                MinimumPrice = inputDto.MinimumPrice,
+                IsRunning = inputDto.IsRunning,
+                ProductId = inputDto.ProductId
+            };
 
+            await _context.Auctions.AddAsync(auction);
             await _context.SaveChangesAsync(cancellationToken);
+
+            return auction.Id;
         }
 
         public async Task DeleteAuction(int id, CancellationToken cancellationToken)

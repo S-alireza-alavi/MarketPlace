@@ -70,6 +70,12 @@ namespace MarketPlace
             builder.Services.AddScoped<IAddNewStoreService, AddNewStoreService>();
             builder.Services.AddScoped<IGetAllStoresBySellerId, GetAllStoresBySellerId>();
             builder.Services.AddScoped<IAddNewStoreAddressService, AddNewStoreAddressService>();
+            builder.Services.AddScoped<IProductPhotoRepository, ProductPhotoRepository>();
+            builder.Services.AddScoped<IAddNewProductService, AddNewProductService>();
+            builder.Services.AddScoped<IAddProductPhotoService, AddProductPhotoService>();
+            builder.Services.AddScoped<IGetStoreProductsService, GetStoreProductsService>();
+            builder.Services.AddScoped<ICreateAuctionService, CreateAuctionService>();
+            builder.Services.AddScoped<IAuctionRepository, AuctionRepository>();
 
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();

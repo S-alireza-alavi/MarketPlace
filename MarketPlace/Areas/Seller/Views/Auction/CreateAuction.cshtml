@@ -1,0 +1,30 @@
+﻿@model CreateAuctionViewModel
+@using Framework.Utilities
+
+<form method="post" action="@Url.Action("CreateAuction", "Auction")">
+
+    <div class="form-group">
+        <label asp-for="StartTime"></label>
+        <input asp-for="StartTime" class="form-control" />
+        <span asp-validation-for="StartTime" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="EndTime"></label>
+        <input asp-for="EndTime" class="form-control" />
+        <span asp-validation-for="EndTime" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="MinimumPrice"></label>
+        <input asp-for="MinimumPrice" class="form-control" />
+        <span asp-validation-for="MinimumPrice" class="text-danger"></span>
+    </div>
+
+    <input type="hidden" name="StoreId" value="@Model.StoreId" />
+    <input type="hidden" name="ProductId" value="@Model.ProductId" />
+    <input type="hidden" name="SellerId" value="@Model.SellerId" />
+
+    <button type="submit" class="btn btn-secondary">ایجاد مزایده</button>
+
+</form>

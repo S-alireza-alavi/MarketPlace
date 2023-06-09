@@ -1,0 +1,84 @@
+﻿@model List<ProductOutputDto>
+
+<form class="d-none d-md-flex ms-4" asp-area="Seller" asp-controller="Products" asp-action="StoreProducts">
+    <input value="@ViewBag.Search" class="form-control" type="search" placeholder="جستجوی محصول" name="search" />
+    <input class="btn btn-primary" type="submit" value="جستجو" />
+</form>
+<br />
+
+@*<a asp-area="Admin" asp-controller="ProductsManagement" asp-action="Create" class="btn btn-success">افزودن</a>*@
+
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>شناسه</th>
+            <th>نام محصول</th>
+            <th>دسته‌بندی</th>
+            <th>برند</th>
+            <th>غرفه مربوط</th>
+            <th>وزن</th>
+            <th>توضیحات</th>
+            <th>تعداد</th>
+            <th>شناسه مدل</th>
+            <th>قیمت</th>
+            <th>وضعیت</th>
+            <th>عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            Random random = new();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            var randomId = new string(Enumerable.Repeat(chars, 8)
+            .Select(s => s[random.Next(s.Length)]).ToArray());
+
+            <tr>
+                <td>@product.Id</td>
+                <td>@product.Name</td>
+                <td>@product.CategoryId</td>
+                <td>@product.BrandId</td>
+                <td>@product.StoreId</td>
+                <td>@product.Weight</td>
+                <td>@product.Description</td>
+                <td>@product.Count</td>
+                <td>@product.ModelId</td>
+                <td>@product.Price</td>
+                <td>@product.IsActive</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a href="@Url.Action("CreateAuction", "Auction", new {storeId = product.StoreId, productId = product.Id})" class="btn btn-success">ایجاد مزایده</a>
+                        @*<a asp-area="Admin" asp-controller="ProductsManagement" asp-action="Edit" asp-route-id="@product.Id" class="btn btn-warning">ویرایش</a>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#@randomId">
+                    حذف
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="@randomId" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                    حذف محصول<span class="badge badge-success mr-2">
+                    @product.Name
+                    </span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+                    </div>
+                    <div class="modal-body">
+                    شما در حال حذف محصول <strong class="text-primary">@product.Name</strong> هستید، از حذف این محصول اطمینان دارید؟
+                    </div>
+                    <div class="modal-footer">
+                    <button style="cursor:pointer" type="button" class="btn btn-primary" data-bs-dismiss="modal">انصراف</button>
+                    <form asp-area="Admin" asp-controller="ProductsManagement" asp-action="Delete" method="post">
+                    <input style="display:none" name="userId" value="@product.Id" />
+                    <button style="cursor:pointer" type="submit" class="btn btn-danger m-2">حذف</button>
+                    </form>
+                    </div>
+                    </div>
+                    </div>
+                    </div>*@
+                    </div>
+            </tr>
+        }
+    </tbody>
+</table>

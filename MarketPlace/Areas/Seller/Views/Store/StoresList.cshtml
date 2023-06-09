@@ -1,0 +1,24 @@
+﻿@model List<StoreOutputDto>
+
+<h2>لیست غرفه‌های من</h2>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>نام غرفه</th>
+            <th>عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var store in Model)
+        {
+            <tr>
+                <td>@store.Name</td>
+                <td>
+                    <a href="@Url.Action("StoreProducts","Products",new {storeId = store.Id})" class="btn btn-success">مدیریت محصولات غرفه</a>
+                    <a href="@Url.Action("CreateProduct","Store",new {storeId = store.Id})" class="btn btn-success">افزودن محصول</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

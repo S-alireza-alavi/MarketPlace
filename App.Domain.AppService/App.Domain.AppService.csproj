@@ -16,8 +16,4 @@
 		<ProjectReference Include="..\App.Infrastructures.Database.SqlServer\App.Infrastructures.Database.SqlServer.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Sellers\Queries\" />
-	</ItemGroup>
-
 </Project>

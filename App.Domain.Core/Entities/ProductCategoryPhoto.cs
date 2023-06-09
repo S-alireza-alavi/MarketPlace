@@ -6,9 +6,11 @@ namespace App.Domain.Core.Entities
     {
         public int Id { get; set; }
 
-        public int ProductCategoryId { get; set; }
+        public string FileName { get; set; } = null!;
 
-        public string Name { get; set; } = null!;
+        public string FilePath { get; set; } = null!;
+
+        public int ProductCategoryId { get; set; }
 
         public bool IsDeleted { get; set; }
 

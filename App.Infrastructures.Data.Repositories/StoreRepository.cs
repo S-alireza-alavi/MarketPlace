@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.DataAccess;
+using App.Domain.Core.DtoModels.Products;
 using App.Domain.Core.DtoModels.Stores;
 using App.Domain.Core.DtoModels.Users;
 using MarketPlace.Database;
@@ -143,6 +144,29 @@ namespace App.Infrastructures.Data.Repositories
             storeToUpdate.CreatedAt = store.CreatedAt;
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<ProductOutputDto>> GetStoreProducts(int storeId, CancellationToken cancellationToken)
+        {
+            var products = await _context.Products.Where(p => p.StoreId == storeId)
+                .Select(p => new ProductOutputDto
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    CategoryId = p.CategoryId,
+                    BrandId = p.BrandId,
+                    StoreId = p.StoreId,
+                    Weight = p.Weight,
+                    Description = p.Description,
+                    Count = p.Count,
+                    ModelId = p.ModelId,
+                    Price = p.Price,
+                    IsActive = p.IsActive,
+                    IsDeleted = p.IsDeleted
+                })
+                .ToListAsync(cancellationToken);
+
+            return products;
         }
     }
 }
