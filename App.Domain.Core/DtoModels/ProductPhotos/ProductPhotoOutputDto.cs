@@ -6,7 +6,9 @@ namespace App.Domain.Core.DtoModels.ProductPhotos
     {
         public int Id { get; set; }
 
-        public string Name { get; set; } = null!;
+        public string FileName { get; set; } = null!;
+
+        public string FilePath { get; set; } = null!;
 
         public int ProductId { get; set; }
     }

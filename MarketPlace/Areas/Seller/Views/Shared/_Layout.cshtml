@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] پنل ادمین </title>
+    <title>@ViewData["Title"] پنل فروشنده </title>
     <link rel="stylesheet" href="~/dist/bootstrap/css/bootstrap.min.css" />
     <!-- Theme style -->
     <link rel="stylesheet" href="~/dist/css/style.css">
@@ -28,16 +28,6 @@
                 <ul class="nav navbar-nav pull-left">
                     <li><a class="sidebar-toggle" data-toggle="push-menu" href=""></a> </li>
                 </ul>
-                <div class="pull-right search-box">
-                    <form action="#" method="get" class="search-form">
-                        <div class="input-group">
-                            <span class="input-group-btn">
-                                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i> </button>
-                            </span><input name="search" class="form-control" placeholder="جستجو..." type="text">
-                        </div>
-                    </form>
-                    <!-- search form -->
-                </div>
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
                         <!-- User Account: style can be found in dropdown.less -->
@@ -51,16 +41,15 @@
                 </div>
             </nav>
         </header>
-        
-        <partial name="_AdminSidebar"></partial>
+
+        <partial name="_SellerSidebar"></partial>
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <div class="content-header sty-one">
-                <h1>داشبورد</h1>
+                <h1>پنل فروشنده</h1>
             </div>
-
             <!-- Main content -->
             <div class="content">
                 <span>

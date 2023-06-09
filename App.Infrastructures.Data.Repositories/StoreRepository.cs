@@ -17,18 +17,20 @@ namespace App.Infrastructures.Data.Repositories
             _context = context;
         }
 
-        public async Task CreateStore(AddStoreInputDto store)
+        public async Task<int> CreateStore(AddStoreInputDto inputDto, CancellationToken cancellationToken)
         {
-            await _context.Stores.AddAsync(new Store
+            var store = new Store
             {
-                Name = store.Name,
-                SellerId = store.SellerId,
-                Description = store.Description,
-                AddressId = store.AddressId,
+                Name = inputDto.Name,
+                SellerId = inputDto.SellerId,
+                Description = inputDto.Description,
                 CreatedAt = DateTime.Now
-            });
+            };
 
-            await _context.SaveChangesAsync();
+            await _context.Stores.AddAsync(store, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return store.Id;
         }
 
         public async Task DeleteStore(int id)
@@ -55,14 +57,13 @@ namespace App.Infrastructures.Data.Repositories
             return count;
         }
 
-        public Task<List<StoreOutputDto>> GetAllStores()
+        public async Task<List<StoreOutputDto>> GetAllStores()
         {
-            var stores = _context.Stores.Select(s => new StoreOutputDto
+            var stores = await _context.Stores.Select(s => new StoreOutputDto
             {
                 Id = s.Id,
                 Name = s.Name,
                 Description = s.Description,
-                AddressId = s.AddressId,
                 CreatedAt = s.CreatedAt
             }).ToListAsync();
 
@@ -79,7 +80,6 @@ namespace App.Infrastructures.Data.Repositories
                 Name = s.Name,
                 SellerUserName = s.Seller.UserName,
                 Description = s.Description,
-                AddressId = s.AddressId,
                 CreatedAt = s.CreatedAt
             }).ToList();
 
@@ -110,12 +110,26 @@ namespace App.Infrastructures.Data.Repositories
                 Name = store.Name,
                 SellerId = store.SellerId,
                 Description = store.Description,
-                AddressId = store.AddressId,
                 CreatedAt = store.CreatedAt,
                 Seller = store.Seller
             };
 
             return storeDto;
+        }
+
+        public async Task<List<StoreOutputDto>> GetAllStoresBySellerId(int sellerId, CancellationToken cancellationToken)
+        {
+            var sellerStores = await _context.Stores.Where(s => s.SellerId == sellerId).ToListAsync(cancellationToken);
+
+            var outputDto = sellerStores.Select(s => new StoreOutputDto
+            {
+                Id = s.Id,
+                Name = s.Name,
+                Description = s.Description,
+                CreatedAt = s.CreatedAt
+            }).ToList();
+
+            return outputDto;
         }
 
         public async Task UpdateStore(EditStoreInputDto store)
@@ -126,7 +140,6 @@ namespace App.Infrastructures.Data.Repositories
             storeToUpdate.Name = store.Name;
             storeToUpdate.SellerId = store.SellerId;
             storeToUpdate.Description = store.Description;
-            storeToUpdate.AddressId = store.AddressId;
             storeToUpdate.CreatedAt = store.CreatedAt;
 
             await _context.SaveChangesAsync();

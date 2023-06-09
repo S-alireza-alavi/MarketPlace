@@ -2,7 +2,7 @@
 
 namespace App.Domain.Core.AppServices.Sellers.Commands
 {
-    public interface IRegisterAuctionServiceAppService
+    public interface IRegisterAuctionService
     {
         public Task<AuctionOutputDto> RegisterAuction(AddAuctionInputDto auction, CancellationToken cancellationToken);
     }

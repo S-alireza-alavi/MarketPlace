@@ -4,9 +4,13 @@ using App.Domain.AppService;
 using App.Domain.AppService.Admins.Commands;
 using App.Domain.AppService.Admins.Queries;
 using App.Domain.AppService.Customers.Queries;
+using App.Domain.AppService.Sellers.Commands;
+using App.Domain.AppService.Sellers.Queries;
 using App.Domain.Core.AppServices;
 using App.Domain.Core.AppServices.Admins.Commands;
 using App.Domain.Core.AppServices.Admins.Queries;
+using App.Domain.Core.AppServices.Sellers.Commands;
+using App.Domain.Core.AppServices.Sellers.Queries;
 using App.Domain.Core.DataAccess;
 using App.Domain.Core.Entities;
 using App.Infrastructures.Data.Repositories;
@@ -62,6 +66,10 @@ namespace MarketPlace
             builder.Services.AddScoped<IProductCommentRepository, ProductCommentRepository>();
             builder.Services.AddScoped<IStoreCommentRepository, StoreCommentRepository>();
             builder.Services.AddScoped<IConfirmCustomersCommentServiceAppService, ConfirmCustomersCommentServiceAppService>();
+            builder.Services.AddScoped<IStoreAddressRepository, StoreAddressRepository>();
+            builder.Services.AddScoped<IAddNewStoreService, AddNewStoreService>();
+            builder.Services.AddScoped<IGetAllStoresBySellerId, GetAllStoresBySellerId>();
+            builder.Services.AddScoped<IAddNewStoreAddressService, AddNewStoreAddressService>();
 
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
@@ -93,6 +101,12 @@ namespace MarketPlace
               name: "areas",
               areaName: "Admin",
               pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
+
+            app.MapAreaControllerRoute(
+                name: "areas",
+                areaName: "Seller",
+                pattern: "Seller/{controller=Home}/{action=Index}/{id?}"
+                );
 
             app.MapControllerRoute(
                 name: "default",
