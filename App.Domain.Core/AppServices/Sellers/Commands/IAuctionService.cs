@@ -5,9 +5,9 @@ namespace App.Domain.Core.AppServices.Sellers.Commands
 {
     public interface IAuctionService
     {
-        public Task<bool> CheckIfAuctionTimeHasPassed(int auctionId, CancellationToken cancellationToken);
-        public Task<AuctionOutputDto> DeactivateAuction(int auctionId, CancellationToken cancellationToken);
-        public Task<BidOutputDto> CalculateHighestBidAmount(int auctionId, CancellationToken cancellationToken);
-        public Task<AuctionOutputDto> SellToHighestBidAmount(int auctionId, CancellationToken cancellationToken);
+        Task CheckAndUpdateIsRunning(int? storeId,CancellationToken cancellationToken);
+        Task<AuctionOutputDto> DeactivateAuction(int auctionId, CancellationToken cancellationToken);
+        Task<BidOutputDto> CalculateHighestBidAmount(int auctionId, CancellationToken cancellationToken);
+        Task<AuctionOutputDto> SellToHighestBidAmount(int auctionId, CancellationToken cancellationToken);
     }
 }

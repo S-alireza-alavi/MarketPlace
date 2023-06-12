@@ -17,6 +17,7 @@
                 <td>
                     <a href="@Url.Action("StoreProducts","Products",new {storeId = store.Id})" class="btn btn-success">مدیریت محصولات غرفه</a>
                     <a href="@Url.Action("CreateProduct","Store",new {storeId = store.Id})" class="btn btn-success">افزودن محصول</a>
+                    <a href="@Url.Action("Index", "Auction", new {storeId = store.Id})" class="btn btn-dark">لیست مزایده‌های غرفه</a>
                 </td>
             </tr>
         }

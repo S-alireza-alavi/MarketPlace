@@ -1,0 +1,29 @@
+﻿@model List<ProductOutputDto>
+
+<div>
+    <h2 class="text-center m-5"><span class="badge rounded-pill badge-info p-3">کالاهای در حال مزایده</span></h2>
+</div>
+
+@if (Model.Count > 0)
+{
+    <div class="row">
+        @foreach (var product in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 18rem;">
+                    @if (product.ProductPhotos.Any())
+                    {
+                        <img src="@product.ProductPhotos.FirstOrDefault()?.FilePath" class="card-img-top" alt="@product.Name" />
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title text-truncate">@product.Name</h5>
+                        <p class="card-text">@product.Price</p>
+                        <div class="d-flex justify-content-center">
+                            <a href="@Url.Action("Details", "Product", new { productId = product.Id })" class="btn btn-primary">جزئیات محصول</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

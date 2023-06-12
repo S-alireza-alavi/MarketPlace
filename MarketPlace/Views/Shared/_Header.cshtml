@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var actionDescriptor = ViewContext.ActionDescriptor;
+    var currentController = actionDescriptor.RouteValues["controller"];
+    var currentAction = actionDescriptor.RouteValues["action"];
+}
+
+<!DOCTYPE html>
 <html lang="en" dir="rtl">
 
 <head>
@@ -31,24 +37,24 @@
 
 <body>
     <header class="header header-intro-clearance header-26">
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div class="container-fluid">
-                    <a class="navbar-brand" asp-controller="Home" asp-action="Index">صفحه اصلی</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <partial name="_LoginPartial"></partial>
-                            </li>
-                            <li>
-                                <partial name="_AdminMenu"></partial>
-                            </li>
-                        </ul>
-                    </div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">صفحه اصلی</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <partial name="_LoginPartial"></partial>
+                        </li>
+                        <li>
+                            <partial name="_AdminMenu"></partial>
+                        </li>
+                    </ul>
                 </div>
-            </nav>
+            </div>
+        </nav>
         <div class="header-middle">
             <div class="container">
                 <div class="header-left">
@@ -56,6 +62,10 @@
                         <span class="sr-only">فهرست</span>
                         <i class="icon-bars"></i>
                     </button>
+                    @if (currentController != "Auction" || currentAction != "Index")
+                    {
+                        <a asp-controller="Auction" asp-action="Index" class="btn btn-primary rounded">مزایدات</a>
+                    }
                 </div>
                 <!-- End .header-left -->
 
