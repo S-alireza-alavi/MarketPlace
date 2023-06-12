@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.AppServices.Sellers.Commands;
+using App.Domain.Core.AppServices.Sellers.Queries;
 using App.Domain.Core.DtoModels.Auctions;
 using App.Domain.Core.Entities;
 using MarketPlace.Areas.Seller.Models.Auction;
@@ -15,11 +16,26 @@ namespace MarketPlace.Areas.Seller.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ICreateAuctionService _createAuctionService;
+        private readonly IGetStoreAuctionsService _getStoreAuctionsService;
+        private readonly IAuctionService _auctionService;
 
-        public AuctionController(UserManager<ApplicationUser> userManager, ICreateAuctionService createAuctionService)
+        public AuctionController(UserManager<ApplicationUser> userManager, ICreateAuctionService createAuctionService, IGetStoreAuctionsService getStoreAuctionsService, IAuctionService auctionService)
         {
             _userManager = userManager;
             _createAuctionService = createAuctionService;
+            _getStoreAuctionsService = getStoreAuctionsService;
+            _auctionService = auctionService;
+        }
+
+        public async Task<IActionResult> Index(int storeId, CancellationToken cancellationToken)
+        {
+            ViewBag.StoreId = storeId;
+
+            var auctions = await _getStoreAuctionsService.GetStoreAuctions(storeId, cancellationToken);
+
+            await _auctionService.CheckAndUpdateIsRunning(storeId, cancellationToken);
+
+            return View(auctions);
         }
 
         [HttpGet]
@@ -53,8 +69,7 @@ namespace MarketPlace.Areas.Seller.Controllers
                     ProductId = model.ProductId
                 }, cancellationToken);
 
-                //todo: این عوض شه بعدا
-                return Ok();
+                return RedirectToAction("Index");
             }
 
             return View(model);

@@ -1,0 +1,41 @@
+﻿@model List<AuctionOutputDto>
+@using Framework.Utilities
+
+<h2>لیست مزایده‌های غرفه‌ی من</h2>
+
+@if (Model.Any())
+{
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>شناسه مزایده</th>
+                <th>نام محصول</th>
+                <th>زمان شروع</th>
+                <th>زمان پایان</th>
+                <th>قیمت اولیه</th>
+                <th>وضعیت</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var auction in Model)
+            {
+                <tr>
+                    <td>@auction.Id</td>
+                    <td>@auction.ProductName</td>
+                    <td>@auction.StartTime.ToPersianString()</td>
+                    <td>@auction.EndTime.ToPersianString()</td>
+                    <td>@auction.MinimumPrice</td>
+                    <td>@(auction.EndTime <= DateTime.Now ? "تمام شده" : "در حال برگزاری")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>هیچ مزایده‌ای یافت نشد.</p>
+}
+
+@section Scripts {
+    <script>setTimeout(,@Model.)</script>
+}

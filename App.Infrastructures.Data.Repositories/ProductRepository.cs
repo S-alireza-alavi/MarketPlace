@@ -9,10 +9,12 @@ namespace App.Infrastructures.Data.Repositories
     public class ProductRepository : IProductRepository
     {
         private readonly AppDbContext _context;
+        private readonly IAuctionRepository _auctionRepository;
 
-        public ProductRepository(AppDbContext context)
+        public ProductRepository(AppDbContext context, IAuctionRepository auctionRepository)
         {
             _context = context;
+            _auctionRepository = auctionRepository;
         }
 
         public async Task<int> CreateProduct(AddProductInputDto inputDto, CancellationToken cancellationToken)
@@ -144,6 +146,67 @@ namespace App.Infrastructures.Data.Repositories
             productToUpdate.IsActive = product.IsActive;
 
             await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<List<ProductOutputDto>> GetAllInAuctionProducts(CancellationToken cancellationToken)
+        {
+            var runningAuctions = await _auctionRepository.GetAllRunningAuctions(cancellationToken);
+
+            var productIds = runningAuctions.Select(a => a.ProductId).ToList();
+
+            var products = await _context.Products
+                .Include(p => p.Auctions)
+                .Include(p => p.ProductPhotos)
+                .Where(p => p.IsActive && !p.IsDeleted && productIds.Contains(p.Id))
+                .Select(p => new ProductOutputDto
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    CategoryId = p.CategoryId,
+                    BrandId = p.BrandId,
+                    StoreId = p.StoreId,
+                    Weight = p.Weight,
+                    Description = p.Description,
+                    Count = p.Count,
+                    ModelId = p.ModelId,
+                    Price = p.Price,
+                    IsActive = p.IsActive,
+                    IsDeleted = p.IsDeleted,
+                    Brand = p.Brand,
+                    Category = p.Category,
+                    Store = p.Store,
+                    ProductPhotos = p.ProductPhotos
+                }).ToListAsync(cancellationToken);
+
+            return products;
+        }
+
+        public async Task<ProductOutputDto> GetProductDetails(int id, CancellationToken cancellationToken)
+        {
+            var product = await _context.Products.Include(p => p.Auctions)
+                .Include(p => p.ProductPhotos)
+                .Where(p => p.IsActive && !p.IsDeleted && p.Id == id)
+                .Select(p => new ProductOutputDto
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    CategoryId = p.CategoryId,
+                    BrandId = p.BrandId,
+                    StoreId = p.StoreId,
+                    Weight = p.Weight,
+                    Description = p.Description,
+                    Count = p.Count,
+                    ModelId = p.ModelId,
+                    Price = p.Price,
+                    IsActive = p.IsActive,
+                    IsDeleted = p.IsDeleted,
+                    Brand = p.Brand,
+                    Category = p.Category,
+                    Store = p.Store,
+                    ProductPhotos = p.ProductPhotos
+                }).FirstOrDefaultAsync(cancellationToken);
+
+            return product;
         }
     }
 }

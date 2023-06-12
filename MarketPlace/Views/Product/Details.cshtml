@@ -1,0 +1,26 @@
+﻿@model ProductOutputDto
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            @if (Model.ProductPhotos.Any())
+            {
+                <img src="@Model.ProductPhotos.FirstOrDefault()?.FilePath" class="img-fluid" alt="@Model.Name" />
+            }
+        </div>
+        <div class="col-md-6">
+            <h2>@Model.Name</h2>
+            <p>@Model.Description</p>
+            <p>@Model.Price</p>
+
+            @if (Model.IsActive && !Model.IsDeleted && Model.Auctions.Any(a => a.StartTime < DateTime.Now && a.EndTime > DateTime.Now))
+            {
+                <a href="#" class="btn btn-primary">ثبت پیشنهاد</a>
+            }
+            else
+            {
+                <a href="#" class="btn btn-primary disabled">مزایده به اتمام رسید.</a>
+            }
+        </div>
+    </div>
+</div>

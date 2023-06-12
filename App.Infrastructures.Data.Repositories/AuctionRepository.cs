@@ -60,6 +60,23 @@ namespace App.Infrastructures.Data.Repositories
             return auctions;
         }
 
+        public async Task<List<AuctionOutputDto>> GetAllRunningAuctions(CancellationToken cancellationToken)
+        {
+            var auctions = await _context.Auctions.Where(a => a.IsRunning == true).Select(a => new AuctionOutputDto
+            {
+                Id = a.Id,
+                StoreId = a.StoreId,
+                SellerId = a.SellerId,
+                StartTime = a.StartTime,
+                EndTime = a.EndTime,
+                MinimumPrice = a.MinimumPrice,
+                IsRunning = a.IsRunning,
+                ProductId = a.ProductId
+            }).ToListAsync(cancellationToken);
+
+            return auctions;
+        }
+
         public async Task<AuctionOutputDto>? GetAuctionBy(int id, CancellationToken cancellationToken)
         {
             var auction = await _context.Auctions.Where(a => a.Id == id).Select(a => new AuctionOutputDto
@@ -78,6 +95,24 @@ namespace App.Infrastructures.Data.Repositories
             return auction;
         }
 
+        public async Task<List<AuctionOutputDto>> GetStoreAuctions(int storeId, CancellationToken cancellationToken)
+        {
+            var auctions = await _context.Auctions.Where(a => a.StoreId == storeId).Select(a => new AuctionOutputDto
+            {
+                Id = a.Id,
+                StoreId = storeId,
+                SellerId = a.SellerId,
+                StartTime = a.StartTime,
+                EndTime = a.EndTime,
+                MinimumPrice = a.MinimumPrice,
+                IsRunning = a.IsRunning,
+                ProductId = a.ProductId,
+                ProductName = a.Product.Name
+            }).ToListAsync(cancellationToken);
+
+            return auctions;
+        }
+
         public async Task UpdateAuction(EditAuctionInputDto auction, CancellationToken cancellationToken)
         {
             var auctionToUpdate = await _context.Auctions.Where(a => a.Id == auction.Id).FirstOrDefaultAsync(cancellationToken);
@@ -91,6 +126,17 @@ namespace App.Infrastructures.Data.Repositories
             auctionToUpdate.ProductId = auction.ProductId;
 
             await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task UpdateAuction(int auctionId, bool isRunning, CancellationToken cancellationToken)
+        {
+            var auctionToUpdate = await _context.Auctions.FindAsync(auctionId, cancellationToken);
+
+            if (auctionToUpdate != null)
+            {
+                auctionToUpdate.IsRunning = isRunning;
+                await _context.SaveChangesAsync(cancellationToken);
+            }
         }
     }
 }

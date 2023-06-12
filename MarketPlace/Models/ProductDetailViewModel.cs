@@ -1,8 +1,8 @@
 ﻿using MarketPlace.Entities;
 
-namespace App.Domain.Core.DtoModels.Products
+namespace MarketPlace.Models
 {
-    public class ProductOutputDto
+    public class ProductDetailViewModel
     {
         public int Id { get; set; }
 

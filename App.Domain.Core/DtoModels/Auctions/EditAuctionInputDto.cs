@@ -3,6 +3,7 @@
     public class EditAuctionInputDto
     {
         public int Id { get; set; }
+
         public int StoreId { get; set; }
 
         public int SellerId { get; set; }

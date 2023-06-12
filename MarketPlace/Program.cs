@@ -76,6 +76,10 @@ namespace MarketPlace
             builder.Services.AddScoped<IGetStoreProductsService, GetStoreProductsService>();
             builder.Services.AddScoped<ICreateAuctionService, CreateAuctionService>();
             builder.Services.AddScoped<IAuctionRepository, AuctionRepository>();
+            builder.Services.AddScoped<IGetStoreAuctionsService, GetStoreAuctionsService>();
+            builder.Services.AddScoped<IAuctionService, AuctionService>();
+            builder.Services.AddScoped<IGetInAuctionProductsService, GetInAuctionProductsService>();
+            builder.Services.AddScoped<IProductDetailService, ProductDetailService>();
 
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
