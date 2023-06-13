@@ -2,6 +2,7 @@
 using App.Domain.Core.DataAccess;
 using App.Domain.Core.DtoModels.Auctions;
 using App.Domain.Core.DtoModels.Bids;
+using App.Domain.Core.DtoModels.Products;
 using MarketPlace.Entities;
 using System.Collections;
 using System.Linq.Expressions;
@@ -12,11 +13,13 @@ namespace App.Domain.AppService.Sellers.Commands
     {
         private readonly IAuctionRepository _auctionRepository;
         private readonly IBidRepository _bidRepository;
+        private readonly IProductRepository _productRepository;
 
-        public AuctionService(IAuctionRepository auctionRepository, IBidRepository bidRepository)
+        public AuctionService(IAuctionRepository auctionRepository, IBidRepository bidRepository, IProductRepository productRepository)
         {
             _auctionRepository = auctionRepository;
             _bidRepository = bidRepository;
+            _productRepository = productRepository;
         }
 
         public async Task AssignWinningBidsToAuctions(CancellationToken cancellationToken)
@@ -68,9 +71,37 @@ namespace App.Domain.AppService.Sellers.Commands
             }
         }
 
-        public Task<AuctionOutputDto> DeactivateAuction(int auctionId, CancellationToken cancellationToken)
+        //todo: برای تمام مزایده‌ها نوشته شه
+        public async Task DeactivateAuction(int auctionId, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var auction = await _auctionRepository.GetAuctionBy(auctionId, cancellationToken);
+
+            if (auction == null)
+            {
+                // Auction not found
+                throw new Exception("مزایده‌ای یافت نشد.");
+            }
+
+            var product = await _productRepository.GetProductBy(auction.ProductId, cancellationToken);
+
+            if (product != null)
+            {
+                product.IsActive = false;
+                await _productRepository.UpdateProduct(new EditProductInputDto
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    CategoryId = product.CategoryId,
+                    BrandId = product.BrandId,
+                    StoreId = product.StoreId,
+                    Weight = product.Weight,
+                    Description = product.Description,
+                    Count = product.Count,
+                    ModelId = product.Id,
+                    Price = product.Price,
+                    IsActive = product.IsActive
+                }, cancellationToken);
+            }
         }
 
         public async Task<List<AuctionOutputDto>> GetEndedAuctions(CancellationToken cancellationToken)
@@ -96,7 +127,7 @@ namespace App.Domain.AppService.Sellers.Commands
                     auction.Product.Price = auction.MinimumPrice;
                 }
 
-                
+
             }
         }
     }
