@@ -1,5 +1,6 @@
 ﻿using App.Domain.Core.DataAccess;
 using App.Domain.Core.DtoModels.Auctions;
+using App.Domain.Core.DtoModels.Bids;
 using MarketPlace.Database;
 using MarketPlace.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -88,11 +89,30 @@ namespace App.Infrastructures.Data.Repositories
                 EndTime = a.EndTime,
                 MinimumPrice = a.MinimumPrice,
                 IsRunning = a.IsRunning,
-                ProductId = a.ProductId,
+                ProductId = a.ProductId
 
             }).FirstAsync(cancellationToken);
 
             return auction;
+        }
+
+        public async Task<List<AuctionOutputDto>> GetEndedAuctions(CancellationToken cancellationToken)
+        {
+            var endedAuctions = await _context.Auctions
+                .Where(a => a.EndTime < DateTime.Now)
+                .Select(a => new AuctionOutputDto
+                {
+                    Id = a.Id,
+                    StoreId = a.StoreId,
+                    SellerId = a.SellerId,
+                    StartTime = a.StartTime,
+                    EndTime = a.EndTime,
+                    MinimumPrice = a.MinimumPrice,
+                    IsRunning = a.IsRunning,
+                    ProductId = a.ProductId
+                }).ToListAsync(cancellationToken);
+
+            return endedAuctions;
         }
 
         public async Task<List<AuctionOutputDto>> GetStoreAuctions(int storeId, CancellationToken cancellationToken)

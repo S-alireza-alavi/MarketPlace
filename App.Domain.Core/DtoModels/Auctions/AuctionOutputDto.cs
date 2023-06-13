@@ -1,4 +1,6 @@
-﻿namespace App.Domain.Core.DtoModels.Auctions
+﻿using MarketPlace.Entities;
+
+namespace App.Domain.Core.DtoModels.Auctions
 {
     public class AuctionOutputDto
     {
@@ -19,5 +21,7 @@
         public int ProductId { get; set; }
 
         public string ProductName { get; set; } = null!;
+
+        public virtual Product Product { get; set; } = null!;
     }
 }

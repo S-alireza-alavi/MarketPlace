@@ -1,4 +1,5 @@
-﻿using MarketPlace.Entities;
+﻿using App.Domain.Core.Entities;
+using MarketPlace.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -27,5 +28,7 @@ namespace App.Domain.Core.DtoModels.Users
         public List<string>? Roles { get; set; }
 
         public virtual ICollection<CustomerAddress> CustomerAddresses { get; set; } = new List<CustomerAddress>();
+
+        public virtual Medal? Medal { get; set; }
     }
 }

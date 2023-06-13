@@ -10,6 +10,8 @@
 
         public int BidAmount { get; set; }
 
+        public bool IsAcceptedFinally { get; set; }
+
         public DateTime BidTime { get; set; }
     }
 }

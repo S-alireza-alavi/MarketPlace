@@ -20,6 +20,8 @@ namespace MarketPlace.Controllers
         {
             await _auctionService.CheckAndUpdateIsRunning(null, cancellationToken);
 
+            await _auctionService.AssignWinningBidsToAuctions(cancellationToken);
+
             var products = await _getInAuctionProductsService.GetInAuctionProducts(cancellationToken);
 
             return View(products);
