@@ -7,7 +7,7 @@ namespace App.Domain.Core.AppServices.Sellers.Commands
     {
         Task<List<AuctionOutputDto>> GetEndedAuctions(CancellationToken cancellationToken);
         Task CheckAndUpdateIsRunning(int? storeId, CancellationToken cancellationToken);
-        Task<AuctionOutputDto> DeactivateAuction(int auctionId, CancellationToken cancellationToken);
+        Task DeactivateAuction(int auctionId, CancellationToken cancellationToken);
         Task AssignWinningBidsToAuctions(CancellationToken cancellationToken);
         Task UpdateRunningAuctionPrices(CancellationToken cancellationToken);
     }
