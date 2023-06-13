@@ -3,7 +3,6 @@
 using App.Domain.AppService;
 using App.Domain.AppService.Admins.Commands;
 using App.Domain.AppService.Admins.Queries;
-using App.Domain.AppService.Customers.Queries;
 using App.Domain.AppService.Sellers.Commands;
 using App.Domain.AppService.Sellers.Queries;
 using App.Domain.Core.AppServices;
@@ -11,6 +10,7 @@ using App.Domain.Core.AppServices.Admins.Commands;
 using App.Domain.Core.AppServices.Admins.Queries;
 using App.Domain.Core.AppServices.Sellers.Commands;
 using App.Domain.Core.AppServices.Sellers.Queries;
+using App.Domain.Core.Configs;
 using App.Domain.Core.DataAccess;
 using App.Domain.Core.Entities;
 using App.Infrastructures.Data.Repositories;
@@ -80,8 +80,19 @@ namespace MarketPlace
             builder.Services.AddScoped<IAuctionService, AuctionService>();
             builder.Services.AddScoped<IGetInAuctionProductsService, GetInAuctionProductsService>();
             builder.Services.AddScoped<IProductDetailService, ProductDetailService>();
+            builder.Services.AddScoped<IBidRepository, BidRepository>();
 
             builder.Services.AddControllersWithViews();
+
+            builder.Configuration
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile("appsettings.Development.json");
+
+            var configs = new AppConfigs();
+            builder.Configuration.GetSection("AppConfigs").Bind(configs);
+            builder.Services.AddSingleton(configs);
+
             builder.Services.AddRazorPages();
 
             builder.Services.Configure<IdentityOptions>(options =>

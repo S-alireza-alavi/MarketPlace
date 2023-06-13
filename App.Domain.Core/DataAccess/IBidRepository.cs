@@ -6,6 +6,7 @@ namespace App.Domain.Core.DataAccess
     {
         Task<List<BidOutputDto>> GetAllBids(CancellationToken cancellationToken);
         Task<BidOutputDto>? GetBidBy(int id, CancellationToken cancellationToken);
+        Task<BidOutputDto> GetHighestBidForAuction(int auctionId, CancellationToken cancellationToken);
         Task CreateBid(AddBidInputDto bid, CancellationToken cancellationToken);
         Task UpdateBid(EditBidInputDto bid, CancellationToken cancellationToken);
         Task DeleteBid(int id, CancellationToken cancellationToken);

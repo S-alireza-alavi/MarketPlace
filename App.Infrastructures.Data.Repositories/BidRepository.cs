@@ -65,6 +65,24 @@ namespace App.Infrastructures.Data.Repositories
             return bid;
         }
 
+        public async Task<BidOutputDto> GetHighestBidForAuction(int auctionId, CancellationToken cancellationToken)
+        {
+            var highestBid = await _context.Bids
+                .Where(b => b.AuctionId == auctionId)
+                .OrderByDescending(b => b.BidAmount)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            return new BidOutputDto
+            {
+                Id = highestBid.Id,
+                AuctionId = highestBid.AuctionId,
+                BuyerId = highestBid.BuyerId,
+                BidAmount = highestBid.BidAmount,
+                BidTime = highestBid.BidTime,
+                IsAcceptedFinally = highestBid.IsAcceptedFinally
+            };
+        }
+
         public async Task UpdateBid(EditBidInputDto bid, CancellationToken cancellationToken)
         {
             var bidToUpdate = await _context.Bids.Where(b => b.Id == bid.Id).FirstOrDefaultAsync(cancellationToken);

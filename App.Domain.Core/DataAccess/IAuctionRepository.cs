@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.DtoModels.Auctions;
+using App.Domain.Core.DtoModels.Bids;
 
 namespace App.Domain.Core.DataAccess
 {
@@ -6,6 +7,7 @@ namespace App.Domain.Core.DataAccess
     {
         Task<List<AuctionOutputDto>> GetAllAuctions(CancellationToken cancellationToken);
         Task<List<AuctionOutputDto>> GetAllRunningAuctions(CancellationToken cancellationToken);
+        Task<List<AuctionOutputDto>> GetEndedAuctions(CancellationToken cancellationToken);
         Task<List<AuctionOutputDto>> GetStoreAuctions(int storeId, CancellationToken cancellationToken);
         Task<AuctionOutputDto>? GetAuctionBy(int id, CancellationToken cancellationToken);
         Task<int> CreateAuction(AddAuctionInputDto inputDto, CancellationToken cancellationToken);

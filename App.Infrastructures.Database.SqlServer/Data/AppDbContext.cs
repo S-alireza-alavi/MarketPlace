@@ -57,6 +57,8 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityR
 
     public virtual DbSet<TagCategory> TagCategories { get; set; }
 
+    public virtual DbSet<Medal> Medals { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=MarketPlace_DB;Integrated Security=True;TrustServerCertificate=True");
@@ -341,6 +343,16 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityR
         modelBuilder.Entity<TagCategory>(entity =>
         {
             entity.Property(e => e.Name).HasMaxLength(200);
+        });
+
+        modelBuilder.Entity<Medal>(entity =>
+        {
+            entity.HasKey(m => m.Id);
+
+            entity.HasOne(m => m.Seller)
+            .WithOne()
+            .HasForeignKey<Medal>(m => m.SellerId)
+            .OnDelete(DeleteBehavior.Cascade);
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -20,5 +20,7 @@ namespace App.Domain.Core.Entities
         public virtual ICollection<StoreComment> StoreComments { get; set; } = new List<StoreComment>();
 
         public virtual ICollection<Store> Stores { get; set; } = new List<Store>();
+
+        public virtual Medal? Medal { get; set; }
     }
 }
