@@ -1,11 +1,18 @@
-﻿@if (TempData["AlertMessage"] != null)
+﻿@model int
+
+@if (TempData["AlertMessage"] != null)
 {
     <div class="alert alert-info">
         @TempData["AlertMessage"]
     </div>
 }
 
-<h3 style="float:right;">پنل فروشنده</h3>
+<div class="card text-dark bg-info mb-3" style="max-width: 18rem;">
+    <div class="card-body">
+        <h5 class="card-title">مبلغ کل فروش</h5>
+        <p class="card-text">@Model</p>
+    </div>
+</div>
 
 <div style="float:left;">
     <a class="btn btn-success" asp-controller="Store" asp-action="Create">

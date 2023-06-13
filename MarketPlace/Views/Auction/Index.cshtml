@@ -17,7 +17,6 @@
                     }
                     <div class="card-body">
                         <h5 class="card-title text-truncate">@product.Name</h5>
-                        <p class="card-text">@product.Auctions.FirstOrDefault()?.MinimumPrice</p>
                         <div class="d-flex justify-content-center">
                             <a href="@Url.Action("Details", "Product", new { productId = product.Id })" class="btn btn-primary">جزئیات محصول</a>
                         </div>
