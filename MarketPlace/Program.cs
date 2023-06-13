@@ -3,11 +3,13 @@
 using App.Domain.AppService;
 using App.Domain.AppService.Admins.Commands;
 using App.Domain.AppService.Admins.Queries;
+using App.Domain.AppService.Sellers;
 using App.Domain.AppService.Sellers.Commands;
 using App.Domain.AppService.Sellers.Queries;
 using App.Domain.Core.AppServices;
 using App.Domain.Core.AppServices.Admins.Commands;
 using App.Domain.Core.AppServices.Admins.Queries;
+using App.Domain.Core.AppServices.Sellers;
 using App.Domain.Core.AppServices.Sellers.Commands;
 using App.Domain.Core.AppServices.Sellers.Queries;
 using App.Domain.Core.Configs;
@@ -81,6 +83,12 @@ namespace MarketPlace
             builder.Services.AddScoped<IGetInAuctionProductsService, GetInAuctionProductsService>();
             builder.Services.AddScoped<IProductDetailService, ProductDetailService>();
             builder.Services.AddScoped<IBidRepository, BidRepository>();
+            builder.Services.AddScoped<ICalculateTotalSalePricesForSellerService, CalculateTotalSalePricesForSellerService>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<IMedalRepository, MedalRepository>();
+            builder.Services.AddScoped<ISetMedalForSellerService, SetMedalForSellerService>();
+            builder.Services.AddScoped<IUpdateProductPriceInAuctionService,  UpdateProductPriceInAuctionService>();
+            builder.Services.AddScoped<IGetAuctionWithBidsService,  GetAuctionWithBidsService>();
 
             builder.Services.AddControllersWithViews();
 
@@ -89,9 +97,8 @@ namespace MarketPlace
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile("appsettings.Development.json");
 
-            var configs = new AppConfigs();
-            builder.Configuration.GetSection("AppConfigs").Bind(configs);
-            builder.Services.AddSingleton(configs);
+            var appConfigs = builder.Configuration.Get<AppConfigs>();
+            builder.Services.AddSingleton(appConfigs);
 
             builder.Services.AddRazorPages();
 

@@ -11,6 +11,7 @@ namespace App.Domain.Core.DataAccess
         Task<ProductOutputDto> GetProductDetails(int id, CancellationToken cancellationToken);
         Task<int> CreateProduct(AddProductInputDto inputDto, CancellationToken cancellationToken);
         Task UpdateProduct(EditProductInputDto product, CancellationToken cancellationToken);
+        Task UpdateProductPrice(int productId, int newPrice, CancellationToken cancellationToken);
         Task DeleteProduct(int id, CancellationToken cancellationToken);
         Task<int> ProductsCount(CancellationToken cancellationToken);
     }

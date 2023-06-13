@@ -193,6 +193,7 @@ namespace App.Infrastructures.Data.Repositories
                     CategoryId = p.CategoryId,
                     BrandId = p.BrandId,
                     StoreId = p.StoreId,
+                    Auctions = p.Auctions,
                     Weight = p.Weight,
                     Description = p.Description,
                     Count = p.Count,
@@ -207,6 +208,17 @@ namespace App.Infrastructures.Data.Repositories
                 }).FirstOrDefaultAsync(cancellationToken);
 
             return product;
+        }
+
+        public async Task UpdateProductPrice(int productId, int newPrice, CancellationToken cancellationToken)
+        {
+            var product = await _context.Products.FindAsync(productId);
+
+            if (product != null)
+            {
+                product.Price = newPrice;
+                await _context.SaveChangesAsync(cancellationToken);
+            }
         }
     }
 }

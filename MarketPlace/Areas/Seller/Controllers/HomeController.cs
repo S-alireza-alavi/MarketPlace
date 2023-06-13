@@ -28,7 +28,7 @@ namespace MarketPlace.Areas.Seller.Controllers
 
             var totalSalePrice = await _calculateTotalSalePricesForSeller.CalculateTotalSalePricesForSeller(user.Id, cancellationToken);
 
-            return View();
+            return View(totalSalePrice);
         }
     }
 }

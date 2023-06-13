@@ -23,5 +23,7 @@ namespace App.Domain.Core.DtoModels.Auctions
         public string ProductName { get; set; } = null!;
 
         public virtual Product Product { get; set; } = null!;
+
+        public virtual ICollection<Bid> Bids { get; set; } = new List<Bid>();
     }
 }

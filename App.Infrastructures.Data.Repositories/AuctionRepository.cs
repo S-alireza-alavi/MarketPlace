@@ -96,6 +96,28 @@ namespace App.Infrastructures.Data.Repositories
             return auction;
         }
 
+        public async Task<AuctionOutputDto> GetAuctionWithBids(int auctionId, CancellationToken cancellationToken)
+        {
+            var auction = await _context.Auctions
+                .Include(a => a.Bids)
+                .FirstOrDefaultAsync(a => a.Id == auctionId);
+
+            var output = new AuctionOutputDto
+            {
+                Id = auction.Id,
+                StoreId = auction.StoreId,
+                SellerId = auction.SellerId,
+                StartTime = auction.StartTime,
+                Bids = auction.Bids,
+                EndTime = auction.EndTime,
+                MinimumPrice = auction.MinimumPrice,
+                IsRunning = auction.IsRunning,
+                ProductId = auction.ProductId
+            };
+
+            return output;
+        }
+
         public async Task<List<AuctionOutputDto>> GetEndedAuctions(CancellationToken cancellationToken)
         {
             var endedAuctions = await _context.Auctions

@@ -350,9 +350,14 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityR
             entity.HasKey(m => m.Id);
 
             entity.HasOne(m => m.Seller)
-            .WithOne()
+            .WithOne(s => s.Medal)
             .HasForeignKey<Medal>(m => m.SellerId)
             .OnDelete(DeleteBehavior.Cascade);
+
+            //entity.HasOne(d => d.IdNavigation).WithOne(p => p.Medal)
+            //    .HasForeignKey<Medal>(d => d.Id)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("FK_Medals_AspNetUsers1");
         });
 
         OnModelCreatingPartial(modelBuilder);
