@@ -1,5 +1,6 @@
 ﻿using App.Domain.Core.DataAccess;
 using App.Domain.Core.DtoModels.ProductComments;
+using App.Domain.Core.Entities;
 using MarketPlace.Database;
 using MarketPlace.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -119,6 +120,22 @@ namespace App.Infrastructures.Data.Repositories
             productCommentToUpdate.DislikeCount = productComment.DislikeCount;
 
             await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<List<ProductCommentOutputDto>> GetConfirmedCommentsForProduct(int productId, CancellationToken cancellationToken)
+        {
+            var productComments = await _context.ProductComments
+                .Include(pc => pc.User)
+                .Where(pc => pc.ProductId == productId && pc.IsConfirmedByAdmin)
+                .Select(pc => new ProductCommentOutputDto
+                {
+                    UserId = pc.UserId,
+                    Title = pc.Title,
+                    CommentBody = pc.CommentBody,
+                    User = pc.User
+                }).ToListAsync(cancellationToken);
+
+            return productComments;
         }
     }
 }

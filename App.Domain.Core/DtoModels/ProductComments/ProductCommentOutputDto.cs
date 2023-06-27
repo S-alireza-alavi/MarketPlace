@@ -1,4 +1,6 @@
-﻿namespace App.Domain.Core.DtoModels.ProductComments
+﻿using App.Domain.Core.Entities;
+
+namespace App.Domain.Core.DtoModels.ProductComments
 {
     public class ProductCommentOutputDto
     {
@@ -21,5 +23,7 @@
         public int? LikeCount { get; set; }
 
         public int? DislikeCount { get; set; }
+
+        public virtual ApplicationUser User { get; set; } = null!;
     }
 }

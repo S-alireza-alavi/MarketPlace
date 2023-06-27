@@ -10,22 +10,22 @@
 
 <div class="container m-5">
     <div class="row">
-        <div class="col-md-6">
-            <img src="/@Model.ProductPhotos.FirstOrDefault()?.FilePath" class="img-fluid" alt="@Model.Name" />
+        <div class="col-md-5">
+            <img src="/@Model.ProductPhotos.FirstOrDefault()?.FilePath" class="img-fluid w-60" alt="@Model.Name" />
         </div>
-        <div class="col-md-6">
+        <div class="col-md-7">
             <div class="product-details">
                 <h1 class="product-name">@Model.Name</h1>
                 @if (Model.Auctions.Any(a => a.IsRunning))
                 {
                     <div class="product-price">
-                        <span class="badge rounded-pill bg-warning text-dark p-3">آخرین پیشنهاد ثبت شده: @Model.Price</span>
+                        <span class="badge rounded-pill bg-warning text-dark p-3">آخرین پیشنهاد ثبت شده: @Model.Price.ToString("N0") تومان</span>
                     </div>
                 }
                 else
                 {
                     <div class="product-price">
-                        <span class="badge rounded-pill bg-secondary text-dark p-3">قیمت @Model.Price</span>
+                        <span class="badge rounded-pill bg-secondary text-dark p-3">قیمت @Model.Price.ToString("N0") تومان</span>
                     </div>
                 }
                 <div class="product-description border rounded p-3" style="border-radius:15px;">
@@ -34,13 +34,13 @@
                 @if (Model.IsActive && !Model.IsDeleted && Model.Auctions.Any(a => a.IsRunning))
                 {
                     <div class="d-flex justify-content-center m-3">
-                        <a asp-action="RegisterBid" asp-controller="Product" asp-route-productId="@Model.Id" class="btn btn-primary">ثبت پیشنهاد</a>
+                        <a asp-action="RegisterBid" asp-controller="Product" asp-route-productId="@Model.Id" class="btn btn-primary col-12">ثبت پیشنهاد</a>
                     </div>
                 }
                 else if (Model.IsActive && !Model.IsDeleted && Model.Auctions.Any(a => !a.IsRunning))
                 {
                     <div class="d-flex justify-content-center m-3">
-                        <a href="#" class="btn btn-primary disabled">مزایده به اتمام رسید.</a>
+                        <a href="#" class="btn btn-primary col-12 disabled">مزایده به اتمام رسید.</a>
                     </div>
                 }
                 else if (Model.IsActive && !Model.IsDeleted && Model.Auctions.Count == 0)
@@ -53,24 +53,38 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="product-specifications">
-                <h2 class="section-title">مشخصات</h2>
+    <div class="row text-right">
+        <div class="col-md-12 m-5">
+            <div class="product-specifications border rounded p-3" style="border-radius: 15px;">
+                <h2 class="section-title font-weight-bold">مشخصات</h2>
                 <ul class="spec-list">
-                    <li><span class="spec-title">دسته‌بندی:</span> @Model.Category.Name</li>
-                    <li>
-                        <span class="spec-title">برند:</span>
+                    <li class="spec-item"><span class="spec-title font-weight-bold">دسته‌بندی:</span> @Model.Category.Name</li>
+                    <li class="spec-item">
+                        <span class="spec-title font-weight-bold">برند:</span>
                         @if (Model.Brand != null)
+                        {
                             @Model.Brand.Name
-
-                        </li>
-                        @if (Model.Weight.HasValue)
+                        }
+                    </li>
+                    @if (Model.Weight.HasValue)
                     {
-                        <li><span class="spec-title">وزن:</span> @Model.Weight.Value</li>
+                        <li class="spec-item "><span class="spec-title font-weight-bold">وزن:</span> @((Model.Weight.Value / 1000).ToString("N1")) کیلوگرم</li>
                     }
                 </ul>
             </div>
         </div>
     </div>
+    @await Component.InvokeAsync("ProductComments", new { productId = Model.Id })
 </div>
+
+<style>
+    .spec-list .spec-item {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 5px;
+        margin-bottom: 5px;
+    }
+
+    .font-weight-bold {
+        font-weight: bold;
+    }
+</style>
