@@ -9,6 +9,7 @@ namespace App.Domain.Core.DataAccess
         Task<List<ProductOutputDto>> GetAllInAuctionProducts(CancellationToken cancellationToken);
         Task<ProductOutputDto> GetProductBy(int id, CancellationToken cancellationToken);
         Task<ProductOutputDto> GetProductDetails(int id, CancellationToken cancellationToken);
+        Task<List<ProductOutputDto>> GetRandomProducts(CancellationToken cancellationToken);
         Task<int> CreateProduct(AddProductInputDto inputDto, CancellationToken cancellationToken);
         Task UpdateProduct(EditProductInputDto product, CancellationToken cancellationToken);
         Task UpdateProductPrice(int productId, int newPrice, CancellationToken cancellationToken);

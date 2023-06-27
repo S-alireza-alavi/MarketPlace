@@ -2,6 +2,7 @@
 using App.Domain.Core.DtoModels.Roles;
 using App.Domain.Core.DtoModels.Users;
 using App.Domain.Core.Entities;
+using MarketPlace.Database;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,11 +18,13 @@ namespace App.Infrastructures.Data.Repositories
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole<int>> _roleManager;
+        private readonly AppDbContext _context;
 
-        public UserRepository(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<int>> roleManager)
+        public UserRepository(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<int>> roleManager, AppDbContext context)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _context = context;
         }
 
         public async Task<List<UsersOutputDto>> GetAllUsers(int id, string? search, CancellationToken cancellationToken)
@@ -73,11 +76,21 @@ namespace App.Infrastructures.Data.Repositories
                 Id = user.Id,
                 Email = user.Email,
                 UserName = user.UserName,
-                PhoneNumber = user.PhoneNumber
+                PhoneNumber = user.PhoneNumber,
             };
 
             var roles = await _userManager.GetRolesAsync(user);
             userDto.Roles = roles.ToList();
+
+            var medal = await _context.Medals.FirstOrDefaultAsync(m => m.SellerId == id);
+            if (medal != null)
+            {
+                userDto.Medal = new Medal
+                {
+                    Id = medal.Id,
+                    SellerId = medal.SellerId,
+                };
+            }
 
             return userDto;
         }

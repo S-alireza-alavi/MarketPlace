@@ -3,7 +3,7 @@ using MarketPlace.Entities;
 
 namespace App.Domain.Core.AppServices.Customers.Queries;
 
-public interface IStoreProductsServiceAppService
+public interface IStoreProductsService
 {
     Task<List<ProductOutputDto>> GetStoreProducts(int storeId, CancellationToken cancellationToken);
 

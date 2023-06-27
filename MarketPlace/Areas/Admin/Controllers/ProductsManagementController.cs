@@ -91,7 +91,6 @@ namespace MarketPlace.Areas.Admin.Controllers
                         StoreId = input.StoreId,
                         Weight = input.Weight,
                         Description = input.Description,
-                        Count = input.Count,
                         ModelId = input.ModelId,
                         Price = input.Price,
                         ProductPhotos = new List<ProductPhoto>(),
@@ -170,7 +169,6 @@ namespace MarketPlace.Areas.Admin.Controllers
                 StoreId = dto.StoreId,
                 Weight = dto.Weight,
                 Description = dto.Description,
-                Count = dto.Count,
                 ModelId = dto.ModelId,
                 Price = dto.Price,
                 IsActive = dto.IsActive
@@ -196,7 +194,6 @@ namespace MarketPlace.Areas.Admin.Controllers
                 StoreId = product.StoreId,
                 Weight = product.Weight,
                 Description = product.Description,
-                Count = product.Count,
                 ModelId = product.ModelId,
                 Price = product.Price,
                 IsActive = product.IsActive

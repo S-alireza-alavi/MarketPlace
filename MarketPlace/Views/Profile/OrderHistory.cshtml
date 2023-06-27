@@ -1,0 +1,33 @@
+﻿@model List<OrderOutputDto>
+@using Framework.Utilities
+
+<h2>سوابق خرید من</h2>
+
+@if (Model.Count > 0)
+{
+    <table class="text-center table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>قیمت سفارش</th>
+                <th>تاریخ ثبت سفارش</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>
+                        <input type="hidden" name="orderId" value="@order.Id" />
+                    </td>
+                    <td>@order.TotalPrice تومان</td>
+                    <td>@order.CreatedAt.ToPersianString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>شما تا کنون هیچ سفارشی نداشته‌اید.</p>
+}

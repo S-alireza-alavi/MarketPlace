@@ -32,7 +32,6 @@ namespace App.Domain.AppService.Admins.Commands
                 productToUpdate.Name = product.Name;
                 productToUpdate.Weight = product.Weight;
                 productToUpdate.Description = product.Description;
-                productToUpdate.Count = product.Count;
                 productToUpdate.Price = product.Price;
                 productToUpdate.IsActive = product.IsActive;
             }

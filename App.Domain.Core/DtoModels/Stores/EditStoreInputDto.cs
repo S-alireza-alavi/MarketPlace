@@ -14,7 +14,7 @@ namespace App.Domain.Core.DtoModels.Stores
 
         public int AddressId { get; set; }
 
-        public DateTime? CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public StoreAddress Address { get; set; } = null!;
     }

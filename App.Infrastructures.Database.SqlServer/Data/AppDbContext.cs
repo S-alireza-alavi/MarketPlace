@@ -60,8 +60,9 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityR
     public virtual DbSet<Medal> Medals { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=MarketPlace_DB;Integrated Security=True;TrustServerCertificate=True");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https: //go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer(
+            "Data Source=.;Initial Catalog=MarketPlace_DB;Integrated Security=True;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -111,10 +112,7 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityR
                 .HasConstraintName("FK_Bids_AspNetUsers");
         });
 
-        modelBuilder.Entity<Brand>(entity =>
-        {
-            entity.Property(e => e.Name).HasMaxLength(150);
-        });
+        modelBuilder.Entity<Brand>(entity => { entity.Property(e => e.Name).HasMaxLength(150); });
 
         modelBuilder.Entity<CustomerAddress>(entity =>
         {
@@ -150,7 +148,7 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityR
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Orders_AspNetUsers1");
 
-            entity.HasOne(d => d.IdNavigation).WithOne(p => p.Order)
+            entity.HasOne(d => d.Commission).WithOne(p => p.Order)
                 .HasForeignKey<Order>(d => d.Id)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Orders_Commissions");
@@ -216,9 +214,8 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityR
         modelBuilder.Entity<ProductCategoryPhoto>(entity =>
         {
             entity.HasOne(d => d.ProductCategory).WithMany(p => p.ProductCategoryPhotos)
-            .HasForeignKey(d => d.ProductCategoryId).
-            OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("FK_ProductCategoryPhotos_ProductCategories");
+                .HasForeignKey(d => d.ProductCategoryId).OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ProductCategoryPhotos_ProductCategories");
             entity.Property(e => e.FileName).HasMaxLength(50);
         });
 
@@ -302,8 +299,8 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityR
             entity.HasKey(e => e.Id);
 
             entity.HasOne(d => d.Store).WithMany(p => p.StoreAddresses)
-            .HasForeignKey(d => d.StoreId)
-            .HasConstraintName("FK_StoreAddresses_Stores1");
+                .HasForeignKey(d => d.StoreId)
+                .HasConstraintName("FK_StoreAddresses_Stores1");
 
             entity.Property(e => e.FullAddress).HasMaxLength(300);
         });
@@ -340,19 +337,16 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityR
                 .HasConstraintName("FK_Tags_TagCategories");
         });
 
-        modelBuilder.Entity<TagCategory>(entity =>
-        {
-            entity.Property(e => e.Name).HasMaxLength(200);
-        });
+        modelBuilder.Entity<TagCategory>(entity => { entity.Property(e => e.Name).HasMaxLength(200); });
 
         modelBuilder.Entity<Medal>(entity =>
         {
             entity.HasKey(m => m.Id);
 
             entity.HasOne(m => m.Seller)
-            .WithOne(s => s.Medal)
-            .HasForeignKey<Medal>(m => m.SellerId)
-            .OnDelete(DeleteBehavior.Cascade);
+                .WithOne(s => s.Medal)
+                .HasForeignKey<Medal>(m => m.SellerId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             //entity.HasOne(d => d.IdNavigation).WithOne(p => p.Medal)
             //    .HasForeignKey<Medal>(d => d.Id)

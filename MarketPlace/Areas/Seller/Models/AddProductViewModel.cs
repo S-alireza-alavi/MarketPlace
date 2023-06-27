@@ -13,9 +13,8 @@ namespace MarketPlace.Areas.Seller.Models
         [Display(Name = "دسته‌بندی")]
         public int CategoryId { get; set; }
 
-        [Required(ErrorMessage = "{0} اجباری است")]
         [Display(Name = "برند")]
-        public int BrandId { get; set; }
+        public int? BrandId { get; set; }
 
         [Required(ErrorMessage = "{0} اجباری است")]
         [Display(Name = "غرفه مربوطه")]
@@ -26,10 +25,6 @@ namespace MarketPlace.Areas.Seller.Models
 
         [Display(Name = "توضیحات")]
         public string? Description { get; set; }
-
-        [Required(ErrorMessage = "{0} اجباری است")]
-        [Display(Name = "تعداد")]
-        public int Count { get; set; }
 
         [Display(Name = "مدل")]
         public int? ModelId { get; set; }

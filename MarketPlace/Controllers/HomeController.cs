@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Entities;
+﻿using App.Domain.Core.AppServices.Customers.Queries;
+using App.Domain.Core.Entities;
 using MarketPlace.Database;
 using MarketPlace.Entities;
 using MarketPlace.Models;
@@ -14,13 +15,15 @@ namespace MarketPlace.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole<int>> _roleManager;
         private readonly AppDbContext _context;
+        private readonly IHomeCategoriesService _homeCategoriesService;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<int>> roleManager, AppDbContext context)
+        public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<int>> roleManager, AppDbContext context, IHomeCategoriesService homeCategoriesService)
         {
             _logger = logger;
             _userManager = userManager;
             _roleManager = roleManager;
             _context = context;
+            _homeCategoriesService = homeCategoriesService;
         }
 
         public async Task<IActionResult> SeedData()
@@ -40,10 +43,24 @@ namespace MarketPlace.Controllers
             return Ok();
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(bool? showCommentModal, CancellationToken cancellationToken)
         {
             ViewData["UserId"] = _userManager.GetUserId(this.User);
-            return View();
+
+            ViewBag.ShowCommentModal = showCommentModal ?? false;
+
+            var productCategories = await _homeCategoriesService.GetAllCategories(cancellationToken);
+
+            string successMessage = TempData["SuccessMessage"] as string;
+
+            ViewBag.SuccessMessage = successMessage;
+
+            return View(productCategories);
+        }
+
+        public async Task<IActionResult> CommentModal()
+        {
+            return await Task.FromResult(PartialView("_CommentModal"));
         }
 
         public IActionResult Privacy()

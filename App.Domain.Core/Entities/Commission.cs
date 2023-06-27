@@ -8,5 +8,5 @@ public partial class Commission
 
     public bool IsDeleted { get; set; }
 
-    public virtual Order? Order { get; set; }
+    public virtual Order Order { get; set; } = null!;
 }

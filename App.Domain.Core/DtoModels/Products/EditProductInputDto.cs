@@ -8,15 +8,13 @@
 
         public int CategoryId { get; set; }
 
-        public int BrandId { get; set; }
+        public int? BrandId { get; set; }
 
         public int StoreId { get; set; }
 
         public decimal? Weight { get; set; }
 
         public string? Description { get; set; }
-
-        public int Count { get; set; }
 
         public int? ModelId { get; set; }
 

@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.DataAccess;
+using App.Domain.Core.DtoModels.Auctions;
 using App.Domain.Core.DtoModels.Products;
 using MarketPlace.Database;
 using MarketPlace.Entities;
@@ -27,7 +28,6 @@ namespace App.Infrastructures.Data.Repositories
                 StoreId = inputDto.StoreId,
                 Weight = inputDto.Weight,
                 Description = inputDto.Description,
-                Count = inputDto.Count,
                 ModelId = inputDto.ModelId,
                 Price = inputDto.Price,
                 IsActive = true
@@ -66,7 +66,6 @@ namespace App.Infrastructures.Data.Repositories
                 StoreId = p.StoreId,
                 Weight = p.Weight,
                 Description = p.Description,
-                Count = p.Count,
                 ModelId = p.ModelId,
                 Price = p.Price,
                 IsActive = p.IsActive,
@@ -98,7 +97,6 @@ namespace App.Infrastructures.Data.Repositories
                 StoreId = p.StoreId,
                 Weight = p.Weight,
                 Description = p.Description,
-                Count = p.Count,
                 ModelId = p.ModelId,
                 Price = p.Price,
                 IsActive = p.IsActive
@@ -109,7 +107,10 @@ namespace App.Infrastructures.Data.Repositories
 
         public async Task<ProductOutputDto> GetProductBy(int id, CancellationToken cancellationToken)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.Products
+                .Include(p => p.Store)
+                .Include(p => p.Auctions)
+                .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
 
             ProductOutputDto productDto = new()
             {
@@ -120,10 +121,11 @@ namespace App.Infrastructures.Data.Repositories
                 StoreId = product.StoreId,
                 Weight = product.Weight,
                 Description = product.Description,
-                Count = product.Count,
                 ModelId = product.ModelId,
                 Price = product.Price,
-                IsActive = product.IsActive
+                IsActive = product.IsActive,
+                Auctions = product.Auctions,
+                Store = product.Store
             };
 
             return productDto;
@@ -140,7 +142,6 @@ namespace App.Infrastructures.Data.Repositories
             productToUpdate.StoreId = product.StoreId;
             productToUpdate.Weight = product.Weight;
             productToUpdate.Description = product.Description;
-            productToUpdate.Count = product.Count;
             productToUpdate.ModelId = product.ModelId;
             productToUpdate.Price = product.Price;
             productToUpdate.IsActive = product.IsActive;
@@ -167,7 +168,6 @@ namespace App.Infrastructures.Data.Repositories
                     StoreId = p.StoreId,
                     Weight = p.Weight,
                     Description = p.Description,
-                    Count = p.Count,
                     ModelId = p.ModelId,
                     Price = p.Price,
                     IsActive = p.IsActive,
@@ -183,7 +183,8 @@ namespace App.Infrastructures.Data.Repositories
 
         public async Task<ProductOutputDto> GetProductDetails(int id, CancellationToken cancellationToken)
         {
-            var product = await _context.Products.Include(p => p.Auctions)
+            var product = await _context.Products
+                .Include(p => p.Auctions)
                 .Include(p => p.ProductPhotos)
                 .Where(p => p.IsActive && !p.IsDeleted && p.Id == id)
                 .Select(p => new ProductOutputDto
@@ -196,7 +197,6 @@ namespace App.Infrastructures.Data.Repositories
                     Auctions = p.Auctions,
                     Weight = p.Weight,
                     Description = p.Description,
-                    Count = p.Count,
                     ModelId = p.ModelId,
                     Price = p.Price,
                     IsActive = p.IsActive,
@@ -205,7 +205,7 @@ namespace App.Infrastructures.Data.Repositories
                     Category = p.Category,
                     Store = p.Store,
                     ProductPhotos = p.ProductPhotos
-                }).FirstOrDefaultAsync(cancellationToken);
+                }).SingleOrDefaultAsync(cancellationToken);
 
             return product;
         }
@@ -219,6 +219,39 @@ namespace App.Infrastructures.Data.Repositories
                 product.Price = newPrice;
                 await _context.SaveChangesAsync(cancellationToken);
             }
+        }
+
+        public async Task<List<ProductOutputDto>> GetRandomProducts(CancellationToken cancellationToken)
+        {
+            var randomProducts = await _context.Products
+                .Include(o => o.ProductPhotos)
+                .Include(o => o.Category)
+                .Include(o => o.Store)
+                .Where(p => p.IsActive && !p.IsDeleted && !p.Auctions.Any())
+                .OrderBy(p => Guid.NewGuid())
+                .Take(4)
+                .ToListAsync(cancellationToken);
+
+            var randomProductDtos = randomProducts.Select(p => new ProductOutputDto
+            {
+                Id = p.Id,
+                Name = p.Name ?? string.Empty,
+                Price = p.Price,
+                ProductPhotos = p.ProductPhotos,
+                CategoryId = p.CategoryId,
+                BrandId = p.BrandId,
+                StoreId = p.StoreId,
+                Weight = p.Weight,
+                Description = p.Description ?? string.Empty,
+                ModelId = p.ModelId,
+                IsActive = p.IsActive,
+                IsDeleted = p.IsDeleted,
+                Auctions = p.Auctions,
+                Category = p.Category,
+                Store = p.Store
+            }).ToList();
+
+            return randomProductDtos;
         }
     }
 }

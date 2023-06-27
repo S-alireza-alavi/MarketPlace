@@ -1,8 +1,13 @@
-﻿@{
+﻿@using App.Domain.Core.Entities;
+@using Microsoft.AspNetCore.Identity;
+@{
     var actionDescriptor = ViewContext.ActionDescriptor;
     var currentController = actionDescriptor.RouteValues["controller"];
     var currentAction = actionDescriptor.RouteValues["action"];
 }
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 <!DOCTYPE html>
 <html lang="en" dir="rtl">
@@ -33,6 +38,7 @@
     <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="stylesheet" href="/assets/css/skins/skin-demo-26.css">
     <link rel="stylesheet" href="/assets/css/demos/demo-26.css">
+    <script src="https://kit.fontawesome.com/a890420639.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -78,22 +84,7 @@
                             <i class="icon-search"></i>
                         </a>
                         <form action="#" method="get">
-                            <div class="header-search-wrapper search-wrapper-wide">
-
-                                <div class="select-custom">
-                                    <select id="cat" name="cat">
-                                        <option value="">همه دسته ها</option>
-                                        <option value="1">مد</option>
-                                        <option value="2">- زنانه</option>
-                                        <option value="3">- مردانه</option>
-                                        <option value="5">- مد کودکان</option>
-                                        <option value="6">الکترونیک</option>
-                                        <option value="7">- تلویزیون</option>
-                                        <option value="8">- دوربین ها</option>
-                                        <option value="9">- بازی ها</option>
-                                    </select>
-                                </div>
-                                <!-- End .select-custom -->
+                            <div class="header-search-wrapper search-wrapper-wide">                                
                                 <label for="q" class="sr-only">جستجو</label>
                                 <input type="search" class="form-control" name="q" id="q"
                                        placeholder="جستجوی محصول ..." required>
@@ -111,18 +102,17 @@
                 <div class="header-right">
                     <div class="header-dropdown-link">
                         <!-- End .compare-dropdown -->
-
-                        <div class="dropdown cart-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
-                               aria-haspopup="true" aria-expanded="false" data-display="static">
-                                <div class="icon">
-                                    <i class="icon-shopping-cart"></i>
-                                    <span class="cart-count">2</span>
+                        @if (SignInManager.IsSignedIn(User) && await UserManager.IsInRoleAsync(UserManager.GetUserAsync(User).Result, "Customer"))
+                        {
+                            <div class="align-content-center">
+                                <div>
+                                    <i class="fa-solid fa-user"></i>
                                 </div>
-                                <p>سبد خرید</p>
-                            </a>
-                        </div>
-                        <!-- End .cart-dropdown -->
+                                <a asp-controller="Profile" asp-action="Index">
+                                    پروفایل من
+                                </a>
+                            </div>
+                        }
                     </div>
                 </div>
                 <!-- End .header-right -->

@@ -148,25 +148,51 @@ namespace App.Infrastructures.Data.Repositories
 
         public async Task<List<ProductOutputDto>> GetStoreProducts(int storeId, CancellationToken cancellationToken)
         {
-            var products = await _context.Products.Where(p => p.StoreId == storeId)
+            var products = await _context.Products
+                .Include(p => p.Auctions)
+                .Include(p => p.ProductPhotos)
+                .Include(p => p.Brand)
+                .Include(p => p.Category)
+                .Where(p => p.StoreId == storeId)
                 .Select(p => new ProductOutputDto
                 {
                     Id = p.Id,
+                    Auctions = p.Auctions,
                     Name = p.Name,
                     CategoryId = p.CategoryId,
                     BrandId = p.BrandId,
                     StoreId = p.StoreId,
                     Weight = p.Weight,
                     Description = p.Description,
-                    Count = p.Count,
                     ModelId = p.ModelId,
                     Price = p.Price,
                     IsActive = p.IsActive,
-                    IsDeleted = p.IsDeleted
+                    IsDeleted = p.IsDeleted,
+                    ProductPhotos = p.ProductPhotos,
+                    Brand = p.Brand ?? new Brand(),
+                    Category = p.Category ?? new ProductCategory()
                 })
                 .ToListAsync(cancellationToken);
 
             return products;
+        }
+
+        public async Task<List<StoreOutputDto>> GetStoresByCategory(int categoryId, CancellationToken cancellationToken)
+        {
+            var stores = await _context.Stores.Where(s => s.Products.Any(p => p.CategoryId == categoryId))
+                .Select(s => new StoreOutputDto
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    SellerUserName = s.Seller.UserName,
+                    SellerId = s.SellerId,
+                    Description = s.Description,
+                    CreatedAt = s.CreatedAt,
+                    Address = s.StoreAddresses.FirstOrDefault()
+
+                }).ToListAsync(cancellationToken);
+
+            return stores;
         }
     }
 }

@@ -102,6 +102,11 @@ namespace App.Infrastructures.Data.Repositories
                 .Include(a => a.Bids)
                 .FirstOrDefaultAsync(a => a.Id == auctionId);
 
+            if(auction == null)
+            {
+                return null;
+            }
+
             var output = new AuctionOutputDto
             {
                 Id = auction.Id,

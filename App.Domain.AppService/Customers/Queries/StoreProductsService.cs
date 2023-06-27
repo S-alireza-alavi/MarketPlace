@@ -1,32 +1,28 @@
 ﻿using App.Domain.Core.AppServices.Customers.Queries;
+using App.Domain.Core.DataAccess;
 using App.Domain.Core.DtoModels.Products;
 using MarketPlace.Database;
 using MarketPlace.Entities;
 
 namespace App.Domain.AppService.Customers.Queries;
 
-public class StoreProductsServiceAppService : IStoreProductsServiceAppService
+public class StoreProductsService : IStoreProductsService
 {
     private readonly AppDbContext _context;
     private readonly IStoreServiceAppService _storeService;
+    private readonly IStoreRepository _storeRepository;
 
-    public StoreProductsServiceAppService(AppDbContext context, IStoreServiceAppService storeService)
+    public StoreProductsService(AppDbContext context, IStoreServiceAppService storeService, IStoreRepository storeRepository)
     {
         _context = context;
         _storeService = storeService;
+        _storeRepository = storeRepository;
     }
 
     public async Task<List<ProductOutputDto>> GetStoreProducts(int storeId, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
-        //Get the store first
-        //var store = await _storeService.GetStore(storeId, cancellationToken);
-
-        //query to return store products
-        //var products = await _context.Products.Include(p => p.Store).ThenInclude(s => s.Products)
-        //    .Where(p => p.StoreId == storeId).ToListAsync(cancellationToken);
-
-        //return products;
+        var products = await _storeRepository.GetStoreProducts(storeId, cancellationToken);
+        return products;
     }
 
     public List<Product> Test(int storeId)

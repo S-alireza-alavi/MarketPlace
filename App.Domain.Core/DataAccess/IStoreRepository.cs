@@ -9,6 +9,7 @@ namespace App.Domain.Core.DataAccess
         Task<List<StoreOutputDto>> GetAllStores();
         Task<List<StoreOutputDto>> GetAllStores(string? search);
         Task<StoreOutputDto> GetStoreBy(int id);
+        Task<List<StoreOutputDto>> GetStoresByCategory(int categoryId, CancellationToken cancellationToken);
         Task<List<StoreOutputDto>> GetAllStoresBySellerId(int sellerId, CancellationToken cancellationToken);
         Task<List<ProductOutputDto>> GetStoreProducts(int storeId, CancellationToken cancellationToken);
         Task<int> CreateStore(AddStoreInputDto inputDto, CancellationToken cancellationToken);
