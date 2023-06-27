@@ -4,11 +4,11 @@ using App.Domain.Core.DtoModels.ProductCategories;
 
 namespace App.Domain.AppService.Customers.Queries
 {
-    public class HomeCategoryAppService : IHomeCategoryAppService
+    public class HomeCategoriesService : IHomeCategoriesService
     {
         private readonly IProductCategoryRepository _productCategoryRepository;
 
-        public HomeCategoryAppService(IProductCategoryRepository productCategoryRepository)
+        public HomeCategoriesService(IProductCategoryRepository productCategoryRepository)
         {
             _productCategoryRepository = productCategoryRepository;
         }

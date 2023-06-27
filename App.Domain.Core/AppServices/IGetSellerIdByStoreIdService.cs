@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.AppServices
 {
-    public interface IPurchaseOrderService
+    public interface IGetSellerIdByStoreIdService
     {
-        Task<int> PurchaseOrder(int orderId, CancellationToken cancellationToken);
+        Task<int> GetSellerIdByStoreId(int storeId, CancellationToken cancellationToken);
     }
 }

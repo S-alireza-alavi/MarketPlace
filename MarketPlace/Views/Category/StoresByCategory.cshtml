@@ -1,0 +1,19 @@
+﻿@model List<StoreOutputDto>
+
+<h1>فروشگاه‌های مرتبط</h1>
+
+<div class="row">
+    @foreach (var store in Model)
+    {
+        <div class="card" style="width: 18rem;">
+            <img src="~/store/store-pic.png" alt="store-pic">
+            <div class="card-body">
+                <h5 class="card-title"><a href="@Url.Action("StoreProducts", "Category", new {storeId = store.Id })">@store.Name</a></h5>
+                <p class="card-text">@store.Description</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">نام کاربری فروشنده: @store.SellerUserName</li>
+            </ul>
+        </div>
+    }
+</div>

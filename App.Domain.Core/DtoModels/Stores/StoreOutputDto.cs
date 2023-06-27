@@ -18,14 +18,11 @@ namespace App.Domain.Core.DtoModels.Stores
         [Display(Name = "توضیحات")]
         public string Description { get; set; } = null!;
 
-        [Display(Name = "شناسه آدرس")]
-        public int AddressId { get; set; }
-
         [Display(Name = "نام کاربری فروشنده")]
         public string SellerUserName { get; set; } = null!;
 
-        [Display(Name = "تاسیس در تاریخ")]
-        public DateTime? CreatedAt { get; set; }
+        [Display(Name = "شروع به فعالیت")]
+        public DateTime CreatedAt { get; set; }
 
         public StoreAddress Address { get; set; } = null!;
 

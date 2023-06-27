@@ -136,7 +136,6 @@ namespace MarketPlace.Areas.Seller.Controllers
                     StoreId = storeId,
                     Weight = model.Weight,
                     Description = model.Description,
-                    Count = model.Count,
                     ModelId = model.ModelId,
                     Price = model.Price
                 }, cancellationToken);

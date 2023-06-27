@@ -1,4 +1,5 @@
 ﻿using MarketPlace.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace App.Domain.Core.DtoModels.Products
 {
@@ -10,15 +11,13 @@ namespace App.Domain.Core.DtoModels.Products
 
         public int CategoryId { get; set; }
 
-        public int BrandId { get; set; }
+        public int? BrandId { get; set; }
 
         public int StoreId { get; set; }
 
         public decimal? Weight { get; set; }
 
         public string? Description { get; set; }
-
-        public int Count { get; set; }
 
         public int? ModelId { get; set; }
 
@@ -30,7 +29,7 @@ namespace App.Domain.Core.DtoModels.Products
 
         public virtual ICollection<Auction> Auctions { get; set; } = new List<Auction>();
 
-        public virtual Brand Brand { get; set; } = null!;
+        public virtual Brand? Brand { get; set; }
 
         public virtual ProductCategory Category { get; set; } = null!;
 

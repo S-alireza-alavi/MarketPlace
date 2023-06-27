@@ -1,0 +1,36 @@
+﻿@model List<ProductOutputDto>
+
+<h1>محصولات غرفه</h1>
+
+<div class="row">
+    @foreach (var product in Model)
+    {
+        <div class="col-md-4">
+            <div class="card">
+                @if (product.ProductPhotos.Any())
+                {
+                    <img src="\@product.ProductPhotos.FirstOrDefault()?.FilePath" class="card-img-top" alt="@product.Name" />
+                }
+                <div class="card-body">
+                    <h5 class="card-title">@product.Name</h5>
+                    @if (product.Auctions.Any(a => a.IsRunning))
+                    {
+                        // Product has ongoing auctions, display bidding option
+                        <div class="d-flex justify-content-center">
+                            <a href="@Url.Action("RegisterBid", "Product", new { productId = product.Id })" class="btn btn-primary">ثبت پیشنهاد</a>
+                        </div>
+                    }
+                    else
+                    {
+                        // No ongoing auctions, display direct purchase option
+                        <div class="d-flex justify-content-center">
+                            <a href="@Url.Action("Purchase", "Product", new { productId = product.Id })" class="btn btn-primary">خرید کردن</a>
+                        </div>
+                    }
+                    <p class="card-text">@product.Price تومان</p>
+                </div>
+
+            </div>
+        </div>
+    }
+</div>

@@ -1,26 +1,76 @@
 ﻿@model ProductOutputDto
 
-<div class="container">
+@if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @ViewBag.SuccessMessage
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="container m-5">
     <div class="row">
         <div class="col-md-6">
-            @if (Model.ProductPhotos.Any())
-            {
-                <img src="@Model.ProductPhotos.FirstOrDefault()?.FilePath" class="img-fluid" alt="@Model.Name" />
-            }
+            <img src="/@Model.ProductPhotos.FirstOrDefault()?.FilePath" class="img-fluid" alt="@Model.Name" />
         </div>
         <div class="col-md-6">
-            <h2>@Model.Name</h2>
-            <p>@Model.Description</p>
-            <p>@Model.Price</p>
+            <div class="product-details">
+                <h1 class="product-name">@Model.Name</h1>
+                @if (Model.Auctions.Any(a => a.IsRunning))
+                {
+                    <div class="product-price">
+                        <span class="badge rounded-pill bg-warning text-dark p-3">آخرین پیشنهاد ثبت شده: @Model.Price</span>
+                    </div>
+                }
+                else
+                {
+                    <div class="product-price">
+                        <span class="badge rounded-pill bg-secondary text-dark p-3">قیمت @Model.Price</span>
+                    </div>
+                }
+                <div class="product-description border rounded p-3" style="border-radius:15px;">
+                    <p>@Model.Description</p>
+                </div>
+                @if (Model.IsActive && !Model.IsDeleted && Model.Auctions.Any(a => a.IsRunning))
+                {
+                    <div class="d-flex justify-content-center m-3">
+                        <a asp-action="RegisterBid" asp-controller="Product" asp-route-productId="@Model.Id" class="btn btn-primary">ثبت پیشنهاد</a>
+                    </div>
+                }
+                else if (Model.IsActive && !Model.IsDeleted && Model.Auctions.Any(a => !a.IsRunning))
+                {
+                    <div class="d-flex justify-content-center m-3">
+                        <a href="#" class="btn btn-primary disabled">مزایده به اتمام رسید.</a>
+                    </div>
+                }
+                else if (Model.IsActive && !Model.IsDeleted && Model.Auctions.Count == 0)
+                {
+                    <div class="d-flex justify-content-center m-3">
+                        <a href="@Url.Action("Purchase", "Product", new { productId = Model.Id })" class="btn btn-primary col-12">خرید کردن</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 
-            @if (Model.IsActive && !Model.IsDeleted && Model.Auctions.Any(a => a.StartTime < DateTime.Now && a.EndTime > DateTime.Now))
-            {
-                <a href="#" class="btn btn-primary">ثبت پیشنهاد</a>
-            }
-            else
-            {
-                <a href="#" class="btn btn-primary disabled">مزایده به اتمام رسید.</a>
-            }
+    <div class="row">
+        <div class="col-md-12">
+            <div class="product-specifications">
+                <h2 class="section-title">مشخصات</h2>
+                <ul class="spec-list">
+                    <li><span class="spec-title">دسته‌بندی:</span> @Model.Category.Name</li>
+                    <li>
+                        <span class="spec-title">برند:</span>
+                        @if (Model.Brand != null)
+                            @Model.Brand.Name
+
+                        </li>
+                        @if (Model.Weight.HasValue)
+                    {
+                        <li><span class="spec-title">وزن:</span> @Model.Weight.Value</li>
+                    }
+                </ul>
+            </div>
         </div>
     </div>
 </div>

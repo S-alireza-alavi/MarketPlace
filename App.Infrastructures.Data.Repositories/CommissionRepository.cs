@@ -19,7 +19,9 @@ namespace App.Infrastructures.Data.Repositories
         {
             await _context.Commissions.AddAsync(new Commission
             {
-                CommissionAmount = commission.CommissionAmount
+                Id = commission.Id,
+                CommissionAmount = commission.CommissionAmount,
+                IsDeleted = false
             });
 
             await _context.SaveChangesAsync(cancellationToken);

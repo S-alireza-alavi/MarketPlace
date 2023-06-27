@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "پروفایل من";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<a class="btn btn-warning m-3" asp-controller="Profile" asp-action="EditProfile">
+    ویرایش اطلاعات کاربری
+</a>
+<a class="btn btn-primary m-3" asp-controller="Profile" asp-action="OrderHistory">
+    مشاهده سوابق خرید
+</a>

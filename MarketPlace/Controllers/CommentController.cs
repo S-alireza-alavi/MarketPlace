@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.AppServices.Customers.Commands;
+using App.Domain.Core.DtoModels.ProductComments;
 using App.Domain.Core.DtoModels.StoreComments;
 using MarketPlace.Entities;
 using MarketPlace.Models;
@@ -8,19 +9,19 @@ namespace MarketPlace.Controllers
 {
     public class CommentController : Controller
     {
-        private readonly ILeaveCommentForStoreService _leaveCommentForStoreService;
+        private readonly ILeaveCommentForProductService _leaveCommentForProductService;
 
-        public CommentController(ILeaveCommentForStoreService leaveCommentForStoreService)
+        public CommentController(ILeaveCommentForProductService leaveCommentForProductService)
         {
-            _leaveCommentForStoreService = leaveCommentForStoreService;
+            _leaveCommentForProductService = leaveCommentForProductService;
         }
 
         [HttpGet]
-        public IActionResult Comment(int storeId, int userId)
+        public IActionResult Comment(int productId, int userId)
         {
             var commentViewModel = new CommentViewModel
             {
-                StoreId = storeId,
+                ProductId = productId,
                 UserId = userId,
                 Title = "",
                 CommentBody = ""
@@ -34,12 +35,12 @@ namespace MarketPlace.Controllers
         {
             if (ModelState.IsValid)
             {
-                var comment = new AddStoreCommentInputDto
+                var comment = new AddProductCommentInputDto
                 {
                     Title = model.Title,
                     CommentBody = model.CommentBody,
                     UserId = model.UserId,
-                    StoreId = model.StoreId,
+                    ProductId = model.ProductId,
                     IsConfirmedByAdmin = false,
                     ParentCommentId = null,
                     Rate = null,
@@ -47,7 +48,7 @@ namespace MarketPlace.Controllers
                     DislikeCount = null
                 };
 
-                await _leaveCommentForStoreService.LeaveCommentForStore(comment, cancellationToken);
+                await _leaveCommentForProductService.LeaveCommentForProduct(comment, cancellationToken);
 
                 TempData["SuccessMessage"] = "با تشکر از انتخاب شما";
 

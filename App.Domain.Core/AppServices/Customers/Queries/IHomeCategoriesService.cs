@@ -2,7 +2,7 @@
 
 namespace App.Domain.Core.AppServices.Customers.Queries
 {
-    public interface IHomeCategoryAppService
+    public interface IHomeCategoriesService
     {
         Task<List<ProductCategoryOutputDto>> GetAllCategories(CancellationToken cancellationToken);
     }

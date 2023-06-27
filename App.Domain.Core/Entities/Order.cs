@@ -14,13 +14,13 @@ public partial class Order
 
     public bool IsPurchased { get; set; }
 
-    public DateTime? CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
 
     public bool IsDeleted { get; set; }
 
     public virtual ApplicationUser Customer { get; set; } = null!;
 
-    public virtual Commission IdNavigation { get; set; } = null!;
+    public virtual Commission Commission { get; set; } = null!;
 
     public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 

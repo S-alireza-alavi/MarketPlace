@@ -5,20 +5,20 @@ using App.Domain.Core.DtoModels.Orders;
 
 namespace App.Domain.AppService
 {
-    public class PurchaseOrderService : IPurchaseOrderService
+    public class CalculateCommissionAmountService : ICalculateCommissionAmountService
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IUserRepository _userRepository;
         private readonly AppConfigs _appConfigs;
 
-        public PurchaseOrderService(IOrderRepository orderRepository, IUserRepository userRepository, AppConfigs appConfigs)
+        public CalculateCommissionAmountService(IOrderRepository orderRepository, IUserRepository userRepository, AppConfigs appConfigs)
         {
             _orderRepository = orderRepository;
             _userRepository = userRepository;
             _appConfigs = appConfigs;
         }
 
-        public async Task<int> PurchaseOrder(int orderId, CancellationToken cancellationToken)
+        public async Task<int> CalculateCommissionAmount(int orderId, CancellationToken cancellationToken)
         {
             var order = await _orderRepository.GetOrderBy(orderId, cancellationToken);
 
@@ -35,19 +35,7 @@ namespace App.Domain.AppService
                         commissionRate = _appConfigs.CommissionSettings.ReducedCommissionRate;
                     }
 
-                    order.IsPurchased = true;
-
-                    await _orderRepository.UpdateOrder(new EditOrderInputDto
-                    {
-                        Id = order.Id,
-                        SellerId = order.SellerId,
-                        CustomerId = order.CustomerId,
-                        TotalPrice = order.TotalPrice,
-                        IsPurchased = order.IsPurchased,
-                        CreatedAt = order.CreatedAt
-                    }, cancellationToken);
-
-                    int commissionAmount = (int)(order.TotalPrice * commissionRate / 100);
+                    int commissionAmount = (order.TotalPrice * commissionRate / 100);
                     return commissionAmount;
                 }
             }

@@ -96,7 +96,6 @@ namespace App.Domain.AppService.Sellers.Commands
                     StoreId = product.StoreId,
                     Weight = product.Weight,
                     Description = product.Description,
-                    Count = product.Count,
                     ModelId = product.Id,
                     Price = product.Price,
                     IsActive = product.IsActive

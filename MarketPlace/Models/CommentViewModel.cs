@@ -5,7 +5,7 @@ namespace MarketPlace.Models
     public class CommentViewModel
     {
         public int UserId { get; set; }
-        public int StoreId { get; set; }
+        public int ProductId { get; set; }
 
         [Display(Name = "عنوان")]
         [Required(ErrorMessage = "پر کردن {0} الزامی‌ست.")]
