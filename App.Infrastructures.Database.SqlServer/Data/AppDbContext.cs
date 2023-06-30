@@ -287,7 +287,7 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityR
         {
             entity.HasKey(e => e.Id).HasName("PK_Addresses");
 
-            entity.Property(e => e.FullAddress).HasMaxLength(300);
+            entity.Property(e => e.FullAddress).HasMaxLength(300).IsRequired();
 
             entity.HasOne(d => d.Customer).WithMany(p => p.CustomerAddresses)
                 .HasForeignKey(d => d.CustomerId)

@@ -5,6 +5,8 @@ namespace App.Domain.Core.Entities
 {
     public class ApplicationUser : IdentityUser<int>
     {
+        public string? FullName { get; set; }
+
         public virtual ICollection<Auction> Auctions { get; set; } = new List<Auction>();
 
         public virtual ICollection<Bid> Bids { get; set; } = new List<Bid>();

@@ -12,5 +12,5 @@ public partial class CustomerAddress
 
     public bool IsDeleted { get; set; }
 
-    public virtual ApplicationUser Customer { get; set; }
+    public virtual ApplicationUser Customer { get; set; } = null!;
 }
