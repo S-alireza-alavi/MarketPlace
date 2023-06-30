@@ -17,11 +17,25 @@ namespace MarketPlace.Controllers
             _getOrdersByUserIdService = getOrdersByUserIdService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             string successMessage = TempData["SuccessMessage"] as string;
 
-            return View();
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var model = new UserInformationViewModel
+            {
+                FullName = user.FullName,
+                UserName = user.UserName,
+                Email = user.Email
+            };
+
+            return View(model);
         }
 
         [HttpGet]
@@ -33,6 +47,7 @@ namespace MarketPlace.Controllers
             var profileViewModel = new ProfileViewModel
             {
                 CustomerId = user.Id,
+                FullName = user.FullName,
                 UserName = user.UserName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber
@@ -48,6 +63,7 @@ namespace MarketPlace.Controllers
             {
                 var user = await _userManager.GetUserAsync(User);
 
+                user.FullName = model.FullName;
                 user.UserName = model.UserName;
                 user.Email = model.Email;
                 user.PhoneNumber = model.PhoneNumber;
