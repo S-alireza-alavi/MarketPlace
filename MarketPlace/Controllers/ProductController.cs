@@ -59,7 +59,16 @@ namespace MarketPlace.Controllers
                 }
             }
 
+            // Fetch the product details again after potential updates
             product = await _productDetailService.GetProductDetail(productId, cancellationToken);
+
+            // Check if there is a running auction
+            if (auction != null)
+            {
+                // Pass the remaining time to the view
+                var remainingTime = auction.EndTime - DateTime.Now;
+                ViewBag.RemainingTime = remainingTime;
+            }
 
             return View(product);
         }

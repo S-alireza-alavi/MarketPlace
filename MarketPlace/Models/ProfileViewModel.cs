@@ -17,5 +17,8 @@ namespace MarketPlace.Models
 
         [Display(Name = "شماره موبایل")]
         public string? PhoneNumber { get; set; }
+
+        [Display(Name = "آدرس")]
+        public string? Address { get; set; }
     }
 }
