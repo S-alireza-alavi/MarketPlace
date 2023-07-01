@@ -1,8 +1,10 @@
 ﻿using App.Domain.Core.AppServices.Customers.Queries;
 using App.Domain.Core.Entities;
+using MarketPlace.Entities;
 using MarketPlace.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace MarketPlace.Controllers
 {
@@ -42,7 +44,9 @@ namespace MarketPlace.Controllers
 
         public async Task<IActionResult> EditProfile()
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _userManager.Users
+                .Include(u => u.CustomerAddresses)
+                .FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
 
             var profileViewModel = new ProfileViewModel
             {
@@ -50,7 +54,8 @@ namespace MarketPlace.Controllers
                 FullName = user.FullName,
                 UserName = user.UserName,
                 Email = user.Email,
-                PhoneNumber = user.PhoneNumber
+                PhoneNumber = user.PhoneNumber,
+                Address = user.CustomerAddresses.FirstOrDefault()?.FullAddress
             };
 
             return View(profileViewModel);
@@ -61,12 +66,30 @@ namespace MarketPlace.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.GetUserAsync(User);
+                var user = await _userManager.Users
+                .Include(u => u.CustomerAddresses)
+                .FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
 
                 user.FullName = model.FullName;
                 user.UserName = model.UserName;
                 user.Email = model.Email;
                 user.PhoneNumber = model.PhoneNumber;
+
+                var address = user.CustomerAddresses.FirstOrDefault();
+
+                if (address == null)
+                {
+                    address = new CustomerAddress
+                    {
+                        CustomerId = user.Id,
+                        FullAddress = model.Address
+                    };
+                    user.CustomerAddresses.Add(address);
+                }
+                else
+                {
+                    address.FullAddress = model.Address;
+                }
 
                 var result = await _userManager.UpdateAsync(user);
 

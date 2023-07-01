@@ -16,22 +16,28 @@
     <div class="card text-dark bg-light mb-3 justify-content-end shadow  flex-row">
         <div class="card-body flex-row">
             <h5 class="card-title d-flex"><span class="bg-info m-1 p-3 rounded"> اطلاعات کاربری </span> </h5>
-            <p class="card-text"><i></i> نام و نام خانوادگی: @if (Model.FullName != null)@Model.FullName</p>
-                <p class="card-text"> نام کاربری: @Model.UserName</p>
-                <p class="card-text"><i></i> ایمیل: @Model.Email</p>
+            <p class="card-text">
+                <i></i> نام و نام خانوادگی:
+                @if (Model.FullName != null)
+                {
+                    @Model.FullName
+                }
+                else
+                {
+                    <span>تعریف نشده</span>
+                }
+            </p>
+            <p class="card-text"> نام کاربری: @Model.UserName</p>
+            <p class="card-text"><i></i> ایمیل: @Model.Email</p>
 
-                <div class="float-left">
-                    <a class="btn btn-warning m-3" asp-controller="Profile" asp-action="EditProfile">
-                        ویرایش اطلاعات کاربری
-                    </a>
-                    <a class="btn btn-primary m-3" asp-controller="Profile" asp-action="OrderHistory">
-                        مشاهده سوابق خرید
-                    </a>
-                </div>
+            <div class="float-left">
+                <a class="btn btn-warning m-3" asp-controller="Profile" asp-action="EditProfile">
+                    ویرایش اطلاعات کاربری
+                </a>
+                <a class="btn btn-primary m-3" asp-controller="Profile" asp-action="OrderHistory">
+                    مشاهده سوابق خرید
+                </a>
             </div>
         </div>
     </div>
-
-    <div class="panel panel-warning">
-        <h1>odsaads</h1>
-    </div>
+</div>

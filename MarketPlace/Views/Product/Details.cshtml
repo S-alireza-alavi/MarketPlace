@@ -33,7 +33,17 @@
                 </div>
                 @if (Model.IsActive && !Model.IsDeleted && Model.Auctions.Any(a => a.IsRunning))
                 {
-                    <div class="d-flex justify-content-center m-3">
+                    @if (ViewBag.RemainingTime != null)
+                    {
+                        var remainingTime = ((TimeSpan)ViewBag.RemainingTime).TotalSeconds;
+
+                        <div class="product-countdown bg-light d-flex m-2" data-until="@remainingTime" data-relative="true" data-labels-short="true">
+                            <span class="text-primary font-weight-bold"> زمان باقی‌مانده تا پایان مزایده: </span>
+                            <span class="text-danger font-weight-bold" id="countdownTimer">  </span>
+                        </div>
+                    }
+
+                    <div class="d-flex justify-content-center m-2">
                         <a asp-action="RegisterBid" asp-controller="Product" asp-route-productId="@Model.Id" class="btn btn-primary col-12">ثبت پیشنهاد</a>
                     </div>
                 }
@@ -74,6 +84,7 @@
             </div>
         </div>
     </div>
+
     @await Component.InvokeAsync("ProductComments", new { productId = Model.Id })
 </div>
 
