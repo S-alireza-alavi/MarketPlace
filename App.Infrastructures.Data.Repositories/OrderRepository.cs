@@ -1,6 +1,7 @@
 ﻿using App.Domain.Core.AppServices.Sellers.Commands;
 using App.Domain.Core.Configs;
 using App.Domain.Core.DataAccess;
+using App.Domain.Core.DtoModels.OrderItems;
 using App.Domain.Core.DtoModels.Orders;
 using MarketPlace.Database;
 using MarketPlace.Entities;
@@ -96,16 +97,30 @@ namespace App.Infrastructures.Data.Repositories
         public async Task<List<OrderOutputDto>> GetOrdersByUserId(int userId, CancellationToken cancellationToken)
         {
             var userOrders = await _context.Orders
-                .Where(o => o.CustomerId == userId && o.IsPurchased == true)
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
+                .ThenInclude(p => p.ProductPhotos)
+                .Where(o => o.CustomerId == userId && o.IsPurchased)
                 .Select(o => new OrderOutputDto
                 {
                     Id = o.Id,
                     TotalPrice = o.TotalPrice,
-                    CreatedAt = o.CreatedAt
-                }).ToListAsync(cancellationToken);
+                    CreatedAt = o.CreatedAt,
+                    OrderItems = o.OrderItems.Select(oi => new OrderItemOutputDto
+                    {
+                        Id = oi.Id,
+                        OrderId = oi.OrderId,
+                        ProductId = oi.ProductId,
+                        Quantity = oi.Quantity,
+                        Product = oi.Product,
+                        ProductPhotos = oi.Product.ProductPhotos
+                    }).ToList()
+                })
+                .ToListAsync(cancellationToken);
 
             return userOrders;
         }
+
 
         public async Task SetOrderAsPurchased(int orderId, CancellationToken cancellationToken)
         {
@@ -116,9 +131,9 @@ namespace App.Infrastructures.Data.Repositories
                 await UpdateOrder(new EditOrderInputDto
                 {
                     Id = order.Id,
-                    SellerId= order.SellerId,
-                    CustomerId= order.CustomerId,
-                    TotalPrice= order.TotalPrice,
+                    SellerId = order.SellerId,
+                    CustomerId = order.CustomerId,
+                    TotalPrice = order.TotalPrice,
                     IsPurchased = true
                 }, cancellationToken);
             }

@@ -164,15 +164,9 @@ namespace MarketPlace.Controllers
 
             await _orderService.CreateOrderItem(orderItem, cancellationToken);
 
-            var commentViewModel = new CommentViewModel
-            {
-                UserId = currentUser.Id,
-                ProductId = product.Id,
-                Title = "",
-                CommentBody = ""
-            };
+            TempData["SuccessMessage"] = "با تشکر از انتخاب شما";
 
-            return RedirectToAction("Comment", "Comment", commentViewModel);
+            return RedirectToAction("Index", "Home");
         }
     }
 }
