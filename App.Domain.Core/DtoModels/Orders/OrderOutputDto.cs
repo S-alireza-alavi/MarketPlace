@@ -1,4 +1,7 @@
-﻿namespace App.Domain.Core.DtoModels.Orders
+﻿using App.Domain.Core.DtoModels.OrderItems;
+using MarketPlace.Entities;
+
+namespace App.Domain.Core.DtoModels.Orders
 {
     public class OrderOutputDto
     {
@@ -13,5 +16,7 @@
         public bool IsPurchased { get; set; }
 
         public DateTime CreatedAt { get; set; }
+
+        public virtual ICollection<OrderItemOutputDto> OrderItems { get; set; } = new List<OrderItemOutputDto>();
     }
 }

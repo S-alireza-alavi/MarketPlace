@@ -50,8 +50,6 @@ namespace MarketPlace.Controllers
 
                 await _leaveCommentForProductService.LeaveCommentForProduct(comment, cancellationToken);
 
-                TempData["SuccessMessage"] = "با تشکر از انتخاب شما";
-
                 return RedirectToAction("Index", "Home");
             }
 
