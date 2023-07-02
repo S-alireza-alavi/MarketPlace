@@ -101,7 +101,7 @@ namespace MarketPlace
             builder.Services.AddScoped<IUpdateProductPriceInAuctionService, UpdateProductPriceInAuctionService>();
             builder.Services.AddScoped<IGetAuctionWithBidsService, GetAuctionWithBidsService>();
             builder.Services.AddScoped<IHomeCategoriesService, HomeCategoriesService>();
-            builder.Services.AddScoped<IGetStoresByCategoriesService, GetStoresByCategoriesService>();
+            builder.Services.AddScoped<IGetProductsByCategoriesService, GetProductsByCategoriesService>();
             builder.Services.AddScoped<IStoreProductsService, StoreProductsService>();
             builder.Services.AddScoped<IStoreServiceAppService, StoreServiceAppService>();
             builder.Services.AddScoped<IProductService, ProductService>();
@@ -118,6 +118,7 @@ namespace MarketPlace
             //Register the ViewComponents
             builder.Services.AddTransient<RandomProductsViewComponent>();
             builder.Services.AddTransient<ProductCommentsViewComponent>();
+            builder.Services.AddTransient<AddCommentFormViewComponent>();
 
             builder.Services.AddControllersWithViews();
 

@@ -7,12 +7,10 @@ namespace MarketPlace.Models
         public int UserId { get; set; }
         public int ProductId { get; set; }
 
-        [Display(Name = "عنوان")]
-        [Required(ErrorMessage = "پر کردن {0} الزامی‌ست.")]
-        public string Title { get; set; } = null!;
+        [Display(Name = "عنوان نظر")]
+        public string? Title { get; set; }
 
         [Display(Name = "متن نظر")]
-        [Required(ErrorMessage = "پر کردن {0} الزامی‌ست.")]
-        public string CommentBody { get; set; } = null!;
+        public string? CommentBody { get; set; }
     }
 }

@@ -253,5 +253,36 @@ namespace App.Infrastructures.Data.Repositories
 
             return randomProductDtos;
         }
+
+        public async Task<List<ProductOutputDto>> GetProductsByCategory(int catetoryId, CancellationToken cancellationToken)
+        {
+            var products = await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Brand)
+                .Include(p => p.Auctions)
+                .Include(p => p.ProductPhotos)
+                .Where(p => p.CategoryId == catetoryId)
+                .ToListAsync(cancellationToken);
+
+            return products.Select(p => new ProductOutputDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                CategoryId = p.CategoryId,
+                BrandId = p.BrandId,
+                StoreId = p.StoreId,
+                Weight = p.Weight,
+                Description = p.Description,
+                ModelId = p.ModelId,
+                Price = p.Price,
+                IsActive = p.IsActive,
+                IsDeleted = p.IsDeleted,
+                Auctions = p.Auctions,
+                Brand = p.Brand,
+                Category = p.Category,
+                Store = p.Store,
+                ProductPhotos = p.ProductPhotos
+            }).ToList();
+        }
     }
 }

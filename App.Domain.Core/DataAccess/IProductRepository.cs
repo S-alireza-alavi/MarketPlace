@@ -8,6 +8,7 @@ namespace App.Domain.Core.DataAccess
         Task<List<ProductOutputDto>> GetAllInActiveProducts(CancellationToken cancellationToken);
         Task<List<ProductOutputDto>> GetAllInAuctionProducts(CancellationToken cancellationToken);
         Task<ProductOutputDto> GetProductBy(int id, CancellationToken cancellationToken);
+        Task<List<ProductOutputDto>> GetProductsByCategory(int catetoryId, CancellationToken cancellationToken);
         Task<ProductOutputDto> GetProductDetails(int id, CancellationToken cancellationToken);
         Task<List<ProductOutputDto>> GetRandomProducts(CancellationToken cancellationToken);
         Task<int> CreateProduct(AddProductInputDto inputDto, CancellationToken cancellationToken);

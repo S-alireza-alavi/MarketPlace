@@ -1,33 +1,23 @@
 ﻿using App.Domain.Core.AppServices.Customers.Commands;
 using App.Domain.Core.DtoModels.ProductComments;
 using App.Domain.Core.DtoModels.StoreComments;
+using App.Domain.Core.Entities;
 using MarketPlace.Entities;
 using MarketPlace.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MarketPlace.Controllers
 {
     public class CommentController : Controller
     {
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILeaveCommentForProductService _leaveCommentForProductService;
 
-        public CommentController(ILeaveCommentForProductService leaveCommentForProductService)
+        public CommentController(ILeaveCommentForProductService leaveCommentForProductService, UserManager<ApplicationUser> userManager)
         {
             _leaveCommentForProductService = leaveCommentForProductService;
-        }
-
-        [HttpGet]
-        public IActionResult Comment(int productId, int userId)
-        {
-            var commentViewModel = new CommentViewModel
-            {
-                ProductId = productId,
-                UserId = userId,
-                Title = "",
-                CommentBody = ""
-            };
-
-            return View(commentViewModel);
+            _userManager = userManager;
         }
 
         [HttpPost]

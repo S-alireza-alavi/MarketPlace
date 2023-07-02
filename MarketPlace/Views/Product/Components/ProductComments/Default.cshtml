@@ -1,36 +1,29 @@
 ﻿@using App.Domain.Core.DtoModels.ProductComments;
 @model List<ProductCommentOutputDto>
 
-<div class="comments-section">
-    <h3><span class="bg-info rounded-pill m-3 p-3">نظرات محصول</span></h3>
-    @if (Model.Count == 0)
-    {
-        <p>نظری برای این محصول ثبت نشده است.</p>
-    }
-    else
-    {
+
+@if (Model.Count == 0)
+{
+    <p>نظری برای این محصول ثبت نشده است.</p>
+}
+else
+{
+    <div class="reviews">
         @foreach (var comment in Model)
         {
-            <div class="card m-3">
-                <div class="card-body m-3">
-                    <h5 class="card-title">@comment.Title</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">@comment.User.UserName</h6>
-                    <p class="card-text">@comment.CommentBody</p>
-                    <div class="text-end">
-                        @if (comment.LikeCount.HasValue && comment.LikeCount.Value > 0)
-                        {
-                            <button class="btn btn-primary me-2">
-                                <i class="bi bi-hand-thumbs-up"></i>
-                                پیشنهاد می‌کنم
-                            </button>
-                        }
-                        <button class="btn btn-secondary">
-                            <i class="bi bi-reply"></i>
-                            پاسخ
-                        </button>
+            <div class="review">
+                <div class="row no-gutters">
+                    <div class="col-auto">
+                        <h4>@comment.User.FullName</h4>
+                    </div>
+                    <div class="col">
+                        <h4>@comment.Title</h4>
+                        <div class="review-content">
+                            <p>@comment.CommentBody</p>
+                        </div>
                     </div>
                 </div>
             </div>
         }
-    }
-</div>
+    </div>
+}

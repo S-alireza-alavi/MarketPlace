@@ -7,26 +7,26 @@ namespace MarketPlace.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly IGetStoresByCategoriesService _getStoresByCategoriesService;
+        private readonly IGetProductsByCategoriesService _getProductsByCategoriesService;
         private readonly IStoreProductsService _storeProductsService;
         private readonly ICalculateTotalSalePricesForSellerService _calculateTotalSalePricesForSellerService;
         private readonly IUpdateProductPriceInAuctionService _updateProductPriceInAuctionService;
         private readonly IGetSellerIdByStoreIdService _getSellerIdByStoreIdService;
 
-        public CategoryController(IGetStoresByCategoriesService getStoresByCategoriesService, IStoreProductsService storeProductsService, IUpdateProductPriceInAuctionService updateProductPriceInAuctionService, ICalculateTotalSalePricesForSellerService calculateTotalSalePricesForSellerService, IGetSellerIdByStoreIdService getSellerIdByStoreIdService)
+        public CategoryController(IGetProductsByCategoriesService getProductsByCategoriesService, IStoreProductsService storeProductsService, IUpdateProductPriceInAuctionService updateProductPriceInAuctionService, ICalculateTotalSalePricesForSellerService calculateTotalSalePricesForSellerService, IGetSellerIdByStoreIdService getSellerIdByStoreIdService)
         {
-            _getStoresByCategoriesService = getStoresByCategoriesService;
+            _getProductsByCategoriesService = getProductsByCategoriesService;
             _storeProductsService = storeProductsService;
             _updateProductPriceInAuctionService = updateProductPriceInAuctionService;
             _calculateTotalSalePricesForSellerService = calculateTotalSalePricesForSellerService;
             _getSellerIdByStoreIdService = getSellerIdByStoreIdService;
         }
 
-        public async Task<IActionResult> StoresByCategory(int categoryId, CancellationToken cancellationToken)
+        public async Task<IActionResult> ProductsByCategory(int categoryId, CancellationToken cancellationToken)
         {
-            var stores = await _getStoresByCategoriesService.GetStoresByCategories(categoryId, cancellationToken);
+            var products = await _getProductsByCategoriesService.GetProductsByCategories(categoryId, cancellationToken);
 
-            return View(stores);
+            return View(products);
         }
 
         public async Task<IActionResult> StoreProducts(int storeId, CancellationToken cancellationToken)

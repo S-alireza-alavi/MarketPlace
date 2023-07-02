@@ -176,23 +176,5 @@ namespace App.Infrastructures.Data.Repositories
 
             return products;
         }
-
-        public async Task<List<StoreOutputDto>> GetStoresByCategory(int categoryId, CancellationToken cancellationToken)
-        {
-            var stores = await _context.Stores.Where(s => s.Products.Any(p => p.CategoryId == categoryId))
-                .Select(s => new StoreOutputDto
-                {
-                    Id = s.Id,
-                    Name = s.Name,
-                    SellerUserName = s.Seller.UserName,
-                    SellerId = s.SellerId,
-                    Description = s.Description,
-                    CreatedAt = s.CreatedAt,
-                    Address = s.StoreAddresses.FirstOrDefault()
-
-                }).ToListAsync(cancellationToken);
-
-            return stores;
-        }
     }
 }

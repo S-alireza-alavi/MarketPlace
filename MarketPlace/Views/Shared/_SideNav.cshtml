@@ -13,12 +13,12 @@
                 @if (category.ParentCategoryId == null)
                 {
                     <li>
-                        <a href=@Url.Action("StoresByCategory", "Category",new { categoryId = category.Id })>@category.Name</a>
+                        <a href=@Url.Action("ProductsByCategory", "Category",new { categoryId = category.Id })>@category.Name</a>
                         <ul>
                             @foreach (var subCategory in Model.Where(c => c.ParentCategoryId == category.Id))
                             {
                                 <li>
-                                    <a href=@Url.Action("StoresByCategory", "Category", new { categoryId = subCategory.Id })>@subCategory.Name</a>
+                                    <a href=@Url.Action("ProductsByCategory", "Category", new { categoryId = subCategory.Id })>@subCategory.Name</a>
                                 </li>
                             }
                         </ul>

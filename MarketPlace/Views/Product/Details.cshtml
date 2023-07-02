@@ -1,4 +1,7 @@
-﻿@model ProductOutputDto
+﻿@using App.Domain.Core.Entities;
+@using Microsoft.AspNetCore.Identity;
+@model ProductOutputDto
+@inject UserManager<ApplicationUser> _userManager;
 
 @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
 {
@@ -8,14 +11,24 @@
     </div>
 }
 
-<div class="container m-5">
+@{
+    var userId = User.Identity.IsAuthenticated ? (await _userManager.GetUserAsync(User))?.Id : null;
+}
+
+<div class="product-details-top">
     <div class="row">
-        <div class="col-md-5">
-            <img src="/@Model.ProductPhotos.FirstOrDefault()?.FilePath" class="img-fluid w-60" alt="@Model.Name" />
+        <div class="col-md-6">
+            <div class="product-gallery product-gallery-vertical">
+                <div class="row">
+                    <figure class="product-main-image">
+                        <img src="/@Model.ProductPhotos.FirstOrDefault()?.FilePath" alt="تصویر محصول" />
+                    </figure>
+                </div>
+            </div>
         </div>
-        <div class="col-md-7">
+        <div class="col-md-6">
             <div class="product-details">
-                <h1 class="product-name">@Model.Name</h1>
+                <h1 class="product-title">@Model.Name</h1>
                 @if (Model.Auctions.Any(a => a.IsRunning))
                 {
                     <div class="product-price">
@@ -25,10 +38,10 @@
                 else
                 {
                     <div class="product-price">
-                        <span class="badge rounded-pill bg-secondary text-dark p-3">قیمت @Model.Price.ToString("N0") تومان</span>
+                        <span class="badge rounded-pill bg-secondary text-dark p-3">قیمت: @Model.Price.ToString("N0") تومان</span>
                     </div>
                 }
-                <div class="product-description border rounded p-3" style="border-radius:15px;">
+                <div class="product-content">
                     <p>@Model.Description</p>
                 </div>
                 @if (Model.IsActive && !Model.IsDeleted && Model.Auctions.Any(a => a.IsRunning))
@@ -62,11 +75,38 @@
             </div>
         </div>
     </div>
+</div>
 
-    <div class="row text-right">
-        <div class="col-md-12 m-5">
-            <div class="product-specifications border rounded p-3" style="border-radius: 15px;">
-                <h2 class="section-title font-weight-bold">مشخصات</h2>
+<div class="product-details-tab">
+    <ul class="nav nav-pills justify-content-center" id="product-details-tab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="product-desc-link" data-bs-toggle="pill" href="#product-desc-tab"
+               role="tab" aria-controls="product-desc-tab" aria-selected="true">توضیحات</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="product-info-link" data-bs-toggle="pill" href="#product-info-tab" role="tab"
+               aria-controls="product-info-tab" aria-selected="false">مشخصات</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="product-shipping-link" data-bs-toggle="pill" href="#product-shipping-tab"
+               role="tab" aria-controls="product-shipping-tab" aria-selected="false">ارسال</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="product-review-link" data-bs-toggle="pill" href="#product-review-tab"
+               role="tab" aria-controls="product-review-tab" aria-selected="false">نظرات</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="product-details-tab-content">
+        <div class="tab-pane fade show active" id="product-desc-tab" role="tabpanel" aria-labelledby="product-desc-link">
+            <div class="product-desc-content">
+                <h3 class="title">توضیحات محصول</h3>
+                <p>@Model.Description</p>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="product-info-tab" role="tabpanel" aria-labelledby="product-info-link">
+            <div class="product-desc-content">
+                <h3 class="title">مشخصات محصول</h3>
                 <ul class="spec-list">
                     <li class="spec-item"><span class="spec-title font-weight-bold">دسته‌بندی:</span> @Model.Category.Name</li>
                     <li class="spec-item">
@@ -83,19 +123,22 @@
                 </ul>
             </div>
         </div>
+
+        <div class="tab-pane fade" id="product-shipping-tab" role="tabpanel" aria-labelledby="product-shipping-link">
+            <div class="product-desc-content">
+                <h3 class="title">روش ارسال</h3>
+                <p>محصول با روش پست پیشتاز ارسال می‌شود.</p>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="product-review-tab" role="tabpanel" aria-labelledby="product-review-link">
+            <div class="product-desc-content">
+                @await Component.InvokeAsync("ProductComments", new { productId = Model.Id })
+                <div class="m-3">
+                    @await Component.InvokeAsync("AddCommentForm", new { productId = Model.Id, userId = userId })
+                </div>
+            </div>
+        </div>
+
     </div>
-
-    @await Component.InvokeAsync("ProductComments", new { productId = Model.Id })
 </div>
-
-<style>
-    .spec-list .spec-item {
-        border-bottom: 1px solid #ccc;
-        padding-bottom: 5px;
-        margin-bottom: 5px;
-    }
-
-    .font-weight-bold {
-        font-weight: bold;
-    }
-</style>
