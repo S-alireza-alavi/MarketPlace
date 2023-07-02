@@ -20,29 +20,29 @@
                         <img src="/@product.ProductPhotos.FirstOrDefault()?.FilePath" alt="تصویر محصول"
                              class="product-image">
                     </a>
-                </figure><!-- End .product-media -->
-            </div><!-- End .col-sm-6 col-lg-3 -->
+                </figure>
+            </div>
 
             <div class="col-6 col-lg-3 order-lg-last">
                 <div class="product-list-action">
                     <div class="product-price">
                         @product.Price.ToString("N0") تومان
-                    </div><!-- End .product-price -->
+                    </div>
                     <div class="ratings-container">
                         <div class="ratings">
-                            <div class="ratings-val" style="width: 70%;"></div><!-- End .ratings-val -->
-                        </div><!-- End .ratings -->
+                            <div class="ratings-val" style="width: 70%;"></div>
+                        </div>
                         <span class="ratings-text">( 2 بازدید )</span>
-                    </div><!-- End .rating-container -->
+                    </div>
 
                     <div class="product-action">
                         <a href="popup/quickView.html" class="btn-product btn-quickview"
                            title="مشاهده سریع محصول"><span>مشاهده سریع</span></a>
                         <a href="#" class="btn-product btn-compare" title="مقایسه"><span>مقایسه</span></a>
-                    </div><!-- End .product-action -->
+                    </div>
                     <a href="#" class="btn-product btn-cart"><span>افزودن به سبد خرید</span></a>
-                </div><!-- End .product-list-action -->
-            </div><!-- End .col-sm-6 col-lg-3 -->
+                </div>
+            </div>
 
             <div class="col-lg-6">
                 <div class="product-body product-action-inner">
@@ -54,16 +54,15 @@
                     </a>
                     <div class="product-cat">
                         <p class="text-muted">@product.Category.Name</p>
-                    </div><!-- End .product-cat -->
-                    <h3 class="product-title"><a href="product.html">@product.Name</a></h3><!-- End .product-title -->
+                    </div>
+                    <h3 class="product-title"><a href="@Url.Action("Details", "Product", new { productId = product.Id })">@product.Name</a></h3>
 
                     <div class="product-content">
                         <p>@product.Description</p>
-                    </div><!-- End .product-content -->
-                </div><!-- End .product-body -->
-            </div><!-- End .col-lg-6 -->
+                    </div>
+                </div>
+            </div>
         </div>
         <hr />
-        <!-- End .row -->
     }
-</div><!-- End .product -->
+</div>
