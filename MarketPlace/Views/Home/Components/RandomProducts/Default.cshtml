@@ -1,26 +1,57 @@
 ﻿@using App.Domain.Core.DtoModels.Products;
 @model List<ProductOutputDto>
 
-<br />
-<hr />
-<div>
-    <h2 class="text-center p-3 m-3"><span class="badge rounded-pill badge-primary p-3">پیشنهادهای امروز</span></h2>
-</div>
+<div class="container deal-section">
+    <h3 class="title text-center mt-5 font-weight-bold">پیشنهاد ویژه امروز</h3>
+    <div class="row m-5">
+        @foreach (var product in Model)
+        {
+            <div class="col-3">
+                <div class="product d-flex flex-column overflow-hidden">
+                    <figure class="mb-0 product-media bg-white d-flex justify-content-center align-items-center">
+                        <span class="product-label label-sale text-uppercase">فروش ویژه</span>
+                        <a href="@Url.Action("Details", "Product", new { productId = product.Id })" class="w-100">
+                            <img src="/@product.ProductPhotos.FirstOrDefault()?.FilePath" alt="@product.Name" class="product-image" width="192" height="192">
+                        </a>
 
-<div class="row m-5">
-    @foreach (var product in Model)
-    {
-        <div class="col-3">
-            <div class="card h-100">
-                <img src="@product.ProductPhotos.FirstOrDefault()?.FilePath" class="card-img-top" alt="@product.Name" style="height:280px; width:auto;" />
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title text-truncate">@product.Name</h5>
-                    <div>
-                        <span class="card-text badge rounded-pill bg-primary text-dark m-1 p-3">قیمت: @product.Price.ToString("N0") تومان</span>
+                        <div class="product-action-vertical">
+                            <a href="#" class="btn-product-icon text-dark btn-wishlist" title="افزودن به لیست علاقه مندی">
+                                <span>افزودن به لیست علاقه مندی</span>
+                            </a>
+                            <a href="#" class="btn-product-icon text-dark btn-quickview" title="مشاهده سریع">
+                                <span>مشاهده سریع</span>
+                            </a>
+                            <a href="#" class="btn-product-icon text-dark btn-compare" title="مقایسه">
+                                <span>مقایسه</span>
+                            </a>
+                        </div>
+                    </figure>
+
+                    <div class="product-body">
+                        <div class="product-cat mb-0 text-light text-right">
+                            <p class="text-muted">@product.Category.Name</p>
+                        </div>
+                        <h3 class="product-title letter-spacing-normal font-size-normal mb-0 text-right">
+                            <a href="@Url.Action("Details", "Product", new { productId = product.Id })">@product.Name</a>
+                        </h3>
+                        <div class="product-price mb-1">
+                            <div class="new-price">@product.Price.ToString("N0") تومان</div>
+                        </div>
+                        <div class="ratings-container">
+                            <div class="ratings">
+                                <div class="ratings-val" style="width: 100%;"></div>
+                            </div>
+                            <span class="ratings-text ml-2">( 7 رأی )</span>
+                        </div>
                     </div>
-                    <a href="@Url.Action("Details", "Product", new { productId = product.Id })" class="btn btn-primary text-dark mt-auto w-80">جزئیات محصول</a>
+
+                    <div class="product-action position-relative visible">
+                        <a href="@Url.Action("Details", "Product", new { productId = product.Id })" class="btn-product btn-cart btn-select text-uppercase text-dark text-decoration-none" title="جزئیات محصول">
+                            <span class="text-dark shadow-none">جزئیات محصول</span>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-    }
+        }
+    </div>
 </div>
