@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="~/dist/css/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/dist/css/et-line-font/et-line-font.css">
     <link rel="stylesheet" href="~/dist/css/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="~/css/site.css"/>
     <!-- Chartist CSS -->
     <link rel="stylesheet" href="~/dist/plugins/chartist-js/chartist.min.css">
     <link rel="stylesheet" href="~/dist/plugins/chartist-js/chartist-plugin-tooltip.css">
@@ -24,13 +25,11 @@
     <div class="wrapper boxed-wrapper">
         <header class="main-header">
             <nav class="navbar blue-bg navbar-static-top">
-                <!-- Sidebar toggle button-->
                 <ul class="nav navbar-nav pull-left">
                     <li><a class="sidebar-toggle" data-toggle="push-menu" href=""></a> </li>
                 </ul>
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
-                        <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu p-ph-res">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="hidden-xs">@UserManager.GetUserName(User)</span> </a>
                             <ul class="dropdown-menu">
@@ -44,13 +43,10 @@
 
         <partial name="_SellerSidebar"></partial>
 
-        <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
             <div class="content-header sty-one">
                 <h1>پنل فروشنده @User.Identity.Name</h1>
             </div>
-            <!-- Main content -->
             <div class="content">
                 <span>
                     @RenderBody()

@@ -19,16 +19,22 @@ namespace MarketPlace.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(int productId)
         {
-            var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
-            var userId = user.Id;
-
-            var model = new CommentViewModel
+            if (_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
             {
-                ProductId = productId,
-                UserId = userId
-            };
+                var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+                var userId = user?.Id;
 
-            return View("", model);
+                var model = new CommentViewModel
+                {
+                    ProductId = productId,
+                    UserId = user.Id
+                };
+
+                return View("", model);
+            }
+
+            // User is not authenticated, handle this case accordingly
+            return Content(""); // or return a different view/component if needed
         }
     }
 }

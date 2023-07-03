@@ -4,7 +4,7 @@ namespace MarketPlace.Models
 {
     public class CommentViewModel
     {
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         public int ProductId { get; set; }
 
         [Display(Name = "عنوان نظر")]

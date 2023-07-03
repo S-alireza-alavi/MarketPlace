@@ -141,9 +141,16 @@
         <div class="tab-pane fade" id="product-review-tab" role="tabpanel" aria-labelledby="product-review-link">
             <div class="product-desc-content">
                 @await Component.InvokeAsync("ProductComments", new { productId = Model.Id })
-                <div class="m-3">
-                    @await Component.InvokeAsync("AddCommentForm", new { productId = Model.Id, userId = userId })
-                </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="m-3">
+                        @await Component.InvokeAsync("AddCommentForm", new { productId = Model.Id, userId = userId })
+                    </div>
+                }
+                else
+                {
+                    <p>برای ارسال نظر، <a href="/Account/Login">وارد حساب کاربری</a> خود شوید.</p>
+                }
             </div>
         </div>
 
