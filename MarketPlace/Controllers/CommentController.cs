@@ -29,7 +29,7 @@ namespace MarketPlace.Controllers
                 {
                     Title = model.Title,
                     CommentBody = model.CommentBody,
-                    UserId = model.UserId,
+                    UserId = model.UserId ?? 0,
                     ProductId = model.ProductId,
                     IsConfirmedByAdmin = false,
                     ParentCommentId = null,

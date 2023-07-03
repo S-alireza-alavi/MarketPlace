@@ -28,6 +28,7 @@ Designed By: UXLiner
 --------------------------------------------------------*/
 
 /* Layout */
+
 html, body {
 	height: 100%
 }
@@ -35,7 +36,7 @@ html, body {
 	height: 100%
 }
 body {
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Yekan Bakh FaNum';
 	font-weight: 400;
 	overflow-x: hidden;
 	overflow-y: auto;
@@ -151,7 +152,7 @@ a:hover, a:active, a:focus {
 	padding-right: 15px
 }
 h1, h2, h3, h4, h5, h6 {
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Yekan Bakh FaNum';
 	font-weight: 400;
 }
 h2 {
@@ -457,12 +458,12 @@ color:#ccc
 	border-width: 1px 0 1px 1px;
 	font-size: 12px;
 }
-.main-header .search-form input.form-control {
-	background: #6876e8;
-	border: 1px solid #6876e8;
-	color: #fff;
-	font-family: 'Poppins', sans-serif;
-}
+	.main-header .search-form input.form-control {
+		background: #6876e8;
+		border: 1px solid #6876e8;
+		color: #fff;
+		font-family: 'Yekan Bakh FaNum';
+	}
 .main-header .search-form input.form-control::-moz-placeholder {
  color: #fff;
 }
@@ -1588,15 +1589,15 @@ opacity:1
 color:#bbb;
 opacity:1
 }
-.form-control.sty1{
-	border-radius:0px;
-	box-shadow: none;
-	border:0;
-	border-bottom:solid 1px #d9d9d9;
-	font-size:16px;
-	font-family: 'Poppins', sans-serif;
-	padding:10px 0;
-}
+	.form-control.sty1 {
+		border-radius: 0px;
+		box-shadow: none;
+		border: 0;
+		border-bottom: solid 1px #d9d9d9;
+		font-size: 16px;
+		font-family: 'Yekan Bakh FaNum';
+		padding: 10px 0;
+	}
 .form-control.sty1:focus {
 	border-color: #5867dd;
 	box-shadow: none
@@ -5577,7 +5578,7 @@ filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#e73f7c', endCo
 	padding: 5px 10px;
 	color: #fff;
 	background: rgb(0, 0, 0, 0.8);
-	font-family: sans-serif;
+	font-family: Yekan Bakh FaNum;
 	font-size: 13px;
 	text-align: center
 }

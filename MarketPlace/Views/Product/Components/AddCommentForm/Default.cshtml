@@ -1,21 +1,22 @@
 ﻿@model CommentViewModel
 
-<h3 class="title">افزودن نظر</h3>
-<form id="commentForm" method="post" action="@Url.Action("LeaveComment", "Comment")">
-    @Html.AntiForgeryToken()
+    <h3 class="title">افزودن نظر</h3>
+    <form id="commentForm" method="post" action="@Url.Action("LeaveComment", "Comment")">
+        @Html.AntiForgeryToken()
 
-    <input type="hidden" asp-for="UserId" value="@Model.UserId" />
-    <input type="hidden" asp-for="ProductId" value="@Model.ProductId" />
+        <input type="hidden" asp-for="UserId" value="@Model.UserId" />
+        <input type="hidden" asp-for="ProductId" value="@Model.ProductId" />
 
-    <div class="form-group">
-        <label asp-for="Title">عنوان نظر</label>
-        <input asp-for="Title" class="form-control" />
-    </div>
+        <div class="form-group">
+            <label asp-for="Title">عنوان نظر</label>
+            <input asp-for="Title" class="form-control" />
+        </div>
 
-    <div class="form-group">
-        <label asp-for="CommentBody">متن نظر</label>
-        <textarea asp-for="CommentBody" rows="4" class="form-control"></textarea>
-    </div>
+        <div class="form-group">
+            <label asp-for="CommentBody">متن نظر</label>
+            <textarea asp-for="CommentBody" rows="4" class="form-control"></textarea>
+        </div>
 
-    <button type="submit" class="btn btn-primary">ثبت نظر</button>
-</form>
+        <button type="submit" class="btn btn-primary">ثبت نظر</button>
+    </form>
+}

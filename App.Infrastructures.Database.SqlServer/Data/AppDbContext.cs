@@ -341,8 +341,6 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityR
 
         modelBuilder.Entity<Medal>(entity =>
         {
-            entity.HasKey(m => m.Id);
-
             entity.HasOne(m => m.Seller)
                 .WithOne(s => s.Medal)
                 .HasForeignKey<Medal>(m => m.SellerId)

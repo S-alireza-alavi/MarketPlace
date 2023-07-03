@@ -23,10 +23,11 @@ namespace App.Infrastructures.Data.Repositories
             {
                 var medal = new Medal
                 {
+                    Id = sellerId,
                     SellerId = sellerId
                 };
 
-                await _context.Medals.AddAsync(medal);
+                await _context.Medals.AddAsync(medal, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
             }
         }

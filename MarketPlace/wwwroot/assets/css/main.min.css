@@ -12,9 +12,10 @@
 }
 
 @font-face {
-    font-family: "iransans";
-    src: url("../fonts/IRANSansWeb_Light.woff2") format("woff2");
-    src: url("../fonts/IRANSansWeb_Light.woff") format("woff");
+    font-family: Yekan Bakh FaNum;
+    font-style: normal;
+    font-weight: normal;
+    src: url('/assets/fonts/woff/YekanBakhFaNum-Regular.woff') format('woff'), url('/assets/fonts/woff2/YekanBakhFaNum-Regular.woff2') format('woff2')
 }
 
 [class*=" icon-"]:before,
@@ -103,7 +104,7 @@ html {
 }
 
 body {
-    font-family: "iransans", Poppins;
+    font-family: "Yekan Bakh FaNum", Poppins;
     font-size: 1.3rem;
     line-height: 2.5rem;
     color: #666;

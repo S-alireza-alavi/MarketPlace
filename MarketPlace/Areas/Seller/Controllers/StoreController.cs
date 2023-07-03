@@ -158,8 +158,7 @@ namespace MarketPlace.Areas.Seller.Controllers
                     }, cancellationToken);
                 }
             }
-            //todo: آپدیت کردن قیمت‌های صفحه‌ی مزایدات نوشته بشه و باگ نمایش دادن قیمت هم رفع شه
-            //برش گردون به صفحه لیست محصولات
+
             return View(model);
         }
     }
