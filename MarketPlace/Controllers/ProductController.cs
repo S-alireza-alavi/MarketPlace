@@ -123,49 +123,49 @@ namespace MarketPlace.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> Purchase(int productId, CancellationToken cancellationToken)
-        {
-            var currentUser = await _userManager.GetUserAsync(User);
-            var product = await _productService.GetProductBy(productId, cancellationToken);
+        //public async Task<IActionResult> Purchase(int productId, CancellationToken cancellationToken)
+        //{
+        //    var currentUser = await _userManager.GetUserAsync(User);
+        //    var product = await _productService.GetProductBy(productId, cancellationToken);
 
-            if (product == null)
-            {
-                return NotFound();
-            }
+        //    if (product == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var order = new AddOrderInputDto
-            {
-                SellerId = product.Store.SellerId,
-                CustomerId = currentUser.Id,
-                TotalPrice = product.Price,
-                CreatedAt = DateTime.Now
-            };
+        //    var order = new AddOrderInputDto
+        //    {
+        //        SellerId = product.Store.SellerId,
+        //        CustomerId = currentUser.Id,
+        //        TotalPrice = product.Price,
+        //        CreatedAt = DateTime.Now
+        //    };
 
-            var orderId = await _orderService.CreateOrder(order, cancellationToken);
+        //    var orderId = await _orderService.CreateOrder(order, cancellationToken);
 
-            var commissionAmount = await _calculateCommissionAmountService.CalculateCommissionAmount(orderId, cancellationToken);
+        //    var commissionAmount = await _calculateCommissionAmountService.CalculateCommissionAmount(orderId, cancellationToken);
 
-            var commission = new AddCommissionInputDto
-            {
-                Id = orderId,
-                CommissionAmount = commissionAmount
-            };
+        //    var commission = new AddCommissionInputDto
+        //    {
+        //        Id = orderId,
+        //        CommissionAmount = commissionAmount
+        //    };
 
-            await _commissionService.CreateCommission(commission, cancellationToken);
+        //    await _commissionService.CreateCommission(commission, cancellationToken);
 
-            await _orderService.SetOrderAsPurchased(orderId, cancellationToken);
+        //    await _orderService.SetOrderAsPurchased(orderId, cancellationToken);
 
-            var orderItem = new AddOrderItemInputDto
-            {
-                OrderId = orderId,
-                ProductId = productId
-            };
+        //    var orderItem = new AddOrderItemInputDto
+        //    {
+        //        OrderId = orderId,
+        //        ProductId = productId
+        //    };
 
-            await _orderService.CreateOrderItem(orderItem, cancellationToken);
+        //    await _orderService.CreateOrderItem(orderItem, cancellationToken);
 
-            TempData["SuccessMessage"] = "با تشکر از انتخاب شما";
+        //    TempData["SuccessMessage"] = "با تشکر از انتخاب شما";
 
-            return RedirectToAction("Index", "Home");
-        }
+        //    return RedirectToAction("Index", "Home");
+        //}
     }
 }

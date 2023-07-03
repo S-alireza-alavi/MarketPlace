@@ -2,6 +2,7 @@
 using App.Domain.Core.AppServices.Customers.Commands;
 using App.Domain.Core.AppServices.Customers.Queries;
 using App.Domain.Core.DataAccess;
+using App.Domain.Core.DtoModels.Commisions;
 using App.Domain.Core.DtoModels.OrderItems;
 using App.Domain.Core.DtoModels.Orders;
 using App.Domain.Core.Entities;
@@ -20,8 +21,14 @@ namespace MarketPlace.Controllers
         private readonly IGetOrderByIdService _getOrderByIdService;
         private readonly ICreateOrderItemService _createOrderItemService;
         private readonly IUpdateOrderTotalPriceService _updateOrderTotalPriceService;
+        private readonly IRemoveCartOrderItemService _removeCartOrderItemService;
+        private readonly ICountOrderItemsService _countOrderItemsService;
+        private readonly IRemoveOrderService _removeOrderService;
+        private readonly ICalculateCommissionAmountService _calculateCommissionAmountService;
+        private readonly ICommissionService _commissionService;
+        private readonly IOrderService _orderService;
 
-        public CartController(UserManager<ApplicationUser> userManager, IProductService productService, ICreateOrderService createOrderService, IHasOrderService hasOrderService, IGetCartOrderService getCartOrderService, IGetOrderByIdService getOrderByIdService, ICreateOrderItemService createOrderItemService, IUpdateOrderTotalPriceService updateOrderTotalPriceService)
+        public CartController(UserManager<ApplicationUser> userManager, IProductService productService, ICreateOrderService createOrderService, IHasOrderService hasOrderService, IGetCartOrderService getCartOrderService, IGetOrderByIdService getOrderByIdService, ICreateOrderItemService createOrderItemService, IUpdateOrderTotalPriceService updateOrderTotalPriceService, IRemoveCartOrderItemService removeCartOrderItemService, ICountOrderItemsService countOrderItemsService, IRemoveOrderService removeOrderService, ICalculateCommissionAmountService calculateCommissionAmountService, ICommissionService commissionService, IOrderService orderService)
         {
             _userManager = userManager;
             _productService = productService;
@@ -31,6 +38,12 @@ namespace MarketPlace.Controllers
             _getOrderByIdService = getOrderByIdService;
             _createOrderItemService = createOrderItemService;
             _updateOrderTotalPriceService = updateOrderTotalPriceService;
+            _removeCartOrderItemService = removeCartOrderItemService;
+            _countOrderItemsService = countOrderItemsService;
+            _removeOrderService = removeOrderService;
+            _calculateCommissionAmountService = calculateCommissionAmountService;
+            _commissionService = commissionService;
+            _orderService = orderService;
         }
 
         public async Task<IActionResult> Cart(CancellationToken cancellationToken)
@@ -99,6 +112,42 @@ namespace MarketPlace.Controllers
 
                 return RedirectToAction("Cart", "Cart");
             }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveOrderItem(int orderItemId, CancellationToken cancellationToken)
+        {
+            var orderId = await _removeCartOrderItemService.RemoveCartOrderItem(orderItemId, cancellationToken);
+            await _updateOrderTotalPriceService.UpdateOrderTotalPrice(orderId, cancellationToken);
+
+            var orderItemsCount = await _countOrderItemsService.CountOrderItems(orderId, cancellationToken);
+
+            if (orderItemsCount == 0)
+            {
+                await _removeOrderService.RemoveOrder(orderId, cancellationToken);
+            }
+
+            return RedirectToAction("Cart", "Cart");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Purchase(int orderId, CancellationToken cancellationToken)
+        {
+            var commissionAmount = await _calculateCommissionAmountService.CalculateCommissionAmount(orderId, cancellationToken);
+
+            var commission = new AddCommissionInputDto
+            {
+                Id = orderId,
+                CommissionAmount = commissionAmount
+            };
+
+            await _commissionService.CreateCommission(commission, cancellationToken);
+
+            await _orderService.SetOrderAsPurchased(orderId, cancellationToken);
+
+            var order = await _getOrderByIdService.GetOrderById(orderId, cancellationToken);
+
+            return View(order);
         }
 
         public IActionResult EmptyCart()

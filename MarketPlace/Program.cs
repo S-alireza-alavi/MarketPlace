@@ -120,6 +120,9 @@ namespace MarketPlace
             builder.Services.AddScoped<IGetOrderByIdService, GetOrderByIdService>();
             builder.Services.AddScoped<ICreateOrderItemService, CreateOrderItemService>();
             builder.Services.AddScoped<IUpdateOrderTotalPriceService, UpdateOrderTotalPriceService>();
+            builder.Services.AddScoped<IRemoveCartOrderItemService, RemoveCartOrderItemService>();
+            builder.Services.AddScoped<ICountOrderItemsService, CountOrderItemsService>();
+            builder.Services.AddScoped<IRemoveOrderService, RemoveOrderService>();
 
             //Register the ViewComponents
             builder.Services.AddTransient<RandomProductsViewComponent>();
