@@ -14,7 +14,7 @@
                 <figure class="product-media">
                     @if (product.Auctions.Any(a => a.IsRunning))
                     {
-                        <span class="product-label label-new">جدید</span>
+                        <span class="product-label label-new">مزایده</span>
                     }
                     <a href="@Url.Action("Details", "Product", new { productId = product.Id })" class="d-block">
                         <img src="/@product.ProductPhotos.FirstOrDefault()?.FilePath" alt="تصویر محصول"
@@ -40,7 +40,20 @@
                            title="مشاهده سریع محصول"><span>مشاهده سریع</span></a>
                         <a href="#" class="btn-product btn-compare" title="مقایسه"><span>مقایسه</span></a>
                     </div>
-                    <a href="#" class="btn-product btn-cart"><span>افزودن به سبد خرید</span></a>
+
+                    @if (product.Auctions.Any(a => a.IsRunning))
+                    {
+                        <div class="product-action position-relative visible">
+                            <a href="@Url.Action("Details", "Product", new { productId = product.Id })" class="btn-product btn-cart btn-select text-uppercase text-dark text-decoration-none" title="جزئیات محصول">
+                                <span class="text-dark shadow-none">جزئیات محصول</span>
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("AddToCart", "Cart", new { productId = product.Id })" class="btn-product btn-cart"><span>افزودن به سبد خرید</span></a>
+                    }
+
                 </div>
             </div>
 

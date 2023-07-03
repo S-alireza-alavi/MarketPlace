@@ -26,47 +26,55 @@ namespace App.Infrastructures.Data.Repositories
             await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task DeleteOrderItem(int id, CancellationToken cancellationToken)
+        public async Task<int> DeleteOrderItem(int id, CancellationToken cancellationToken)
         {
             OrderItem? orderItem = await _context.OrderItems.FindAsync(id);
 
-            _context.OrderItems.Remove(orderItem);
-
-            await _context.SaveChangesAsync(cancellationToken);
-        }
-
-        public async Task<OrderItemOutputDto>? GetOrderItemBy(int id, CancellationToken cancellationToken)
-        {
-            var orderItem = await _context.OrderItems.Where(oi => oi.Id == id).Select(oi => new OrderItemOutputDto
+            if (orderItem != null)
             {
-                Id = oi.Id,
-                OrderId = oi.OrderId,
-                ProductId = oi.ProductId
-            }).FirstAsync(cancellationToken);
+                int orderId = orderItem.OrderId;
 
-            return orderItem;
+                _context.OrderItems.Remove(orderItem);
+                await _context.SaveChangesAsync(cancellationToken);
+
+                return orderId;
+            }
+
+            return -1;
         }
 
-        public async Task<List<OrderItemOutputDto>> GetAllOrderItems(CancellationToken cancellationToken)
-        {
-            var orderItems = await _context.OrderItems.Select(oi => new OrderItemOutputDto
+            public async Task<OrderItemOutputDto>? GetOrderItemBy(int id, CancellationToken cancellationToken)
             {
-                Id = oi.Id,
-                OrderId = oi.OrderId,
-                ProductId = oi.ProductId
-            }).ToListAsync(cancellationToken);
+                var orderItem = await _context.OrderItems.Where(oi => oi.Id == id).Select(oi => new OrderItemOutputDto
+                {
+                    Id = oi.Id,
+                    OrderId = oi.OrderId,
+                    ProductId = oi.ProductId
+                }).FirstAsync(cancellationToken);
 
-            return orderItems;
-        }
+                return orderItem;
+            }
 
-        public async Task UpdateOrderItem(EditOrderItemInputDto orderItem, CancellationToken cancellationToken)
-        {
-            var orderItemToUpdate = await _context.OrderItems.Where(oi => oi.Id == orderItem.Id).FirstOrDefaultAsync(cancellationToken);
+            public async Task<List<OrderItemOutputDto>> GetAllOrderItems(CancellationToken cancellationToken)
+            {
+                var orderItems = await _context.OrderItems.Select(oi => new OrderItemOutputDto
+                {
+                    Id = oi.Id,
+                    OrderId = oi.OrderId,
+                    ProductId = oi.ProductId
+                }).ToListAsync(cancellationToken);
 
-            orderItemToUpdate.OrderId = orderItem.OrderId;
-            orderItemToUpdate.ProductId = orderItem.ProductId;
+                return orderItems;
+            }
 
-            await _context.SaveChangesAsync(cancellationToken);
+            public async Task UpdateOrderItem(EditOrderItemInputDto orderItem, CancellationToken cancellationToken)
+            {
+                var orderItemToUpdate = await _context.OrderItems.Where(oi => oi.Id == orderItem.Id).FirstOrDefaultAsync(cancellationToken);
+
+                orderItemToUpdate.OrderId = orderItem.OrderId;
+                orderItemToUpdate.ProductId = orderItem.ProductId;
+
+                await _context.SaveChangesAsync(cancellationToken);
+            }
         }
     }
-}

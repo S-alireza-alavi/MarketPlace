@@ -1,93 +1,109 @@
 ﻿@model OrderOutputDto
 
-<div class="cart">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-9">
-                <table class="table table-cart table-mobile">
-                    <thead>
-                        <tr>
-                            <th>محصول</th>
-                            <th>قیمت</th>
-                            <th>تعداد</th>
-                            <th>مجموع</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.OrderItems)
-                        {
+<div class="main">
+
+    <div class="page-header text-center" style="background-image: url('~/wwwroot/assets/images/page-header-bg.jpg')">
+        <div class="container">
+            <h1 class="page-title">سبد خرید<span>فروشگاه</span></h1>
+        </div>
+    </div>
+
+    <div class="cart m-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9">
+                    <table class="table table-cart table-mobile">
+                        <thead>
                             <tr>
-                                <td class="product-col">
-                                    <div class="product">
-                                        <figure class="product-media">
-                                            <a href="#">
-                                                <img src="/@item.ProductPhotos.FirstOrDefault()?.FilePath" alt="تصویر محصول" />
-                                            </a>
-                                        </figure>
-                                        <h3 class="product-title">
-                                            <a href="#">@item.Product.Name</a>
-                                        </h3>
-                                    </div>
-                                </td>
-                                <td class="price-col">@item.Product.Price.ToString("N0")</td>
-                                <td class="quantity-col">
-                                    <div class="cart-product-quantity">
-                                        <input type="number" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
-                                    </div>
-                                </td>
-                                <td class="total-col">@Model.TotalPrice.ToString("N0")</td>
-                                <td class="remove-col">
-                                    <button class="btn-remove"><i class="icon-close"></i></button>
-                                </td>
+                                <th>محصول</th>
+                                <th>قیمت</th>
+                                <th></th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
-
-                <div class="cart-bottom">
-                    <div class="cart-discount">
-                        <form action="#">
-                            <div class="input-group">
-                                <input type="text" class="form-control" required placeholder="کد تخفیف">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-primary-2" type="submit">
-                                        <i class="icon-long-arrow-left"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-
-                    <a href="#" class="btn btn-outline-dark-2">
-                        <span>به روز رسانی سبد خرید</span><i class="icon-refresh"></i>
-                    </a>
-                </div>
-
-            </div>
-
-            <aside class="col-lg-3">
-                <div class="summary summary-cart">
-                    <h3 class="summary-title">جمع سبد خرید</h3>
-                    <table class="table table-summary">
+                        </thead>
                         <tbody>
-                            <tr class="summary-subtotal">
-                                <td>جمع کل سبد خرید :</td>
-                                <td class="text-left">@Model.TotalPrice.ToString("N0") تومان</td>
-                            </tr>
-                            <tr class="summary-total">
-                                <td>مبلغ قابل پرداخت :</td>
-                                <td class="text-left">@Model.TotalPrice.ToString("N0") تومان</td>
-                            </tr>
+                            @foreach (var item in Model.OrderItems)
+                            {
+                                <tr>
+                                    <td class="product-col">
+                                        <div class="product">
+                                            <img src="/@item.ProductPhotos.FirstOrDefault()?.FilePath" alt="تصویر محصول" width="100" height="100" />
+                                            <h3 class="product-title">
+                                                <a href="@Url.Action("Details", "Product", new { productId = item.Product.Id })">@item.Product.Name</a>
+                                            </h3>
+                                        </div>
+                                    </td>
+                                    <td class="price-col">@item.Product.Price.ToString("N0")</td>
+                                    <td class="quantity-col">
+                                        <div class="cart-product-quantity">
+                                            <input type="number" class="form-control" value="1" min="1" max="1"
+                                                   step="1" data-decimals="0" readonly>
+                                        </div>
+                                    </td>
+                                    <td class="remove-col">
+                                        <button class="btn-remove" onclick="removeItem(@item.Id)"><i class="icon-close"></i></button>
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
-                    <a href="checkout.html" class="btn btn-outline-primary-2 btn-order btn-block">رفتن به صفحه پرداخت</a>
+
+                    <div class="cart-bottom">
+                        <a asp-action="Cart" asp-controller="Cart" class="btn btn-outline-dark-2">
+                            <span>به روز رسانی سبد خرید</span><i class="icon-refresh"></i>
+                        </a>
+                    </div>
+
                 </div>
-                <a href="category.html" class="btn btn-outline-dark-2 btn-block mb-3">
-                    <span>ادامه خرید</span>
-                    <i class="icon-refresh"></i>
-                </a>
-            </aside>
+
+                <aside class="col-lg-3 mt-5">
+                    <div class="summary summary-cart">
+                        <h3 class="summary-title">جمع سبد خرید</h3>
+                        <table class="table table-summary">
+                            <tbody>
+                                <tr class="summary-subtotal">
+                                    <td>جمع کل سبد خرید :</td>
+                                    <td class="text-left">@Model.TotalPrice.ToString("N0") تومان</td>
+                                </tr>
+                                <tr class="summary-total">
+                                    <td>مبلغ قابل پرداخت :</td>
+                                    <td class="text-left">@Model.TotalPrice.ToString("N0") تومان</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a asp-action="Purchase" asp-controller="Cart" asp-route-orderId="@Model.Id" class="btn btn-outline-primary-2 btn-order btn-block">نهایی کردن خرید</a>
+                    </div>
+                    <a asp-action="Index" asp-controller="Home" class="btn btn-outline-dark-2 btn-block mb-3">
+                        <span>ادامه خرید</span>
+                        <i class="icon-refresh"></i>
+                    </a>
+                </aside>
+            </div>
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script>
+        function removeItem(orderItemId) {
+            // Make an AJAX request to the action method
+            $.ajax({
+                url: '/Cart/RemoveOrderItem',
+                type: 'POST',
+                data: { orderItemId: orderItemId },
+                success: function (response) {
+                    // Handle the success response, such as removing the row from the table
+                    // or refreshing the cart section of the page
+                    // Example: $(event.target).closest('tr').remove();
+
+                    // Optional: Reload the cart page after successful removal
+                    location.reload();
+                },
+                error: function (error) {
+                    // Handle the error response, if any
+                    console.log(error);
+                }
+            });
+        }
+
+    </script>
+}

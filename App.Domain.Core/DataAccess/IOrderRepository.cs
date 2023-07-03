@@ -15,5 +15,6 @@ namespace App.Domain.Core.DataAccess
         Task UpdateOrderTotalPrice(int orderId, CancellationToken cancellationToken);
         Task SetOrderAsPurchased(int orderId, CancellationToken cancellationToken);
         Task DeleteOrder(int id, CancellationToken cancellationToken);
+        Task<int> CountOrderItems(int orderId, CancellationToken cancellationToken);
     }
 }

@@ -1,6 +1,7 @@
 ﻿@model ProfileViewModel
 
-<h2>ویرایش پروفایل</h2>
+<h2 class="d-flex m-4">ویرایش پروفایل</h2>
+<hr />
 
 <form method="post" asp-controller="Profile" asp-action="SaveProfile">
     <input type="hidden" name="customerId" value="@Model.CustomerId" />

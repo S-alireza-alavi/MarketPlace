@@ -3,6 +3,7 @@ using App.Domain.Core.Configs;
 using App.Domain.Core.DataAccess;
 using App.Domain.Core.DtoModels.OrderItems;
 using App.Domain.Core.DtoModels.Orders;
+using App.Domain.Core.DtoModels.Products;
 using MarketPlace.Database;
 using MarketPlace.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +37,12 @@ namespace App.Infrastructures.Data.Repositories
             }
 
             return totalSalePrice;
+        }
+
+        public async Task<int> CountOrderItems(int orderId, CancellationToken cancellationToken)
+        {
+            var result = await _context.OrderItems.CountAsync(oi => oi.OrderId == orderId, cancellationToken);
+            return result;
         }
 
         public async Task<int> CreateOrder(AddOrderInputDto inputDto, CancellationToken cancellationToken)
@@ -86,7 +93,7 @@ namespace App.Infrastructures.Data.Repositories
                 .Include(o => o.OrderItems)
                 .ThenInclude(oi => oi.Product)
                 .ThenInclude(p => p.ProductPhotos)
-                .FirstOrDefaultAsync(o => o.CustomerId == customerId && !o.IsPurchased, cancellationToken);
+                .FirstOrDefaultAsync(o => o.CustomerId == customerId && !o.IsPurchased && !o.IsDeleted, cancellationToken);
 
             var cartOrderDto = new OrderOutputDto
             {
@@ -111,15 +118,25 @@ namespace App.Infrastructures.Data.Repositories
 
         public async Task<OrderOutputDto>? GetOrderBy(int id, CancellationToken cancellationToken)
         {
-            var order = await _context.Orders.Where(o => o.Id == id).Select(o => new OrderOutputDto
-            {
-                Id = o.Id,
-                SellerId = o.SellerId,
-                CustomerId = o.CustomerId,
-                TotalPrice = o.TotalPrice,
-                CreatedAt = o.CreatedAt,
-                IsPurchased = o.IsPurchased
-            }).FirstAsync(cancellationToken);
+            var order = await _context.Orders
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
+                .ThenInclude(p => p.ProductPhotos)
+                .Where(o => o.Id == id).Select(o => new OrderOutputDto
+                {
+                    Id = o.Id,
+                    SellerId = o.SellerId,
+                    CustomerId = o.CustomerId,
+                    TotalPrice = o.TotalPrice,
+                    CreatedAt = o.CreatedAt,
+                    IsPurchased = o.IsPurchased,
+                    OrderItems = o.OrderItems.Select(oi => new OrderItemOutputDto
+                    {
+                        Id = oi.Id,
+                        OrderId = oi.OrderId,
+                        Product = oi.Product
+                    }).ToList()
+                }).FirstAsync(cancellationToken);
 
             return order;
         }
@@ -152,7 +169,7 @@ namespace App.Infrastructures.Data.Repositories
 
         public async Task<bool> HasOrder(int customerId, CancellationToken cancellationToken)
         {
-            var order = await _context.Orders.FirstOrDefaultAsync(o => o.CustomerId == customerId && !o.IsPurchased, cancellationToken);
+            var order = await _context.Orders.FirstOrDefaultAsync(o => o.CustomerId == customerId && !o.IsPurchased && !o.IsDeleted, cancellationToken);
 
             if (order != null)
                 return true;
@@ -194,9 +211,10 @@ namespace App.Infrastructures.Data.Repositories
         {
             var order = await _context.Orders
                 .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
                 .FirstOrDefaultAsync(o => o.Id == orderId, cancellationToken);
 
-            if (order != null)
+            if (order != null && order.OrderItems != null)
             {
                 int totalPrice = order.OrderItems.Sum(oi => oi.Product.Price);
                 order.TotalPrice = totalPrice;
