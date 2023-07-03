@@ -45,7 +45,7 @@ namespace App.Infrastructures.Data.Repositories
                 SellerId = inputDto.SellerId,
                 CustomerId = inputDto.CustomerId,
                 TotalPrice = inputDto.TotalPrice,
-                IsPurchased = inputDto.IsPurchased,
+                IsPurchased = false,
                 CreatedAt = DateTime.Now
             };
 
@@ -54,6 +54,7 @@ namespace App.Infrastructures.Data.Repositories
 
             return order.Id;
         }
+
 
         public async Task DeleteOrder(int id, CancellationToken cancellationToken)
         {
@@ -77,6 +78,35 @@ namespace App.Infrastructures.Data.Repositories
             }).ToListAsync(cancellationToken);
 
             return orders;
+        }
+
+        public async Task<OrderOutputDto>? GetCartOrder(int customerId, CancellationToken cancellationToken)
+        {
+            var cartOrder = await _context.Orders
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
+                .ThenInclude(p => p.ProductPhotos)
+                .FirstOrDefaultAsync(o => o.CustomerId == customerId && !o.IsPurchased, cancellationToken);
+
+            var cartOrderDto = new OrderOutputDto
+            {
+                Id = cartOrder.Id,
+                SellerId = cartOrder.SellerId,
+                CustomerId = cartOrder.CustomerId,
+                TotalPrice = cartOrder.TotalPrice,
+                CreatedAt = cartOrder.CreatedAt,
+                IsPurchased = cartOrder.IsPurchased,
+                OrderItems = cartOrder.OrderItems.Select(oi => new OrderItemOutputDto
+                {
+                    Id = oi.Id,
+                    OrderId = oi.OrderId,
+                    ProductId = oi.ProductId,
+                    Product = oi.Product,
+                    ProductPhotos = oi.Product.ProductPhotos
+                }).ToList()
+            };
+
+            return cartOrderDto;
         }
 
         public async Task<OrderOutputDto>? GetOrderBy(int id, CancellationToken cancellationToken)
@@ -111,7 +141,6 @@ namespace App.Infrastructures.Data.Repositories
                         Id = oi.Id,
                         OrderId = oi.OrderId,
                         ProductId = oi.ProductId,
-                        Quantity = oi.Quantity,
                         Product = oi.Product,
                         ProductPhotos = oi.Product.ProductPhotos
                     }).ToList()
@@ -121,6 +150,14 @@ namespace App.Infrastructures.Data.Repositories
             return userOrders;
         }
 
+        public async Task<bool> HasOrder(int customerId, CancellationToken cancellationToken)
+        {
+            var order = await _context.Orders.FirstOrDefaultAsync(o => o.CustomerId == customerId && !o.IsPurchased, cancellationToken);
+
+            if (order != null)
+                return true;
+            return false;
+        }
 
         public async Task SetOrderAsPurchased(int orderId, CancellationToken cancellationToken)
         {
@@ -151,6 +188,21 @@ namespace App.Infrastructures.Data.Repositories
 
 
             await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task UpdateOrderTotalPrice(int orderId, CancellationToken cancellationToken)
+        {
+            var order = await _context.Orders
+                .Include(o => o.OrderItems)
+                .FirstOrDefaultAsync(o => o.Id == orderId, cancellationToken);
+
+            if (order != null)
+            {
+                int totalPrice = order.OrderItems.Sum(oi => oi.Product.Price);
+                order.TotalPrice = totalPrice;
+
+                await _context.SaveChangesAsync(cancellationToken);
+            }
         }
     }
 }

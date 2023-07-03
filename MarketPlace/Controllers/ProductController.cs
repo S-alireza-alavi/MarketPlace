@@ -158,8 +158,7 @@ namespace MarketPlace.Controllers
             var orderItem = new AddOrderItemInputDto
             {
                 OrderId = orderId,
-                ProductId = productId,
-                Quantity = 1
+                ProductId = productId
             };
 
             await _orderService.CreateOrderItem(orderItem, cancellationToken);

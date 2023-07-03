@@ -10,8 +10,6 @@ namespace App.Domain.Core.DtoModels.OrderItems
 
         public int ProductId { get; set; }
 
-        public int Quantity { get; set; }
-
         public virtual Product Product { get; set; } = null!;
 
         public virtual ICollection<ProductPhoto> ProductPhotos { get; set; } = new List<ProductPhoto>();

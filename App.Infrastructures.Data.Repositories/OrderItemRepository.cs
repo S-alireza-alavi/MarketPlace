@@ -20,8 +20,7 @@ namespace App.Infrastructures.Data.Repositories
             await _context.OrderItems.AddAsync(new OrderItem
             {
                 OrderId = orderItem.OrderId,
-                ProductId = orderItem.ProductId,
-                Quantity = orderItem.Quantity,
+                ProductId = orderItem.ProductId
             });
 
             await _context.SaveChangesAsync(cancellationToken);
@@ -42,8 +41,7 @@ namespace App.Infrastructures.Data.Repositories
             {
                 Id = oi.Id,
                 OrderId = oi.OrderId,
-                ProductId = oi.ProductId,
-                Quantity = oi.Quantity
+                ProductId = oi.ProductId
             }).FirstAsync(cancellationToken);
 
             return orderItem;
@@ -55,8 +53,7 @@ namespace App.Infrastructures.Data.Repositories
             {
                 Id = oi.Id,
                 OrderId = oi.OrderId,
-                ProductId = oi.ProductId,
-                Quantity = oi.Quantity
+                ProductId = oi.ProductId
             }).ToListAsync(cancellationToken);
 
             return orderItems;
@@ -68,7 +65,6 @@ namespace App.Infrastructures.Data.Repositories
 
             orderItemToUpdate.OrderId = orderItem.OrderId;
             orderItemToUpdate.ProductId = orderItem.ProductId;
-            orderItemToUpdate.Quantity = orderItem.Quantity;
 
             await _context.SaveChangesAsync(cancellationToken);
         }

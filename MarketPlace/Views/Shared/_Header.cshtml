@@ -75,7 +75,6 @@
                         <a asp-controller="Auction" asp-action="Index" class="btn btn-primary rounded">مزایدات</a>
                     }
                 </div>
-                <!-- End .header-left -->
 
                 <div class="header-center">
                     <div class="header-search header-search-visible header-search-no-radius">
@@ -92,47 +91,126 @@
                                     <i class="icon-search"></i>
                                 </button>
                             </div>
-                            <!-- End .header-search-wrapper -->
                         </form>
                     </div>
-                    <!-- End .header-search -->
                 </div>
 
-                <div class="header-right">
+                <div class="header-right row">
                     <div class="header-dropdown-link">
-                        <!-- End .compare-dropdown -->
+                        <div class="dropdown compare-dropdown">
+                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false" data-display="static">
+                                <div class="icon">
+                                    <i class="icon-random"></i>
+                                </div>
+                                <p>مقایسه</p>
+                            </a>
+                        </div>
+                        <div class="wishlist">
+                            <a href="wishlist.html" title="لیست محصولات مورد علاقه شما">
+                                <div class="icon">
+                                    <i class="icon-heart-o"></i>
+                                </div>
+                                <p>علاقه مندی</p>
+                            </a>
+                        </div>
+                        <div class="dropdown cart-dropdown">
+                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false" data-display="static">
+                                <div class="icon">
+                                    <i class="icon-shopping-cart"></i>
+                                    <span class="cart-count">2</span>
+                                </div>
+                                <p>سبد خرید</p>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <div class="dropdown-cart-products">
+                                    <div class="product">
+                                        <div class="product-cart-details">
+                                            <h4 class="product-title letter-spacing-normal font-size-normal">
+                                                <a href="product.html">کتونی ورزشی مخصوص دویدن رنگ بژ</a>
+                                            </h4>
+
+                                            <span class="cart-product-info">
+                                                <span class="cart-product-qty">1 x </span>
+                                                84,000 تومان
+                                            </span>
+                                        </div>
+
+                                        <figure class="product-image-container">
+                                            <a href="product.html" class="product-image">
+                                                <img src="assets/images/products/cart/product-1.jpg" alt="product"
+                                                     width="200" height="300">
+                                            </a>
+                                        </figure>
+                                        <a href="#" class="btn-remove" title="حذف محصول">
+                                            <i class="icon-close"></i>
+                                        </a>
+                                    </div>
+                                    <div class="product">
+                                        <div class="product-cart-details">
+                                            <h4 class="product-title letter-spacing-normal font-size-normal">
+                                                <a href="product.html">لباس زنانه آبی</a>
+                                            </h4>
+
+                                            <span class="cart-product-info">
+                                                <span class="cart-product-qty">1 x </span>
+                                                76,000 تومان
+                                            </span>
+                                        </div>
+
+                                        <figure class="product-image-container">
+                                            <a href="product.html" class="product-image">
+                                                <img src="assets/images/products/cart/product-2.jpg" alt="product">
+                                            </a>
+                                        </figure>
+                                        <a href="#" class="btn-remove" title="حذف محصول">
+                                            <i class="icon-close"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="dropdown-cart-total">
+                                    <span>مجموع</span>
+
+                                    <span class="cart-total-price">160,000 تومان</span>
+                                </div>
+
+                                <div class="dropdown-cart-action">
+                                    <a asp-action="Cart" asp-controller="Cart" class="btn btn-primary">مشاهده سبد خرید</a>
+                                    <a href="checkout.html" class="btn btn-outline-primary-2">
+                                        <span>پرداخت</span>
+                                        <i class="icon-long-arrow-left"></i>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
                         @if (SignInManager.IsSignedIn(User) && await UserManager.IsInRoleAsync(UserManager.GetUserAsync(User).Result, "Customer"))
                         {
-                            <div class="align-content-center">
-                                <div>
-                                    <i class="fa-solid fa-user"></i>
-                                </div>
-                                <a asp-controller="Profile" asp-action="Index">
-                                    پروفایل من
+                            <div class="profile">
+                                <a asp-action="Index" asp-controller="Profile" title="پروفایل">
+                                    <div class="icon">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
+                                    <p>پروفایل</p>
                                 </a>
                             </div>
                         }
                     </div>
                 </div>
-                <!-- End .header-right -->
             </div>
-            <!-- End .container -->
         </div>
-        <!-- End .header-middle -->
 
         <div class="header-bottom sticky-header">
             <div class="container">
                 <div class="header-center">
                     <nav class="main-nav">
-                        <!-- End .menu -->
                     </nav>
-                    <!-- End .main-nav -->
                 </div>
-                <!-- End .header-center -->
             </div>
-            <!-- End .container -->
         </div>
-        <!-- End .header-bottom -->
     </header>
 </body>
 </html>
