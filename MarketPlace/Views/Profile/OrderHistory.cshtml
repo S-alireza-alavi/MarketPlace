@@ -1,10 +1,25 @@
 ﻿@model List<OrderOutputDto>
 @using Framework.Utilities
 
+<div class="page-header text-center" style="background-image: url('~/wwwroot/assets/images/page-header-bg.jpg')">
+    <div class="container">
+        <h1 class="page-title">تاریخچه سفارشات</h1>
+    </div>
+</div>
+
+<nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+    <div class="container d-flex align-items-center">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">خانه</a></li>
+            <li class="breadcrumb-item"><a><i class="icon-angle-left"></i>سفارشات من</a></li>
+        </ol>
+    </div>
+</nav>
+
 <div class="m-5">
     <div class="border radius mb-4 p-4">
         <div class="d-flex">
-            <h5>تاریخچه سفارشات</h5>
+            <h5>سفارش‌های من</h5>
         </div>
 
         @if (Model.Count > 0)
@@ -15,7 +30,7 @@
                     <div class="clickable-item list-group-item list-group-item-action" onclick="location.href='@Url.Action("Details", "Product", new { productId = order.OrderItems.FirstOrDefault()?.ProductId })'">
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">سفارش # @order.Id</h5>
-                            <small>@order.CreatedAt.ToPersianString()</small>
+                            <small>تاریخ ثبت سفارش: @order.CreatedAt.ToPersianString()</small>
                         </div>
                         <p class="mb-1">قیمت سفارش: @order.TotalPrice.ToString("N0") تومان</p>
 

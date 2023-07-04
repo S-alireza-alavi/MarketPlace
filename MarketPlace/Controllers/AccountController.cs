@@ -56,7 +56,7 @@ namespace MarketPlace.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return LocalRedirect("~/");
+            return RedirectToAction("Login");
         }
 
         [AllowAnonymous]

@@ -1,42 +1,89 @@
 ﻿@model List<ProductOutputDto>
 
-<div>
-    <h2 class="text-center p-3 m-3"><span class="badge rounded-pill badge-primary p-3">محصولات غرفه</span></h2>
+<div class="page-header text-center" style="background-image: url('~/wwwroot/assets/images/page-header-bg.jpg')">
+    <div class="container">
+        <h1 class="page-title">محصولات<span>غرفه</span></h1>
+    </div>
 </div>
 
-<div class="row m-5">
+<nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+    <div class="container d-flex align-items-center">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">خانه</a></li>
+            <li class="breadcrumb-item"><a><i class="icon-angle-left"></i>غرفه</a></li>
+            <li class="breadcrumb-item active" aria-current="page">محصولات</li>
+        </ol>
+    </div>
+</nav>
+
+<div class="product product-list m-3">
     @foreach (var product in Model)
     {
-        <div class="col-4">
-            <div class="card h-100">
-                @if (product.ProductPhotos.Any())
-                {
-                    <img src="\@product.ProductPhotos.FirstOrDefault()?.FilePath" class="card-img-top" alt="@product.Name" style="height:280px; width:auto;" />
-                }
+        <div class="row">
+            <div class="col-6 col-lg-3">
+                <figure class="product-media">
+                    @if (product.Auctions.Any(a => a.IsRunning))
+                    {
+                        <span class="product-label label-new">مزایده</span>
+                    }
+                    <a href="@Url.Action("Details", "Product", new { productId = product.Id })" class="d-block">
+                        <img src="/@product.ProductPhotos.FirstOrDefault()?.FilePath" alt="تصویر محصول" class="product-image">
+                    </a>
+                </figure>
+            </div>
 
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title text-truncate">@product.Name</h5>
-                    <div>
-                        <span class="card-text text-center badge rounded-pill bg-primary text-dark m-1 p-3">قیمت: @product.Price.ToString("N0") تومان</span>
+            <div class="col-6 col-lg-3 order-lg-last">
+                <div class="product-list-action">
+                    <div class="product-price">
+                        @product.Price.ToString("N0") تومان
                     </div>
-                    <div>
-                        @if (product.Auctions.Any(a => a.IsRunning))
-                        {
-                            // Product has ongoing auctions, display bidding option
-                            <a href="@Url.Action("RegisterBid", "Product", new { productId = product.Id })" class="btn btn-secondary col-12 text-dark mt-auto w-80">ثبت پیشنهاد</a>
-                        }
-                        else
-                        {
-                            // No ongoing auctions, display direct purchase option
-                            <div class="d-flex justify-content-center">
-                                <a href="@Url.Action("Purchase", "Product", new { productId = product.Id })" class="btn btn-secondary col-12 text-dark mb-1 mt-auto w-80">خرید کردن</a>
-                            </div>
-                        }
-                        <a href="@Url.Action("Details", "Product", new { productId = product.Id })" class="btn btn-secondary col-12 text-dark mt-auto w-80">جزئیات محصول</a>
+                    <div class="ratings-container">
+                        <div class="ratings">
+                            <div class="ratings-val" style="width: 70%;"></div>
+                        </div>
+                        <span class="ratings-text">( 2 بازدید )</span>
+                    </div>
+
+                    <div class="product-action">
+                        <a href="popup/quickView.html" class="btn-product btn-quickview" title="مشاهده سریع محصول"><span>مشاهده سریع</span></a>
+                        <a href="#" class="btn-product btn-compare" title="مقایسه"><span>مقایسه</span></a>
+                    </div>
+
+                    @if (product.Auctions.Any(a => a.IsRunning))
+                    {
+                        <div class="product-action position-relative visible">
+                            <a href="@Url.Action("Details", "Product", new { productId = product.Id })" class="btn-product btn-cart btn-select text-uppercase text-dark text-decoration-none bg-secondary" title="جزئیات محصول">
+                                <span class="text-dark shadow-none">جزئیات محصول</span>
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("AddToCart", "Cart", new { productId = product.Id })" class="btn-product btn-cart bg-primary text-white"><span>افزودن به سبد خرید</span></a>
+                        <div class="product-action position-relative visible">
+                            <a href="@Url.Action("Details", "Product", new { productId = product.Id })" class="btn-product btn-cart btn-select text-uppercase text-dark text-decoration-none bg-secondary" title="جزئیات محصول">
+                                <span class="text-dark shadow-none">جزئیات محصول</span>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="product-body product-action-inner">
+                    <a href="#" class="btn-product btn-wishlist" title="افزودن به لیست علاقه مندی">
+                        <span>افزودن به لیست علاقه مندی</span>
+                    </a>
+                    <div class="product-cat">
+                        <p class="text-muted">@product.Category.Name</p>
+                    </div>
+                    <h3 class="product-title"><a href="@Url.Action("Details", "Product", new { productId = product.Id })">@product.Name</a></h3>
+                    <div class="product-content">
+                        <p>@product.Description</p>
                     </div>
                 </div>
-
             </div>
         </div>
+        <hr />
     }
 </div>

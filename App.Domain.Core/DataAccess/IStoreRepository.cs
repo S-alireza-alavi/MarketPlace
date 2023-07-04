@@ -15,5 +15,6 @@ namespace App.Domain.Core.DataAccess
         Task UpdateStore(EditStoreInputDto store);
         Task DeleteStore(int id);
         Task<int> StoresCount();
+        Task<List<StoreOutputDto>> GetStoresByCategoryId(int categoryId, CancellationToken cancellationToken);
     }
 }

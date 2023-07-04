@@ -124,11 +124,14 @@ namespace MarketPlace
             builder.Services.AddScoped<ICountOrderItemsService, CountOrderItemsService>();
             builder.Services.AddScoped<IRemoveOrderService, RemoveOrderService>();
             builder.Services.AddScoped<IFilterProductsSearchService, FilterProductsSearchService>();
+            builder.Services.AddScoped<IGetCategoryByCategoryIdService, GetCategoryByCategoryIdService>();
+            builder.Services.AddScoped<IGetStoresByCagetoryIdService, GetStoresByCagetoryIdService>();
 
             //Register the ViewComponents
             builder.Services.AddTransient<RandomProductsViewComponent>();
             builder.Services.AddTransient<ProductCommentsViewComponent>();
             builder.Services.AddTransient<AddCommentFormViewComponent>();
+            builder.Services.AddTransient<StoresByCategoryViewComponent>();
 
             builder.Services.AddControllersWithViews();
 

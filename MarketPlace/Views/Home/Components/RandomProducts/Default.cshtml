@@ -2,14 +2,15 @@
 @model List<ProductOutputDto>
 
 <div class="container deal-section">
-    <h3 class="title text-center mt-5 font-weight-bold">پیشنهاد ویژه امروز</h3>
+    <hr />
+    <h3 class="title text-center mt-5 font-weight-bold">پیشنهادهای تصادفی امروز</h3>
     <div class="row m-5">
         @foreach (var product in Model)
         {
             <div class="col-3">
                 <div class="product d-flex flex-column overflow-hidden">
                     <figure class="mb-0 product-media bg-white d-flex justify-content-center align-items-center">
-                        <span class="product-label label-sale text-uppercase">فروش ویژه</span>
+                        <span class="product-label label-sale text-uppercase">پیشنهادی</span>
                         <a href="@Url.Action("Details", "Product", new { productId = product.Id })" class="w-100">
                             <img src="/@product.ProductPhotos.FirstOrDefault()?.FilePath" alt="@product.Name" class="product-image" width="192" height="192">
                         </a>

@@ -1,0 +1,48 @@
+﻿@model List<StoreOutputDto>
+
+<div class="product product-list m-3">
+    @if (Model != null && Model.Count > 0)
+    {
+        foreach (var store in Model)
+        {
+            <div class="row">
+                <div class="col-6 col-lg-3">
+                    <figure class="product-media">
+                        <a href="@Url.Action("StoreProducts", "Category", new { storeId = store.Id })" class="d-block">
+                            <img src="~/store/store-pic.png" alt="تصویر غرفه" class="product-image">
+                        </a>
+                    </figure>
+                </div>
+
+                <div class="col-6 col-lg-3 order-lg-last">
+                    <div class="product-list-action">
+                        <div class="product-price">
+                            <a href="@Url.Action("StoreProducts", "Category", new { storeId = store.Id })">
+                                غرفه @store.Name
+                            </a>
+                        </div>
+                        <div class="ratings-container">
+                            <div class="ratings">
+                                <div class="ratings-val" style="width: 70%;"></div>
+                            </div>
+                            <span class="ratings-text">( 2 بازدید )</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="product-content">
+                    <div class="store-meta">
+                        <span class="store-location"><i class="icon-map-marker"></i> @store.Address.FullAddress</span>
+                    </div>
+                    <p>@store.Description</p>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="text-center">هیچ فروشگاهی برای این دسته‌بندی وجود ندارد.</p>
+    }
+</div>
