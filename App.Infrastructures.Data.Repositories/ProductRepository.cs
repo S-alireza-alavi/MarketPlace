@@ -288,6 +288,10 @@ namespace App.Infrastructures.Data.Repositories
         public async Task<List<ProductOutputDto>> FilterProductsSearch(string searchPhrase, CancellationToken cancellationToken)
         {
             var filteredProducts = await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Brand)
+                .Include(p => p.Auctions)
+                .Include(p => p.ProductPhotos)
                 .Where(p => p.Name.ToLower().Contains(searchPhrase))
                 .ToListAsync(cancellationToken);
 
