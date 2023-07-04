@@ -176,5 +176,25 @@ namespace App.Infrastructures.Data.Repositories
 
             return products;
         }
+
+        public async Task<List<StoreOutputDto>> GetStoresByCategoryId(int categoryId, CancellationToken cancellationToken)
+        {
+            var stores = await _context.Stores
+                .Include(s => s.Seller)
+                .Include(s => s.StoreAddresses)
+                .Where(s => s.Products.Any(p => p.CategoryId == categoryId))
+                .Select(s => new StoreOutputDto
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    SellerId = s.SellerId,
+                    Description = s.Description,
+                    SellerUserName = s.Seller.UserName,
+                    CreatedAt = s.CreatedAt,
+                    Address = s.StoreAddresses.FirstOrDefault(a => a.IsDeleted == false)
+                }).ToListAsync(cancellationToken);
+
+            return stores;
+        }
     }
 }

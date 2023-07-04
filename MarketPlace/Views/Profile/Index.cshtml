@@ -15,11 +15,20 @@
 <main class="main m-1">
     <div class="page-header text-center" style="background-image: url('~/wwwroot/assets/images/page-header-bg.jpg')">
         <div class="container">
-            <h1 class="page-title">داشبورد<span>فروشگاه</span></h1>
+            <h1 class="page-title">داشبورد<span>@Model.FullName</span></h1>
         </div>
     </div>
 
-        <div class="container m-4">
+    <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+        <div class="container d-flex align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">خانه</a></li>
+                <li class="breadcrumb-item"><a><i class="icon-angle-left"></i>داشبورد</a></li>
+            </ol>
+        </div>
+    </nav>
+
+    <div class="container m-4">
         <div class="row">
             <aside class="col-md-4 col-lg-3">
                 <ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
@@ -28,19 +37,14 @@
                            role="tab" aria-controls="tab-dashboard" aria-selected="true">داشبورد</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab"
-                           aria-controls="tab-orders" aria-selected="false">سفارشات</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address" role="tab"
-                           aria-controls="tab-address" aria-selected="false">آدرس</a>
+                        <a asp-action="OrderHistory" asp-controller="Profile" class="nav-link" id="tab-orders-link" data-toggle="tab" role="tab" aria-controls="tab-orders" aria-selected="false">سفارشات من</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="tab-account-link" data-toggle="tab" asp-action="EditProfile" asp-controller="Profile" role="tab"
                            aria-controls="tab-account" aria-selected="false">ویرایش حساب کاربری</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">خروج از حساب کاربری</a>
+                        <a class="nav-link" asp-action="Logout" asp-controller="Account">خروج از حساب کاربری</a>
                     </li>
                 </ul>
             </aside>
@@ -50,16 +54,17 @@
                     <div class="tab-pane fade show active" id="tab-dashboard" role="tabpanel"
                          aria-labelledby="tab-dashboard-link">
                         <p>
-                            سلام <span class="font-weight-normal text-dark">@Model.FullName</span>
+                            سلام <span class="font-weight-normal text-dark">@Model.FullName عزیز، خوش آمدید!</span>
                             <br>
-                            شما در اینجا میتوانید <a href="#tab-orders" class="tab-trigger-link link-underline">
+                            شما در اینجا میتوانید <a asp-action="OrderHistory" asp-controller="Profile" class="tab-trigger-link link-underline">
                                 سفارشات
                                 خود را ببینید
-                            </a>، وضعیت ارسال <a href="#tab-address"
-                                                 class="tab-trigger-link">سفارشات خود را مشاهده کنید وآدرس خود را تغییر دهید</a>، و همچنین <a href="#tab-account" class="tab-trigger-link">
-                                می توانید رمز عبور یا جزئیات حساب کاربری خود را
-                                ویرایش کنید
-                            </a>.
+                            </a>
+                            یا
+                            <a asp-action="EditProfile" asp-controller="Profile">
+                                جزئیات حساب کاربری خود را
+                                ویرایش
+                            </a> کنید.
                         </p>
                     </div>
 
@@ -69,88 +74,16 @@
                             <span>رفتن به فروشگاه</span><i class="icon-long-arrow-left"></i>
                         </a>
                     </div>
-
-                    <div class="tab-pane fade" id="tab-address" role="tabpanel"
-                         aria-labelledby="tab-address-link">
-                        <p>آدرسی که اینجا ثبت می کنید به صورت پیش فرض برای ارسال محصولات به شما استفاده می شود.</p>
-
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="card card-dashboard">
-                                    <div class="card-body">
-                                        <h3 class="card-title">آدرس شما</h3>
-
-                                        <p>
-                                            نام کاربری شما<br>
-                                            نام شرکت شما<br>
-                                            @if (Model.FullName != null)
-                                            {
-                                                @Model.FullName
-
-                                                <br>
-                                            }
-                                            else
-                                            {
-                                                <span>تعریف نشده</span>
-
-                                                <br>
-                                            }
-                                            تهران-تهران<br>
-                                            خیابان آزادی - پلاک 7<br>
-                                            @Model.Email<br>
-                                            <a href="#">ویرایش <i class="icon-edit"></i></a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="tab-pane fade" id="tab-account" role="tabpanel"
-                             aria-labelledby="tab-account-link">
-                            <form action="#">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <label>نام *</label>
-                                        <input type="text" class="form-control" required>
-                                    </div>
-
-                                    <div class="col-sm-6">
-                                        <label>نام خانوادگی *</label>
-                                        <input type="text" class="form-control" required>
-                                    </div>
-                                </div>
-
-                                <label>نام نمایش *</label>
-                                <input type="text" class="form-control" required>
-                                <small class="form-text">
-                                    این نام در قسمت بازدیدها، نظرات و حساب کاربری شما نمایش داده خواهد
-                                    شد.
-                                </small>
-
-                                <label>ایمیل *</label>
-                                <input type="email" class="form-control" required>
-
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <label>رمز عبور *</label>
-                                        <input type="password" class="form-control" required>
-                                    </div>
-
-                                    <div class="col-sm-6">
-                                        <label>تکرار رمز عبور *</label>
-                                        <input type="password" class="form-control" required>
-                                    </div>
-                                </div>
-
-                                <button class="btn btn-outline-primary-2 btn-save-account" type="submit">
-                                    <span>ذخیره تغییرات</span>
-                                    <i class="icon-long-arrow-left"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 </main>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#tab-orders-link').click();
+        });
+    </script>
+}

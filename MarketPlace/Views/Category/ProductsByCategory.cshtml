@@ -6,76 +6,116 @@
     </div>
 </div>
 
-<div class="product product-list m-3">
-    @foreach (var product in Model)
-    {
-        <div class="row">
-            <div class="col-6 col-lg-3">
-                <figure class="product-media">
-                    @if (product.Auctions.Any(a => a.IsRunning))
-                    {
-                        <span class="product-label label-new">مزایده</span>
-                    }
-                    <a href="@Url.Action("Details", "Product", new { productId = product.Id })" class="d-block">
-                        <img src="/@product.ProductPhotos.FirstOrDefault()?.FilePath" alt="تصویر محصول"
-                             class="product-image">
-                    </a>
-                </figure>
-            </div>
+<nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+    <div class="container d-flex align-items-center">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">خانه</a></li>
+            <li class="breadcrumb-item"><a><i class="icon-angle-left"></i>دسته‌بندی</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@ViewBag.CategoryName</li>
+        </ol>
+    </div>
+</nav>
 
-            <div class="col-6 col-lg-3 order-lg-last">
-                <div class="product-list-action">
-                    <div class="product-price">
-                        @product.Price.ToString("N0") تومان
-                    </div>
-                    <div class="ratings-container">
-                        <div class="ratings">
-                            <div class="ratings-val" style="width: 70%;"></div>
-                        </div>
-                        <span class="ratings-text">( 2 بازدید )</span>
-                    </div>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="products-tab" data-bs-toggle="tab" href="#products-tab-content" role="tab" aria-controls="products-tab-content" aria-selected="true">محصولات</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="stores-by-category-tab" data-bs-toggle="tab" href="#stores-by-category-tab-content" role="tab" aria-controls="stores-by-category-tab-content" aria-selected="false">فروشگاه‌ها</a>
+    </li>
+</ul>
 
-                    <div class="product-action">
-                        <a href="popup/quickView.html" class="btn-product btn-quickview"
-                           title="مشاهده سریع محصول"><span>مشاهده سریع</span></a>
-                        <a href="#" class="btn-product btn-compare" title="مقایسه"><span>مقایسه</span></a>
-                    </div>
-
-                    @if (product.Auctions.Any(a => a.IsRunning))
-                    {
-                        <div class="product-action position-relative visible">
-                            <a href="@Url.Action("Details", "Product", new { productId = product.Id })" class="btn-product btn-cart btn-select text-uppercase text-dark text-decoration-none" title="جزئیات محصول">
-                                <span class="text-dark shadow-none">جزئیات محصول</span>
+<div class="tab-content">
+    <div class="tab-pane fade show active" id="products-tab-content" role="tabpanel" aria-labelledby="products-tab">
+        <div class="product product-list m-3">
+            @foreach (var product in Model)
+            {
+                <div class="row">
+                    <div class="col-6 col-lg-3">
+                        <figure class="product-media">
+                            @if (product.Auctions.Any(a => a.IsRunning))
+                            {
+                                <span class="product-label label-new">مزایده</span>
+                            }
+                            <a href="@Url.Action("Details", "Product", new { productId = product.Id })" class="d-block">
+                                <img src="/@product.ProductPhotos.FirstOrDefault()?.FilePath" alt="تصویر محصول" class="product-image">
                             </a>
+                        </figure>
+                    </div>
+
+                    <div class="col-6 col-lg-3 order-lg-last">
+                        <div class="product-list-action">
+                            <div class="product-price">
+                                @product.Price.ToString("N0") تومان
+                            </div>
+                            <div class="ratings-container">
+                                <div class="ratings">
+                                    <div class="ratings-val" style="width: 70%;"></div>
+                                </div>
+                                <span class="ratings-text">( 2 بازدید )</span>
+                            </div>
+
+                            <div class="product-action">
+                                <a href="popup/quickView.html" class="btn-product btn-quickview" title="مشاهده سریع محصول"><span>مشاهده سریع</span></a>
+                                <a href="#" class="btn-product btn-compare" title="مقایسه"><span>مقایسه</span></a>
+                            </div>
+
+                            @if (product.Auctions.Any(a => a.IsRunning))
+                            {
+                                <div class="product-action position-relative visible">
+                                    <a href="@Url.Action("Details", "Product", new { productId = product.Id })" class="btn-product btn-cart btn-select text-uppercase text-dark text-decoration-none bg-secondary" title="جزئیات محصول">
+                                        <span class="text-dark shadow-none">جزئیات محصول</span>
+                                    </a>
+                                </div>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("AddToCart", "Cart", new { productId = product.Id })" class="btn-product btn-cart bg-primary text-white"><span>افزودن به سبد خرید</span></a>
+                                <div class="product-action position-relative visible">
+                                    <a href="@Url.Action("Details", "Product", new { productId = product.Id })" class="btn-product btn-cart btn-select text-uppercase text-dark text-decoration-none bg-secondary" title="جزئیات محصول">
+                                        <span class="text-dark shadow-none">جزئیات محصول</span>
+                                    </a>
+                                </div>
+                            }
                         </div>
-                    }
-                    else
-                    {
-                        <a href="@Url.Action("AddToCart", "Cart", new { productId = product.Id })" class="btn-product btn-cart"><span>افزودن به سبد خرید</span></a>
-                    }
-
-                </div>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="product-body product-action-inner">
-                    <a href="#" class="btn-product btn-wishlist" title="افزودن به لیست علاقه مندی">
-                        <span>
-                            افزودن به لیست علاقه
-                            مندی
-                        </span>
-                    </a>
-                    <div class="product-cat">
-                        <p class="text-muted">@product.Category.Name</p>
                     </div>
-                    <h3 class="product-title"><a href="@Url.Action("Details", "Product", new { productId = product.Id })">@product.Name</a></h3>
 
-                    <div class="product-content">
-                        <p>@product.Description</p>
+                    <div class="col-lg-6">
+                        <div class="product-body product-action-inner">
+                            <a href="#" class="btn-product btn-wishlist" title="افزودن به لیست علاقه مندی">
+                                <span>افزودن به لیست علاقه مندی</span>
+                            </a>
+                            <div class="product-cat">
+                                <p class="text-muted">@product.Category.Name</p>
+                            </div>
+                            <h3 class="product-title"><a href="@Url.Action("Details", "Product", new { productId = product.Id })">@product.Name</a></h3>
+                            <div class="product-content">
+                                <p>@product.Description</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <hr />
+            }
+        </div>
+    </div>
+
+    <div class="tab-pane fade" id="stores-by-category-tab-content" role="tabpanel" aria-labelledby="stores-by-category-tab">
+        <div class="product-desc-content">
+            <div>
+                @await Component.InvokeAsync("StoresByCategory", new { categoryId = ViewBag.CategoryId })
             </div>
         </div>
-        <hr />
-    }
+    </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#myTab a').on('click', function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            });
+        });
+    </script>
+}

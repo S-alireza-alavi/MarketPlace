@@ -284,5 +284,38 @@ namespace App.Infrastructures.Data.Repositories
                 ProductPhotos = p.ProductPhotos
             }).ToList();
         }
+
+        public async Task<List<ProductOutputDto>> FilterProductsSearch(string searchPhrase, CancellationToken cancellationToken)
+        {
+            var filteredProducts = await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Brand)
+                .Include(p => p.Auctions)
+                .Include(p => p.ProductPhotos)
+                .Where(p => p.Name.ToLower().Contains(searchPhrase))
+                .ToListAsync(cancellationToken);
+
+            var productDtos = filteredProducts.Select(p => new ProductOutputDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                CategoryId = p.CategoryId,
+                BrandId = p.BrandId,
+                StoreId = p.StoreId,
+                Weight = p.Weight,
+                Description = p.Description,
+                ModelId = p.ModelId,
+                Price = p.Price,
+                IsActive = p.IsActive,
+                IsDeleted = p.IsDeleted,
+                Auctions = p.Auctions,
+                Brand = p.Brand,
+                Category = p.Category,
+                Store = p.Store,
+                ProductPhotos = p.ProductPhotos
+            }).ToList();
+
+            return productDtos;
+        }
     }
 }

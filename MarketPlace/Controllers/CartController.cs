@@ -59,6 +59,10 @@ namespace MarketPlace.Controllers
                     var order = await _getCartOrderService.GetCartOrder(user.Id, cancellationToken);
                     return View(order);
                 }
+                else
+                {
+                    return RedirectToAction("EmptyCart");
+                }
             }
 
             return RedirectToAction("Login", "Account");

@@ -3,6 +3,22 @@
 @model ProductOutputDto
 @inject UserManager<ApplicationUser> _userManager;
 
+<div class="page-header text-center" style="background-image: url('~/wwwroot/assets/images/page-header-bg.jpg')">
+    <div class="container">
+        <h1 class="page-title">صفحه محصول<span>@Model.Name</span></h1>
+    </div>
+</div>
+
+<nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+    <div class="container d-flex align-items-center">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">خانه</a></li>
+            <li class="breadcrumb-item"><a><i class="icon-angle-left"></i>محصولات</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+        </ol>
+    </div>
+</nav>
+
 @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -15,7 +31,7 @@
     var userId = User.Identity.IsAuthenticated ? (await _userManager.GetUserAsync(User))?.Id : null;
 }
 
-<div class="product-details-top">
+<div class="product-details-top border p-3">
     <div class="row">
         <div class="col-md-6">
             <div class="product-gallery product-gallery-vertical">
@@ -27,7 +43,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="product-details">
+            <div class="product-details m-5">
                 <h1 class="product-title">@Model.Name</h1>
                 @if (Model.Auctions.Any(a => a.IsRunning))
                 {
@@ -153,6 +169,5 @@
                 }
             </div>
         </div>
-
     </div>
 </div>

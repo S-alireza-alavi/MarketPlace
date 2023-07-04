@@ -1,20 +1,15 @@
 ﻿@model List<ProductOutputDto>
 
+@{
+    ViewBag.Title = "نتیجه جستجو";
+}
+
 <div class="page-header text-center" style="background-image: url('~/wwwroot/assets/images/page-header-bg.jpg')">
     <div class="container">
-        <h1 class="page-title">محصولات<span>غرفه</span></h1>
+        <h1 class="page-title">لیست<span>جستجو</span></h1>
     </div>
 </div>
 
-<nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
-    <div class="container d-flex align-items-center">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">خانه</a></li>
-            <li class="breadcrumb-item"><a><i class="icon-angle-left"></i>غرفه</a></li>
-            <li class="breadcrumb-item active" aria-current="page">محصولات</li>
-        </ol>
-    </div>
-</nav>
 
 <div class="product product-list m-3">
     @foreach (var product in Model)
@@ -27,7 +22,8 @@
                         <span class="product-label label-new">مزایده</span>
                     }
                     <a href="@Url.Action("Details", "Product", new { productId = product.Id })" class="d-block">
-                        <img src="/@product.ProductPhotos.FirstOrDefault()?.FilePath" alt="تصویر محصول" class="product-image">
+                        <img src="/@product.ProductPhotos.FirstOrDefault()?.FilePath" alt="تصویر محصول"
+                             class="product-image">
                     </a>
                 </figure>
             </div>
@@ -45,7 +41,8 @@
                     </div>
 
                     <div class="product-action">
-                        <a href="popup/quickView.html" class="btn-product btn-quickview" title="مشاهده سریع محصول"><span>مشاهده سریع</span></a>
+                        <a href="popup/quickView.html" class="btn-product btn-quickview"
+                           title="مشاهده سریع محصول"><span>مشاهده سریع</span></a>
                         <a href="#" class="btn-product btn-compare" title="مقایسه"><span>مقایسه</span></a>
                     </div>
 
@@ -66,24 +63,28 @@
                             </a>
                         </div>
                     }
+
                 </div>
             </div>
 
             <div class="col-lg-6">
                 <div class="product-body product-action-inner">
                     <a href="#" class="btn-product btn-wishlist" title="افزودن به لیست علاقه مندی">
-                        <span>افزودن به لیست علاقه مندی</span>
+                        <span>
+                            افزودن به لیست علاقه
+                            مندی
+                        </span>
                     </a>
                     <div class="product-cat">
                         <p class="text-muted">@product.Category.Name</p>
                     </div>
                     <h3 class="product-title"><a href="@Url.Action("Details", "Product", new { productId = product.Id })">@product.Name</a></h3>
+
                     <div class="product-content">
                         <p>@product.Description</p>
                     </div>
                 </div>
             </div>
         </div>
-        <hr />
     }
 </div>

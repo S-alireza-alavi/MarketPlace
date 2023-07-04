@@ -24,9 +24,10 @@ namespace MarketPlace.Controllers
         private readonly IBidService _bidService;
         private readonly IOrderService _orderService;
         private readonly ICommissionService _commissionService;
+        private readonly IFilterProductsSearchService _filterProductsSearchService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ProductController(IProductDetailService productDetailService, IUpdateProductPriceInAuctionService updateProductPriceInAuctionService, IGetAuctionWithBidsService getAuctionWithBidsService, IProductService productService, IBidService bidService, UserManager<ApplicationUser> userManager, IOrderService orderService, ICalculateCommissionAmountService calculateCommissionAmountService, ICommissionService commissionService)
+        public ProductController(IProductDetailService productDetailService, IUpdateProductPriceInAuctionService updateProductPriceInAuctionService, IGetAuctionWithBidsService getAuctionWithBidsService, IProductService productService, IBidService bidService, UserManager<ApplicationUser> userManager, IOrderService orderService, ICalculateCommissionAmountService calculateCommissionAmountService, ICommissionService commissionService, IFilterProductsSearchService filterProductsSearchService)
         {
             _productDetailService = productDetailService;
             _updateProductPriceInAuctionService = updateProductPriceInAuctionService;
@@ -37,6 +38,7 @@ namespace MarketPlace.Controllers
             _orderService = orderService;
             _calculateCommissionAmountService = calculateCommissionAmountService;
             _commissionService = commissionService;
+            _filterProductsSearchService = filterProductsSearchService;
         }
 
         public async Task<IActionResult> Details(int productId, CancellationToken cancellationToken)
@@ -59,13 +61,10 @@ namespace MarketPlace.Controllers
                 }
             }
 
-            // Fetch the product details again after potential updates
             product = await _productDetailService.GetProductDetail(productId, cancellationToken);
 
-            // Check if there is a running auction
             if (auction != null)
             {
-                // Pass the remaining time to the view
                 var remainingTime = auction.EndTime - DateTime.Now;
                 ViewBag.RemainingTime = remainingTime;
             }
@@ -123,49 +122,30 @@ namespace MarketPlace.Controllers
             return View(model);
         }
 
-        //public async Task<IActionResult> Purchase(int productId, CancellationToken cancellationToken)
-        //{
-        //    var currentUser = await _userManager.GetUserAsync(User);
-        //    var product = await _productService.GetProductBy(productId, cancellationToken);
+        public async Task<IActionResult> Search(string searchPhrase,CancellationToken cancellationToken)
+        {
+            if (string.IsNullOrWhiteSpace(searchPhrase))
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
-        //    if (product == null)
-        //    {
-        //        return NotFound();
-        //    }
+            try
+            {
+                var filteredProducts = await _filterProductsSearchService.FilterProductsSearch(searchPhrase, cancellationToken);
 
-        //    var order = new AddOrderInputDto
-        //    {
-        //        SellerId = product.Store.SellerId,
-        //        CustomerId = currentUser.Id,
-        //        TotalPrice = product.Price,
-        //        CreatedAt = DateTime.Now
-        //    };
+                if (filteredProducts.Count == 0)
+                {
+                    ViewBag.Message = "نتیجه‌ای برای جستجوی شما یافت نشد.";
+                    return View("NoResults");
+                }
 
-        //    var orderId = await _orderService.CreateOrder(order, cancellationToken);
-
-        //    var commissionAmount = await _calculateCommissionAmountService.CalculateCommissionAmount(orderId, cancellationToken);
-
-        //    var commission = new AddCommissionInputDto
-        //    {
-        //        Id = orderId,
-        //        CommissionAmount = commissionAmount
-        //    };
-
-        //    await _commissionService.CreateCommission(commission, cancellationToken);
-
-        //    await _orderService.SetOrderAsPurchased(orderId, cancellationToken);
-
-        //    var orderItem = new AddOrderItemInputDto
-        //    {
-        //        OrderId = orderId,
-        //        ProductId = productId
-        //    };
-
-        //    await _orderService.CreateOrderItem(orderItem, cancellationToken);
-
-        //    TempData["SuccessMessage"] = "با تشکر از انتخاب شما";
-
-        //    return RedirectToAction("Index", "Home");
-        //}
+                return View(filteredProducts);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                return View("Error");
+            }
+        }
     }
 }
