@@ -81,11 +81,10 @@
                         <a href="#" class="search-toggle" role="button">
                             <i class="icon-search"></i>
                         </a>
-                        <form action="#" method="get">
+                        <form action="@Url.Action("Search", "Product")" method="get">
                             <div class="header-search-wrapper search-wrapper-wide">
                                 <label for="q" class="sr-only">جستجو</label>
-                                <input type="search" class="form-control" name="q" id="q"
-                                       placeholder="جستجوی محصول ..." required>
+                                <input type="search" class="form-control" name="searchPhrase" id="q" placeholder="جستجوی محصول ..." required>
 
                                 <button class="btn btn-primary" type="submit">
                                     <i class="icon-search"></i>
@@ -94,6 +93,7 @@
                         </form>
                     </div>
                 </div>
+
 
                 <div class="header-right row">
                     <div class="header-dropdown-link">

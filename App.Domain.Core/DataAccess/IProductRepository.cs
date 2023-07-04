@@ -16,5 +16,6 @@ namespace App.Domain.Core.DataAccess
         Task UpdateProductPrice(int productId, int newPrice, CancellationToken cancellationToken);
         Task DeleteProduct(int id, CancellationToken cancellationToken);
         Task<int> ProductsCount(CancellationToken cancellationToken);
+        Task<List<ProductOutputDto>> FilterProductsSearch(string searchPhrase, CancellationToken cancellationToken);
     }
 }
