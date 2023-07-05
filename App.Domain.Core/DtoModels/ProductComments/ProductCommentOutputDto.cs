@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.Entities;
+using MarketPlace.Entities;
 
 namespace App.Domain.Core.DtoModels.ProductComments
 {
@@ -25,5 +26,7 @@ namespace App.Domain.Core.DtoModels.ProductComments
         public int? DislikeCount { get; set; }
 
         public virtual ApplicationUser User { get; set; } = null!;
+
+        public virtual Product Product { get; set; } = null!;
     }
 }

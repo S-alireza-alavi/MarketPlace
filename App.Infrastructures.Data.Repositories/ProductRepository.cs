@@ -57,20 +57,28 @@ namespace App.Infrastructures.Data.Repositories
 
         public async Task<List<ProductOutputDto>> GetAllProducts(string? search, CancellationToken cancellationToken)
         {
-            var products = await _context.Products.Select(p => new ProductOutputDto
-            {
-                Id = p.Id,
-                Name = p.Name,
-                CategoryId = p.CategoryId,
-                BrandId = p.BrandId,
-                StoreId = p.StoreId,
-                Weight = p.Weight,
-                Description = p.Description,
-                ModelId = p.ModelId,
-                Price = p.Price,
-                IsActive = p.IsActive,
-                IsDeleted = p.IsDeleted
-            }).Where(p => p.IsActive == true && p.IsDeleted == false).ToListAsync(cancellationToken);
+            var products = await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Brand)
+                .ThenInclude(b => b.Models)
+                .Include(p => p.Store)
+                .Select(p => new ProductOutputDto
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    CategoryId = p.CategoryId,
+                    BrandId = p.BrandId,
+                    StoreId = p.StoreId,
+                    Weight = p.Weight,
+                    Description = p.Description,
+                    ModelId = p.ModelId,
+                    Price = p.Price,
+                    IsActive = p.IsActive,
+                    IsDeleted = p.IsDeleted,
+                    Category = p.Category,
+                    Brand = p.Brand,
+                    Store = p.Store
+                }).Where(p => p.IsActive == true && p.IsDeleted == false).ToListAsync(cancellationToken);
 
             if (string.IsNullOrEmpty(search))
             {

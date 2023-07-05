@@ -1,5 +1,5 @@
 ﻿using App.Domain.Core.DtoModels.OrderItems;
-using MarketPlace.Entities;
+using App.Domain.Core.Entities;
 
 namespace App.Domain.Core.DtoModels.Orders
 {
@@ -18,5 +18,7 @@ namespace App.Domain.Core.DtoModels.Orders
         public DateTime CreatedAt { get; set; }
 
         public virtual ICollection<OrderItemOutputDto> OrderItems { get; set; } = new List<OrderItemOutputDto>();
+
+        public virtual App.Domain.Core.Entities.OrderComment? OrderComment { get; set; }
     }
 }

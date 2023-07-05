@@ -16,7 +16,7 @@
             <th>نام غرفه</th>
             <th>توضیحات</th>
             <th>تاریخ شروع فعالیت</th>
-            <th>شناسه آدرس</th>
+            <th>آدرس</th>
             <th>نام کاربری فروشنده</th>
             <th>عملیات</th>
         </tr>
@@ -34,6 +34,7 @@
                 <td>@store.Name</td>
                 <td>@store.Description</td>
                 <td>@store.CreatedAt.ToPersianString()</td>
+                <td>@store.Address.FullAddress</td>
                 <td>@store.SellerUserName</td>
                 <td>
                     <a asp-area="Admin" asp-controller="StoresManagement" asp-action="Edit" asp-route-id="@store.Id" class="btn btn-warning">ویرایش</a>

@@ -35,6 +35,8 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityR
 
     public virtual DbSet<OrderItem> OrderItems { get; set; }
 
+    public virtual DbSet<OrderComment> OrderComments { get; set; }
+
     public virtual DbSet<Product> Products { get; set; }
 
     public virtual DbSet<ProductCategory> ProductCategories { get; set; }
@@ -174,6 +176,29 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityR
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_OrderItems_Products");
+        });
+
+        modelBuilder.Entity<OrderComment>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+
+            entity.Property(e => e.Rating).IsRequired();
+
+            entity.Property(e => e.CommentText).HasMaxLength(500);
+
+            entity.Property(e => e.CreatedAt)
+            .ValueGeneratedOnAdd()
+            .HasDefaultValueSql("GETDATE()");
+
+            entity.HasOne(d => d.Order)
+            .WithOne(o => o.OrderComment)
+            .HasForeignKey<OrderComment>(e => e.OrderId)
+            .IsRequired(false);
+
+            entity.HasOne(e => e.User)
+            .WithMany(u => u.OrderComments)
+            .HasForeignKey(e => e.UserId)
+            .IsRequired();
         });
 
         modelBuilder.Entity<Product>(entity =>

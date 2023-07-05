@@ -11,12 +11,8 @@
             <th>شناسه</th>
             <th>عنوان نظر</th>
             <th>متن نظر</th>
-            <th>شناسه کاربر</th>
-            <th>شناسه محصول</th>
-            <th>شناسه کامنت اصلی</th>
-            <th>امتیاز</th>
-            <th>تعداد لایک</th>
-            <th>تعداد دیسلایک</th>
+            <th>نام کاربر</th>
+            <th>نام محصول</th>
             <th>عملیات</th>
         </tr>
     </thead>
@@ -27,12 +23,8 @@
                 <td>@comment.Id</td>
                 <td>@comment.Title</td>
                 <td>@comment.CommentBody</td>
-                <td>@comment.UserId</td>
-                <td>@comment.ProductId</td>
-                <td>@comment.ParentCommentId</td>
-                <td>@comment.Rate</td>
-                <td>@comment.LikeCount</td>
-                <td>@comment.DislikeCount</td>
+                <td>@comment.User.FullName</td>
+                <td>@comment.Product.Name</td>
                 <td><a asp-controller="ProductsCommentsManagement" asp-action="ConfirmComment" asp-route-commentId="@comment.Id" class="btn btn-success">تایید</a></td>
             </tr>
         }

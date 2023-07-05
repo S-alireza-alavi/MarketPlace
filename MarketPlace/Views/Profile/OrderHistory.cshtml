@@ -27,25 +27,24 @@
             <div class="list-group">
                 @foreach (var order in Model)
                 {
-                    <div class="clickable-item list-group-item list-group-item-action" onclick="location.href='@Url.Action("Details", "Product", new { productId = order.OrderItems.FirstOrDefault()?.ProductId })'">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">سفارش # @order.Id</h5>
-                            <small>تاریخ ثبت سفارش: @order.CreatedAt.ToPersianString()</small>
-                        </div>
-                        <p class="mb-1">قیمت سفارش: @order.TotalPrice.ToString("N0") تومان</p>
-
-                        @foreach (var orderItem in order.OrderItems)
-                        {
-                            <div class="d-flex">
-                                <div class="p-2">
-                                    <img src="/@orderItem.Product.ProductPhotos.FirstOrDefault()?.FilePath" alt="@orderItem.Product.Name" style="width: 100px; height: 100px;" />
-                                </div>
-                                <div class="p-2">
-                                    <p>نام محصول: @orderItem.Product.Name</p>
-                                </div>
-                            </div>
-                        }
+                    <div class="order-container d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">سفارش # @order.Id</h5>
+                        <small>تاریخ ثبت سفارش: @order.CreatedAt.ToPersianString()</small>
                     </div>
+                    <p class="mb-1">قیمت سفارش: @order.TotalPrice.ToString("N0") تومان</p>
+
+                    @foreach (var orderItem in order.OrderItems)
+                    {
+                        <div class="d-flex">
+                            <div class="p-2">
+                                <img src="/@orderItem.Product.ProductPhotos.FirstOrDefault()?.FilePath" alt="@orderItem.Product.Name" style="width: 100px; height: 100px;" />
+                            </div>
+                            <div class="p-2">
+                                <p>نام محصول: @orderItem.Product.Name</p>
+                            </div>
+                        </div>
+                    }
+                    <a asp-action="OrderComment" asp-controller="Comment" asp-route-orderId="@order.Id" class="btn btn-primary">ثبت نظر برای سفارش</a>
                 }
             </div>
         }
