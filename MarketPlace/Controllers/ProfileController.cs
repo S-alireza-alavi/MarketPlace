@@ -2,12 +2,14 @@
 using App.Domain.Core.Entities;
 using MarketPlace.Entities;
 using MarketPlace.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace MarketPlace.Controllers
 {
+    [Authorize]
     public class ProfileController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

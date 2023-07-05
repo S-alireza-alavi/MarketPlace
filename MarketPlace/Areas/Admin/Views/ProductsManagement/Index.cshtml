@@ -23,7 +23,6 @@
             <th>غرفه مربوط</th>
             <th>وزن</th>
             <th>توضیحات</th>
-            <th>تعداد</th>
             <th>شناسه مدل</th>
             <th>قیمت</th>
             <th>وضعیت</th>
@@ -41,14 +40,14 @@
             <tr>
                 <td>@product.Id</td>
                 <td>@product.Name</td>
-                <td>@product.CategoryId</td>
-                <td>@product.BrandId</td>
-                <td>@product.StoreId</td>
-                <td>@product.Weight</td>
+                <td>@product.Category.Name</td>
+                <td>@product.Brand?.Name</td>
+                <td>@product.Store.Name</td>
+                <td>@((product.Weight.Value / 1000).ToString("N1")) کیلوگرم</td>
                 <td>@product.Description</td>
                 <td>@product.ModelId</td>
-                <td>@product.Price</td>
-                <td>@product.IsActive</td>
+                <td>@product.Price.ToString("N0") تومان</td>
+                <td>@(product.IsActive ? "فعال" : "غیرفعال")</td>
                 <td>
                     <div class="btn-group" role="group">
                         <a asp-area="Admin" asp-controller="ProductsManagement" asp-action="Edit" asp-route-id="@product.Id" class="btn btn-warning">ویرایش</a>

@@ -81,7 +81,9 @@ namespace App.Infrastructures.Data.Repositories
                 Name = s.Name,
                 SellerUserName = s.Seller.UserName,
                 Description = s.Description,
-                CreatedAt = s.CreatedAt
+                CreatedAt = s.CreatedAt,
+                Seller = s.Seller,
+                Address = s.StoreAddresses.FirstOrDefault()
             }).ToList();
 
             //foreach (var item in stores)

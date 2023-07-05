@@ -126,6 +126,8 @@ namespace MarketPlace
             builder.Services.AddScoped<IFilterProductsSearchService, FilterProductsSearchService>();
             builder.Services.AddScoped<IGetCategoryByCategoryIdService, GetCategoryByCategoryIdService>();
             builder.Services.AddScoped<IGetStoresByCagetoryIdService, GetStoresByCagetoryIdService>();
+            builder.Services.AddScoped<IOrderCommentRepository, OrderCommentRepository>();
+            builder.Services.AddScoped<IAddOrderCommentService, AddOrderCommentService>();
 
             //Register the ViewComponents
             builder.Services.AddTransient<RandomProductsViewComponent>();

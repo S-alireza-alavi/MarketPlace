@@ -25,4 +25,6 @@ public partial class Order
     public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
     public virtual ApplicationUser Seller { get; set; } = null!;
+
+    public virtual OrderComment? OrderComment { get; set; }
 }

@@ -85,7 +85,10 @@ namespace App.Infrastructures.Data.Repositories
 
         public async Task<List<ProductCommentOutputDto>> GetAllUnConfirmedProductComments(CancellationToken cancellationToken)
         {
-            var productComments = await _context.ProductComments.Where(p => p.IsConfirmedByAdmin == false).ToListAsync(cancellationToken);
+            var productComments = await _context.ProductComments
+                .Include(p => p.User)
+                .Include(p => p.Product)
+                .Where(p => p.IsConfirmedByAdmin == false).ToListAsync(cancellationToken);
 
             var unconfirmedProductComments = productComments.Select(pc => new ProductCommentOutputDto
             {
@@ -98,7 +101,9 @@ namespace App.Infrastructures.Data.Repositories
                 ParentCommentId = pc.ParentCommentId,
                 Rate = pc.Rate,
                 LikeCount = pc.LikeCount,
-                DislikeCount = pc.DislikeCount
+                DislikeCount = pc.DislikeCount,
+                User = pc.User,
+                Product = pc.Product
             }).ToList();
 
             return unconfirmedProductComments;
