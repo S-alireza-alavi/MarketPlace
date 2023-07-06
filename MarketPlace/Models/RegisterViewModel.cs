@@ -9,6 +9,9 @@ namespace MarketPlace.Models
         [Display(Name = "ایمیل")]
         public string Email { get; set; } = null!;
 
+        [Display(Name = "نام و نام خانوادگی")]
+        public string? FullName { get; set; }
+
         [Required]
         [StringLength(11, ErrorMessage = "{0} باید 11 رقم باشد", MinimumLength = 11)]
         [DataType(DataType.PhoneNumber)]

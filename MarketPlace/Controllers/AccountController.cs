@@ -3,6 +3,7 @@ using MarketPlace.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared.Project;
 
 namespace MarketPlace.Controllers
 {
@@ -75,6 +76,7 @@ namespace MarketPlace.Controllers
                 {
                     UserName = model.Email,
                     Email = model.Email,
+                    FullName = model.FullName,
                     EmailConfirmed = true,
                     PhoneNumber = model.PhoneNumber,
                     PhoneNumberConfirmed = true
